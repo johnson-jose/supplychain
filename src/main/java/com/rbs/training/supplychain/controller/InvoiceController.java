@@ -9,11 +9,8 @@ public class InvoiceController {
 	
     @RequestMapping("/greeting")
     public String greeting() {
-<<<<<<< HEAD
+
         return "Hello check" ;
-=======
-        return "Hello" ;
->>>>>>> branch 'master' of https://github.com/johnson-jose/supplychain.git
     }
 
 }
