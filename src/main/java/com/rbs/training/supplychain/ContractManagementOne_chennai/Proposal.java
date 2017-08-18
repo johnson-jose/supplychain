@@ -4,11 +4,12 @@ public class Proposal {
 	private int proposal_id;
 	private int buyer_id;
 	private int bid_seller_id;
-	private int product_id;
-	private String status;
 	private String description;
 	private char buyer_status;
-	private int quantity;
+	private char contract_status;
+	private int d_terms_id;
+	private int p_terms_id;
+	
 	
 	Product product;
 	
@@ -30,18 +31,6 @@ public class Proposal {
 	public void setBid_seller_id(int bid_seller_id){
 		this.bid_seller_id = bid_seller_id;
 	}
-	public int getProduct_id(){
-		return product_id;
-	}
-	public void setProduct_id(int product_id){
-		this.product_id = product_id;
-	}
-	public String getStatus(){
-		return status;
-	}
-	public void setStatus(String status){
-		this.status = status;
-	}
 	public String getDescription(){
 		return description;
 	}
@@ -54,10 +43,24 @@ public class Proposal {
 	public void setBuyer_status(char buyer_status){
 		this.buyer_status = buyer_status;
 	}
-	public int getQuantity(){
-		return quantity;
+	public char getContract_status(){
+		return contract_status;
 	}
-	public void setQuantity(int quantity){
-		this.quantity = quantity;
+	public void setContract_status(char contract_status){
+		this.contract_status = contract_status;
 	}
+	public int getD_terms_id(){
+		return d_terms_id;
+	}
+	public void setD_terms_id(int d_terms_id){
+		this.d_terms_id = d_terms_id;
+	}
+	public int getP_terms_id(){
+		return p_terms_id;
+	}
+	public void setP_terms_id(int p_terms_id){
+		this.p_terms_id = p_terms_id;
+	}
+	
+	
 }
