@@ -10,7 +10,7 @@ public class InvoiceController {
     @RequestMapping("/greeting")
     public String greeting() {
 
-        return "Hello check" ;
+        return "Hello merge" ;
     }
 
 }
