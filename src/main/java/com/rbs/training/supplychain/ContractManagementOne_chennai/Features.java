@@ -3,7 +3,7 @@ import java.io.File;
 
 public class Features {
 	private int feature_id;
-	private int proposal_id;
+	private int product_id;
 	private char priority_order;
 	private String specification;
 	private File attachment;
@@ -14,11 +14,11 @@ public class Features {
 	public void setFeature_id(int feature_id){
 		this.feature_id = feature_id;
 	}
-	public int getProposal_id(){
-		return proposal_id;
+	public int getProduct_id(){
+		return product_id;
 	}
-	public void setProposal_id(int proposal_id){
-		this.proposal_id = proposal_id;
+	public void setProduct_id(int product_id){
+		this.product_id = product_id;
 	}
 	public char getPriority_order(){
 		return priority_order;
