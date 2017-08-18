@@ -2,6 +2,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 
 .mvn/
+bash.exe.stackdump
 
 ### STS ###
 .apt_generated
