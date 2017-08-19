@@ -1,21 +1,22 @@
-package com.rbs.training.supplychain.logic;
+package com.rbs.training.supplychain.service;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.rbs.training.supplychain.DAO.DataBaseConnection;
-import com.rbs.training.supplychain.model.Invoice;
+import org.springframework.stereotype.Service;
 
-public class InvoiceLogic {
-	
-	public Invoice search(String invoiceNo) throws ClassNotFoundException, SQLException{
+import com.rbs.training.supplychain.DAO.DataBaseConnection;
+import com.rbs.training.supplychain.model.*;
+
+@Service("invoiceServiceObj")
+public class InvoiceService {
+	public Invoice search(String invoiceNo){
 		DataBaseConnection dbobj = new DataBaseConnection();
 		Invoice invobj = null;
 		try{
 			Connection con = dbobj.getConnection();
-				int i=0;
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery("select * from invoice where invoiceNo=\" "+invoiceNo+" \" ");
 				invobj = new Invoice();
@@ -24,9 +25,7 @@ public class InvoiceLogic {
 					invobj.setBuyerId(rs.getString("buyerId"));
 					invobj.setSellerId(rs.getString("sellerId"));
 					invobj.setTax(rs.getDouble("tax"));
-					
-					System.out.println(invobj);
-					i++;
+					System.out.println(invobj.toString());
 			}
 			}
 			catch(Exception e)

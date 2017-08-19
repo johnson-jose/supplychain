@@ -1,4 +1,4 @@
-package com.rbs.training.supplychain.logic;
+package com.rbs.training.supplychain.service;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
