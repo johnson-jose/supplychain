@@ -7,7 +7,6 @@ com\rbs\training\supplychain\controller\ContractManagementSellerController.class
 com\rbs\training\supplychain\ContractManagementOne_chennai\Features.class
 com\rbs\training\supplychain\ContractManagementOne_chennai\Response.class
 com\rbs\training\supplychain\ContractManagementOne_chennai\Proposal.class
-com\rbs\training\supplychain\controller\InvoiceController.class
 com\rbs\training\supplychain\ContractManagementOne_chennai\Additional_Response.class
 com\rbs\training\supplychain\DAO\DataBaseConnection.class
 com\rbs\training\supplychain\ServletInitializer.class

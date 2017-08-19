@@ -21,16 +21,28 @@ import com.rbs.training.supplychain.service.*;
 @RestController
 @RequestMapping("/invoice")
 public class InvoiceController {
-	
+	InvoiceService invoiceServiceObj = new InvoiceService();
 	//@Autowired
 	//InvoiceService invoiceServiceObj;
+	
+// List all the invoices by id
+		
+	@RequestMapping(value = "/viewInvoices", method = RequestMethod.POST)
+		public ResponseEntity<List<Invoice>> listAllUsers(@PathParam("id") String id) {
+			List<Invoice> invoices = invoiceServiceObj.listAllInvocies(id);
+			if (invoices.isEmpty()) {
+				return new ResponseEntity(HttpStatus.NO_CONTENT);
+				// You many decide to return HttpStatus.NOT_FOUND
+			}
+			return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
+		}
 	
 	@RequestMapping(value = "/searchInvoice",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Invoice> searchInvoice(@PathParam("invoiceNo") String invoiceNo) throws ClassNotFoundException, SQLException {
 		System.out.println("Getting Invoice with Invoice no"+ invoiceNo);
 		//Invoice invoiceObj = invoiceServiceObj.search(invoiceNo);
-		InvoiceService obj = new InvoiceService();
-		Invoice invoiceObj = obj.search(invoiceNo);
+		
+		Invoice invoiceObj = invoiceServiceObj.search(invoiceNo);
 		if(invoiceObj == null){
 			System.out.println("Invoice with Invoice No"+invoiceNo+"is not found");
 			return new ResponseEntity<Invoice>(invoiceObj,HttpStatus.NOT_FOUND);
