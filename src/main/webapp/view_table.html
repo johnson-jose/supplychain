@@ -1,0 +1,30 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>View RFP Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	<script src="h.resources/script.js">      
+    </script>
+<body>   
+
+    <div ng-app = "myApp" ng-controller="myController">
+        <br>
+        <div>
+            <table>
+                <tr>
+                    <th>Buyer ID</th>
+                    <th>Proposal ID</th>
+                    <th>Product ID</th>
+                </tr>
+                <tr ng-repeat="i in proposals">
+                    <td>{{i.buyerid}}</td>
+                    <td><a href="proposal.html">{{i.proposalid}}</a></td>
+                    <td>{{i.productid}}</td>
+                </tr>
+				
+            </table>
+        </div>
+    </div>
+</body>
+</html>

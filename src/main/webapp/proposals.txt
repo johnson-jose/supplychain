@@ -1,0 +1,20 @@
+[
+  
+  
+ 
+  {
+    "buyerid": "1",
+    "proposalid": "1",
+    "productid": "1"
+  },
+  {
+    "buyerid": "2",
+    "proposalid": "2",
+    "productid": "2"
+  },
+  {
+    "buyerid": "3",
+    "proposalid": "3",
+    "productid": "3"
+  }
+]

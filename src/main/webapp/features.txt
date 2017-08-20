@@ -1,0 +1,15 @@
+[ 
+  {
+    "Features": "A",
+    "PriorityMandatory": "P"
+    
+  },
+  {
+    "Features": "B",
+    "PriorityMandatory": "M"
+  },
+  {
+    "Features": "C",
+    "PriorityMandatory": "P"
+  }
+]
