@@ -5,8 +5,15 @@ public class Proposal_Sellers_Bid {
 	private int seller_id;
 	private int cost_avail;
 	private int cost_avail_cust;
-	private char seller_status;
+	private String seller_status;
+	private int score;
 	
+	public int getScore() {
+		return score;
+	}
+	public void setScore(int score) {
+		this.score = score;
+	}
 	public int getProposal_id() {
 		return proposal_id;
 	}
@@ -31,10 +38,10 @@ public class Proposal_Sellers_Bid {
 	public void setCost_avail_cust(int cost_avail_cust) {
 		this.cost_avail_cust = cost_avail_cust;
 	}
-	public char getSeller_status() {
+	public String getSeller_status() {
 		return seller_status;
 	}
-	public void setSeller_status(char seller_status) {
+	public void setSeller_status(String seller_status) {
 		this.seller_status = seller_status;
 	}
 	
