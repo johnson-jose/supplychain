@@ -22,7 +22,7 @@ public class AccountingManagementController {
 	    public String service1() {
 	        return "Hello, World!" ;
 	    }
-	 @RequestMapping(value = "/viewGL",method = RequestMethod.GET,produces = MediaType.TEXT_PLAIN)
+	 @RequestMapping(value = "/viewGL",method = RequestMethod.GET)
 	 public String ViewLedger(){
 			
 			AccountingManagementService viewDAO=new AccountingManagementService();
