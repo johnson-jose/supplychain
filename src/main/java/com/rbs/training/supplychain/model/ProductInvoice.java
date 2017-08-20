@@ -1,6 +1,6 @@
 package com.rbs.training.supplychain.model;
 
-public class Product {
+public class ProductInvoice {
 	public String productId;
 	public String invoiceNo;
 	public double price;
