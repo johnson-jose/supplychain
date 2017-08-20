@@ -1,4 +1,4 @@
-package com.rbs.training.supplychain.ContractManagementOne_chennai;
+package com.rbs.training.supplychain.model;
 
 public class Response {
 	private int response_id;

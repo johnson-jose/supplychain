@@ -12,17 +12,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/contractmanagementseller")
 public class ContractManagementSellerController {
 	
-    @RequestMapping("/service1")
+    @RequestMapping("/viewrfp")
     public String service1() {
         return "Hello, World!" ;
     }
-    @RequestMapping("/service2")
-    public String service2() {
-        return "Hello, World!" ;
+    
+    @RequestMapping("/listfeatures")
+    public String service2(){
+    	return "Hello, world!";
     }
-    @RequestMapping("/service3")
+    
+    @RequestMapping("/updatesellerresponse")
     public String service3() {
         return "Hello, World!" ;
     }
+   
 
 }

@@ -1,4 +1,4 @@
-package com.rbs.training.supplychain.ContractManagementOne_chennai;
+package com.rbs.training.supplychain.model;
 import java.io.File;
 
 public class Features {
