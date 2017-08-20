@@ -25,8 +25,8 @@ public class DatabaseConnectionPostgreSQL {
 	         
 	         //heroku db connection
 	         
-	         /* 
 	         
+	         /*
 	         String url = "jdbc:postgresql://ec2-23-21-85-76.compute-1.amazonaws.com:5432/d11rrktmmgd00t?user=liybotsvyembvp&password=e40dd8cba8730c3a7b167d3648acbb0d442bdef9c92cb9062110193cf126b37a&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
 	         Properties props = new Properties();
 	         props.setProperty("user","liybotsvyembvp");
@@ -37,7 +37,8 @@ public class DatabaseConnectionPostgreSQL {
 	         */
 	         
 	         //local db connection
-	           c = DriverManager
+	          
+	         c = DriverManager
 	            .getConnection("jdbc:postgresql://localhost:5432/mylocaldb",
 	            "postgres", "manager");
 	     

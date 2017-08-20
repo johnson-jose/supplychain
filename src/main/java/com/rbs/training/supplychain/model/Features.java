@@ -4,7 +4,7 @@ import java.io.File;
 public class Features {
 	private int feature_id;
 	private int product_id;
-	private char priority_order;
+	private String priority_order;
 	private String specification;
 	private File attachment;
 	
@@ -20,10 +20,10 @@ public class Features {
 	public void setProduct_id(int product_id){
 		this.product_id = product_id;
 	}
-	public char getPriority_order(){
+	public String getPriority_order(){
 		return priority_order;
 	}
-	public void setPriority_order(char priority_order){
+	public void setPriority_order(String priority_order){
 		this.priority_order = priority_order;
 	}
 	public void setSpecification(String specification){

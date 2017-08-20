@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.websocket.server.PathParam;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rbs.training.supplychain.model.Features;
 import com.rbs.training.supplychain.model.Invoice;
 import com.rbs.training.supplychain.model.Proposal;
 import com.rbs.training.supplychain.model.Proposal_Sellers_Bid;
@@ -22,7 +24,7 @@ public class ContractManagementSellerController {
 	 ContractManagementSellerService service = new ContractManagementSellerService();
     
 	
-	 @RequestMapping(value = "/viewrfp/{sellerid}",method = RequestMethod.POST)
+	 @RequestMapping(value = "/viewrfp/{sellerid}",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Proposal_Sellers_Bid>> getProposals(@PathVariable("sellerid") String id) {
 		
 		int seller_id = Integer.parseInt(id);
@@ -44,9 +46,20 @@ public class ContractManagementSellerController {
 		}
     
    
-	@RequestMapping("/listfeatures")
-	public String service2() {
-        return "Hello, World!" ;
+	@RequestMapping(value="/listfeatures/{proposalid}",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Features>> getFeatures(@PathVariable("proposalid") String propid) {
+        int proposal_id = Integer.parseInt(propid);
+		List<Features> featureslist= new ArrayList<Features>();
+		try {
+			featureslist = service.getFeaturesforaproduct(proposal_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		if(featureslist.isEmpty()){
+			//return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		
+		return new ResponseEntity<List<Features>>(featureslist, HttpStatus.OK);
     }
     
     @RequestMapping("/updatesellerresponse")

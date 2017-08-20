@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.rbs.training.supplychain.DAO.DataBaseConnection;
 import com.rbs.training.supplychain.DAO.DatabaseConnectionPostgreSQL;
+import com.rbs.training.supplychain.model.Features;
 import com.rbs.training.supplychain.model.Proposal;
 import com.rbs.training.supplychain.model.Proposal_Sellers_Bid;
 
@@ -28,7 +29,7 @@ public class ContractManagementSellerService {
 	 
  
 	 public List<Proposal_Sellers_Bid> listAllProposals(int seller_id) throws SQLException{
-	 	//public static void main(String [] args){
+	 	
 	 		//int seller_id=1;
 			dbobj = new DatabaseConnectionPostgreSQL();
 			List<Proposal_Sellers_Bid> lst = new ArrayList<Proposal_Sellers_Bid>();
@@ -79,24 +80,28 @@ public class ContractManagementSellerService {
   */	
  
 	//this function is yet to be edited.
-	public Proposal_Sellers_Bid getProposalsellersbid(int proposal_id) throws ClassNotFoundException, SQLException{
+	public List<Features> getFeaturesforaproduct(int proposal_id) throws ClassNotFoundException, SQLException{
+	
+		List<Features> lst= new ArrayList<Features>();
+		Features features = null;
 		dbobj = new DatabaseConnectionPostgreSQL();
 		
 		con = dbobj.getConnection();
 		
 		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery("select * from \"Proposals\" where proposal_id ="+proposal_id);
-		Proposal_Sellers_Bid result = new Proposal_Sellers_Bid();
+		ResultSet rs = stmt.executeQuery("select \"Features\".feature_id, \"Features\".product_id, \"Features\".specification, \"Features\".priority_order, \"Features\".attachment from \"Features\",\"Products\" where \"Features\".product_id=\"Products\".product_id AND \"Products\".proposal_id ="+proposal_id);
+		
+		
 		while(rs.next()){
-			result.setProposal_id(rs.getInt("proposal_id"));
-			result.setSeller_id(rs.getInt("seller_id"));
-			result.setCost_avail(rs.getInt("cost_avail"));
-			result.setCost_avail_cust(rs.getInt("cost_avail_cust"));
-			result.setSeller_status(rs.getString("seller_status"));
-			result.setScore(rs.getInt("score"));
+			features = new Features();
+			features.setFeature_id(rs.getInt("feature_id"));
+			features.setProduct_id(rs.getInt("product_id"));
+			features.setSpecification(rs.getString("specification"));
+			features.setPriority_order(rs.getString("priority_order"));
+			lst.add(features);
 		}
-		dbobj.closeConnection();
-		return result;
+		return lst;
+		
 	}
 }
 
