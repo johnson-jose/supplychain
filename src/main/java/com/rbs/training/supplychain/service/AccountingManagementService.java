@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.rbs.training.supplychain.DAO.DataBaseConnection;
@@ -11,30 +12,26 @@ import com.rbs.training.supplychain.model.ChartOfAccount;
 import com.rbs.training.supplychain.model.GeneralLedger;
 
 public class AccountingManagementService {
-	public ChartOfAccount getChartOfAccountValues(String ProductSwiftID) {
+	public List<String> getCOAswiftList()
+	{
 		DataBaseConnection dbobj = new DataBaseConnection();
-		ChartOfAccount coa = null;
-			try {
-				Connection con = dbobj.getConnection();
-				Statement statement = con.createStatement();       
-			ResultSet resultSet = statement.executeQuery("SELECT * FROM ChartOfAccounts where ProductSwiftID='"+ProductSwiftID+"'");
-			coa=new ChartOfAccount();
-			if (resultSet.next()) {
-				coa.setHead(resultSet.getString("Head"));
-				coa.setLegalEntity(resultSet.getString("LegalEntity"));
-				coa.setCountry(resultSet.getString("Country"));
-				coa.setBranch(resultSet.getString("Branch"));
-				coa.setProduct(resultSet.getString("Product"));
-				coa.setCurrency(resultSet.getString("Currency"));
-				coa.setBook(resultSet.getInt("Book"));
-				coa.setProductSwiftID(resultSet.getString("ProductSwiftID"));			
+		List<String> swiftList=new LinkedList<String>();
+		try {
+			Connection con = dbobj.getConnection();
+			Statement statement = con.createStatement();  
+			System.out.println("After create statement");
+			ResultSet resultSet = statement.executeQuery("SELECT productSwiftId FROM ChartOfAccounts");		
+			while(resultSet.next())
+			{
+				swiftList.add(resultSet.getString("productSwiftId"));
 			}
-			}
-			catch(Exception e) {
-				System.out.println("Exception " + e.getMessage());
-			}
-			return coa;
 		}
+		catch(Exception e) {
+			System.out.println("Exception " + e.getMessage());
+		}
+		return swiftList;
+	}
+	
 	public List<GeneralLedger> getEachGLEntry() {
 		DataBaseConnection dbobj = new DataBaseConnection();
 		List<GeneralLedger> entries = null;
