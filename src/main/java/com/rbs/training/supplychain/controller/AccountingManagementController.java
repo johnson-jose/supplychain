@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rbs.training.supplychain.model.*;
-import com.rbs.training.supplychain.service.*;
+import com.rbs.training.supplychain.model.ChartOfAccount;
+import com.rbs.training.supplychain.model.GeneralLedger;
+import com.rbs.training.supplychain.service.AccountingManagementService;
 
 @Component
 @RestController
@@ -26,10 +27,9 @@ public class AccountingManagementController {
 	    }
 	 @RequestMapping(value = "/viewGL",method = RequestMethod.GET)
 	 public String ViewLedger(){
-			
-			AccountingManagementService viewDAO=new AccountingManagementService();
+	
 			String resultString="";
-			List<GeneralLedger> generalledgerlists=viewDAO.getEachGLEntry();
+			List<GeneralLedger> generalledgerlists=accountingManagementServiceObj.getEachGLEntry();
 			
 			for(GeneralLedger generalledgerlist:generalledgerlists){
 								resultString += "Account Entry Number = " + generalledgerlist.getAccountEntryNo() + "\n"+
@@ -51,12 +51,17 @@ public class AccountingManagementController {
 			
 			return coa;
 		}*/
-	 @RequestMapping(value = "/viewCOA/{productSwiftID}",method = RequestMethod.GET)
-	 public String getCOAinJSON(@PathParam("productSwiftID") String ProductSwiftID){
-			
-			AccountingManagementService acmDAO=new AccountingManagementService();
-			ChartOfAccount coa=acmDAO.getChartOfAccountValues(ProductSwiftID);
-			
-			return coa.getBranch();
-		}
+	
+	 @RequestMapping(value = "/viewCOAlist",method = RequestMethod.GET)
+	 public String dispCOAlist()
+	 {
+		 	List<String> coaList=accountingManagementServiceObj.getCOAswiftList();
+			String resultString="<html><body>";
+			for(String s:coaList)
+			{
+				resultString +="<a href='http://localhost:8181/index.html'>"+s+"</a>\n";
+			}
+			resultString+="</body></html>";
+			return resultString;
+	 }
 }
