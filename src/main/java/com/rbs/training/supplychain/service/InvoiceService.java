@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.rbs.training.supplychain.DAO.*;
 import com.rbs.training.supplychain.model.*;
+import com.rbs.training.supplychain.util.CustomMessage;
 
 @Service("invoiceServiceObj")
 public class InvoiceService {
@@ -62,7 +63,32 @@ public class InvoiceService {
 		return lst;			
 	}
 	
+	public CustomMessage addInvoice() {
+		//insert your logic Here can change input and return parameters to your requirements
+		return null;
+
+	}
 	
+	public CustomMessage updateInvoice(String invoiceNo) {
+		//insert your logic Here can change input and return parameters to your requirements
+		return null;
+	}
 	
+	public CustomMessage deleteInvoice(String invoiceNo) {
+		//insert your logic Here can change input and return parameters to your requirements
+		
+		return null;
+	}
+	
+	public CustomMessage approveInvoice(String invoiceNo) {
+		//insert your logic Here can change input and return parameters to your requirements
+		
+		return null;
+	}
+	public CustomMessage uploadInvoice() {
+		//insert your logic Here can change input and return parameters to your requirements
+		
+		return null;
+	}
 
 }

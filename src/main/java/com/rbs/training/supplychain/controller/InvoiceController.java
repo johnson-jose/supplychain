@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rbs.training.supplychain.model.*;
 import com.rbs.training.supplychain.service.*;
+import com.rbs.training.supplychain.util.CustomMessage;
 
 @Component
 @RestController
@@ -27,12 +28,12 @@ public class InvoiceController {
 	
 // List all the invoices by id
 		
-	@RequestMapping(value = "/viewInvoices", method = RequestMethod.POST)
+	@RequestMapping(value = "/viewInvoices/{id}", method = RequestMethod.GET)
 		public ResponseEntity<List<Invoice>> listAllUsers(@PathParam("id") String id) {
+		System.out.println("id is"+id);
 			List<Invoice> invoices = invoiceServiceObj.listAllInvocies(id);
 			if (invoices.isEmpty()) {
 				return new ResponseEntity(HttpStatus.NO_CONTENT);
-				// You many decide to return HttpStatus.NOT_FOUND
 			}
 			return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
 		}
@@ -48,7 +49,10 @@ public class InvoiceController {
 			return new ResponseEntity<Invoice>(invoiceObj,HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Invoice>(invoiceObj,HttpStatus.OK);
-		
+    }
+	@RequestMapping(value = "/addInvoice",method = RequestMethod.POST)
+	 public ResponseEntity<CustomMessage> addInvoice(@PathParam("invoiceNo") String invoiceNo) throws ClassNotFoundException, SQLException {
+		return null;
     }
 
 }

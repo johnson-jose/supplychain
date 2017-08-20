@@ -1,10 +1,10 @@
 package com.rbs.training.supplychain.model;
 
-public class Product {
-	public String productId;
-	public String invoiceNo;
-	public double price;
-	public String sellerId;
+public class ProductInvoice {
+	private String productId;
+	private String invoiceNo;
+	private double price;
+	private String sellerId;
 	public String getProductId() {
 		return productId;
 	}
