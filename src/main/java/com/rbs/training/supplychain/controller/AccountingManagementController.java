@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.rbs.training.supplychain.model.ChartOfAccount;
 //import com.RBS.training.supplychain.ACM.DAO.ACMdao;
 import com.rbs.training.supplychain.model.GeneralLedger;
 import com.rbs.training.supplychain.service.AccountingManagementService;
@@ -34,5 +36,16 @@ public class AccountingManagementController {
        }
 		//return Response.status(200).entity(resultString).build();
 		return resultString;
+	}
+	
+	@GET
+	@Path("/getCOA/{productSwiftID}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ChartOfAccount getCOAinJSON(@PathParam("productSwiftID") String ProductSwiftID){
+		
+		AccountingManagementService acmDAO=new AccountingManagementService();
+		ChartOfAccount coa=acmDAO.getChartOfAccountValues(ProductSwiftID);
+		
+		return coa;
 	}
 }
