@@ -1,6 +1,7 @@
 package com.rbs.training.supplychain.model;
 
 public class ChartOfAccount {
+	
 	private String head;
 	private String legalEntity;
 	private String country;
@@ -9,6 +10,7 @@ public class ChartOfAccount {
 	private String currency;
 	private int book;
 	private String productSwiftID;
+	
 	public String getHead() {
 		return head;
 	}

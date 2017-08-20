@@ -3,6 +3,7 @@ package com.rbs.training.supplychain.model;
 import java.util.Date;
 
 public class GeneralLedger {
+	
 private String accountEntryNo;
 private Date currentDate;
 private String transactionNo;
@@ -12,6 +13,7 @@ private String drOrCr;
 private double amount;
 private Date paymentDate;
 private Date dueDate;
+
 		public String getAccountEntryNo() {
 			return accountEntryNo;
 		}
