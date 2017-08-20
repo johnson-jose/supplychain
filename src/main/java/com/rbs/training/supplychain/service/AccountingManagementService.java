@@ -1,6 +1,7 @@
 package com.rbs.training.supplychain.service;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import com.rbs.training.supplychain.model.ChartOfAccount;
 import com.rbs.training.supplychain.model.GeneralLedger;
 
 public class AccountingManagementService {
+	
 	public List<String> getCOAswiftList()
 	{
 		DataBaseConnection dbobj = new DataBaseConnection();
@@ -19,12 +21,13 @@ public class AccountingManagementService {
 		try {
 			Connection con = dbobj.getConnection();
 			Statement statement = con.createStatement();  
-			System.out.println("After create statement");
+			System.out.println("In getCOAswiftList - After create statement");
 			ResultSet resultSet = statement.executeQuery("SELECT productSwiftId FROM ChartOfAccounts");		
 			while(resultSet.next())
 			{
 				swiftList.add(resultSet.getString("productSwiftId"));
 			}
+			con.close();
 		}
 		catch(Exception e) {
 			System.out.println("Exception " + e.getMessage());
@@ -52,7 +55,8 @@ public class AccountingManagementService {
 				gl.setAmount(resultSet.getDouble("Amount"));
 				gl.setDueDate(resultSet.getDate("Due_date"));
 				
-				entries.add(gl);			
+				entries.add(gl);	
+				con.close();
 			}
 			}
 			catch(Exception e) {
@@ -60,5 +64,53 @@ public class AccountingManagementService {
 			}
 			return entries;
 		}
+	
+	public void deleteCOA(List<String> swiftIDList)
+	{
+		DataBaseConnection dbobj = new DataBaseConnection();
+		try
+	    {
+			Connection con = dbobj.getConnection();
+        	Statement stmt=con.createStatement(); 
+        	//String[] chartNamesToDelete=request.getParameterValues("chartGroup");
+        	for(String sID:swiftIDList)
+        		stmt.executeUpdate("delete from ChartOfAccounts where productSwiftID='"+sID+"'");  
+      		con.commit();
+      		con.close();
+	    }
 
+	    catch(Exception e)
+	    {
+	    	System.out.println("Exception " + e.getMessage());
+	    }
+	}
+	public void addCOAService(ChartOfAccount coa)
+	{
+		DataBaseConnection dbobj = new DataBaseConnection();
+		try
+	    {
+			Connection con = dbobj.getConnection();
+			System.out.println("IN addCOAService - after getConnection");
+        	Statement stmt=con.createStatement(); 
+        	System.out.println("IN addCOAService - after createStatement");
+        	/*rs=stmt.executeQuery("select Name from ChartOfAccounts");  
+         	
+       		while(rs.next())  
+       		{
+       			//out.print("alert("+rs.getString("Name")+"\t"+request.getParameter("newTextEntry")+");");
+       			if(rs.getString("Name").equals(request.getParameter("newTextEntry")))
+       			{
+       				response.sendRedirect("redirectPage.jsp");
+       			}
+       		}*/
+        	stmt.executeUpdate("insert into ChartOfAccounts values('"+coa.getHead()+"','"+coa.getLegalEntity()+"','"+coa.getCountry()+"','"+coa.getBranch()+"','"+coa.getProduct()+"','"+coa.getCurrency()+"',"+coa.getBook()+",'"+coa.getProductSwiftID()+"')");
+      		con.commit();
+      		con.close();
+	    }
+
+	    catch(Exception e)
+	    {
+	    	System.out.println("Exception " + e.getMessage());
+	    }
+	}
 }
