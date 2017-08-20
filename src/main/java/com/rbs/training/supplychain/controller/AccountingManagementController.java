@@ -39,7 +39,6 @@ public class AccountingManagementController {
 								"Amount = " + generalledgerlist.getAmount() +"\n"+
 								"Due Date = " + generalledgerlist.getDueDate() + "\n";
 	       }
-			//return Response.status(200).entity(resultString).build();
 			return resultString;
 		}
 }
