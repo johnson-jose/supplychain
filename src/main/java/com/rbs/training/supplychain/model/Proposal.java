@@ -5,8 +5,8 @@ public class Proposal {
 	private int buyer_id;
 	private int bid_seller_id;
 	private String description;
-	private char buyer_status;
-	private char contract_status;
+	private String buyer_status;
+	private String contract_status;
 	private int d_terms_id;
 	private int p_terms_id;
 	
@@ -37,16 +37,17 @@ public class Proposal {
 	public void setDescription(String description){
 		this.description = description;
 	}
-	public char getBuyer_status(){
+	
+	public String getBuyer_status() {
 		return buyer_status;
 	}
-	public void setBuyer_status(char buyer_status){
+	public void setBuyer_status(String buyer_status) {
 		this.buyer_status = buyer_status;
 	}
-	public char getContract_status(){
+	public String getContract_status() {
 		return contract_status;
 	}
-	public void setContract_status(char contract_status){
+	public void setContract_status(String contract_status) {
 		this.contract_status = contract_status;
 	}
 	public int getD_terms_id(){
