@@ -2,50 +2,44 @@ package com.rbs.training.supplychain.controller;
 
 import java.util.List;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.rbs.training.supplychain.model.ChartOfAccount;
-//import com.RBS.training.supplychain.ACM.DAO.ACMdao;
-import com.rbs.training.supplychain.model.GeneralLedger;
-import com.rbs.training.supplychain.service.AccountingManagementService;
+import com.rbs.training.supplychain.model.*;
+import com.rbs.training.supplychain.service.*;
 
-@Path("/ACM")
+@Component
+@RestController
+@RequestMapping("/ACM")
 public class AccountingManagementController {
-	@GET
-	@Path("/viewGL")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String ViewLedger(){
+	AccountingManagementService accountingManagementServiceObj = new AccountingManagementService();
+	//@Autowired
+
+	 @RequestMapping("/test")
+	    public String service1() {
+	        return "Hello, World!" ;
+	    }
+	 @RequestMapping(value = "/viewGL",method = RequestMethod.GET,produces = MediaType.TEXT_PLAIN)
+	 public String ViewLedger(){
 			
-		AccountingManagementService viewDAO=new AccountingManagementService();
-		String resultString="";
-		List<GeneralLedger> generalledgerlists=viewDAO.getEachGLEntry();
-		
-		for(GeneralLedger generalledgerlist:generalledgerlists){
-							resultString += "Account Entry Number = " + generalledgerlist.getAccountEntryNo() + "\n"+
-							"Payment Date = " + generalledgerlist.getPaymentDate()  + "\n"+
-							"Transaction Number = " + generalledgerlist.getTransactionNo() +"\n"+
-							"Customer Account Number = " + generalledgerlist.getCustomerAccountNo()+"\n"+
-							"Invoice Number = " + generalledgerlist.getInvoiceNo()+"\n"+
-							"Debit or Credit = " + generalledgerlist.getDrOrCr()+"\n"+
-							"Amount = " + generalledgerlist.getAmount() +"\n"+
-							"Due Date = " + generalledgerlist.getDueDate() + "\n";
-       }
-		//return Response.status(200).entity(resultString).build();
-		return resultString;
-	}
-	
-	@GET
-	@Path("/getCOA/{productSwiftID}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public ChartOfAccount getCOAinJSON(@PathParam("productSwiftID") String ProductSwiftID){
-		
-		AccountingManagementService acmDAO=new AccountingManagementService();
-		ChartOfAccount coa=acmDAO.getChartOfAccountValues(ProductSwiftID);
-		
-		return coa;
-	}
+			AccountingManagementService viewDAO=new AccountingManagementService();
+			String resultString="";
+			List<GeneralLedger> generalledgerlists=viewDAO.getEachGLEntry();
+			
+			for(GeneralLedger generalledgerlist:generalledgerlists){
+								resultString += "Account Entry Number = " + generalledgerlist.getAccountEntryNo() + "\n"+
+								"Payment Date = " + generalledgerlist.getPaymentDate()  + "\n"+
+								"Transaction Number = " + generalledgerlist.getTransactionNo() +"\n"+
+								"Customer Account Number = " + generalledgerlist.getCustomerAccountNo()+"\n"+
+								"Invoice Number = " + generalledgerlist.getInvoiceNo()+"\n"+
+								"Debit or Credit = " + generalledgerlist.getDrOrCr()+"\n"+
+								"Amount = " + generalledgerlist.getAmount() +"\n"+
+								"Due Date = " + generalledgerlist.getDueDate() + "\n";
+	       }
+			//return Response.status(200).entity(resultString).build();
+			return resultString;
+		}
 }
