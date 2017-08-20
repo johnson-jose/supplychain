@@ -30,7 +30,7 @@ public class ContractManagementSellerService {
 		try{
 			Connection con = dbobj.getConnection();
 				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery("select * from proposal_sellers_bid where selle_rid='"+seller_id+"'");
+				ResultSet rs = stmt.executeQuery("select * from proposal_sellers_bid where seller_id='"+seller_id+"'");
 				Proposal_Sellers_Bid_obj = new Proposal_Sellers_Bid();
 				while(rs.next()){
 					Proposal_Sellers_Bid_obj.setProposal_id(rs.getInt("proposal_id"));
