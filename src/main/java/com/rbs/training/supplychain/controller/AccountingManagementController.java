@@ -2,6 +2,8 @@ package com.rbs.training.supplychain.controller;
 
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,5 +42,21 @@ public class AccountingManagementController {
 								"Due Date = " + generalledgerlist.getDueDate() + "\n";
 	       }
 			return resultString;
+		}
+	 /*@RequestMapping(value = "/viewCOA/{productSwiftID}",method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	 public ChartOfAccount getCOAinJSON(@PathParam("productSwiftID") String ProductSwiftID){
+			
+			AccountingManagementService acmDAO=new AccountingManagementService();
+			ChartOfAccount coa=acmDAO.getChartOfAccountValues(ProductSwiftID);
+			
+			return coa;
+		}*/
+	 @RequestMapping(value = "/viewCOA/{productSwiftID}",method = RequestMethod.GET)
+	 public String getCOAinJSON(@PathParam("productSwiftID") String ProductSwiftID){
+			
+			AccountingManagementService acmDAO=new AccountingManagementService();
+			ChartOfAccount coa=acmDAO.getChartOfAccountValues(ProductSwiftID);
+			
+			return coa.getBranch();
 		}
 }
