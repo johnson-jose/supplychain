@@ -1,10 +1,17 @@
 package com.rbs.training.supplychain.model;
 
 public class ProductInvoice {
+<<<<<<< HEAD
 	private String productId;
 	private String invoiceNo;
 	private double price;
 	private String sellerId;
+=======
+	public String productId;
+	public String invoiceNo;
+	public double price;
+	public String sellerId;
+>>>>>>> branch 'master' of https://github.com/johnson-jose/supplychain.git
 	public String getProductId() {
 		return productId;
 	}

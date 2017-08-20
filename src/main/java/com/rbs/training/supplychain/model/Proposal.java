@@ -1,7 +1,5 @@
 package com.rbs.training.supplychain.model;
 
-import com.rbs.training.supplychain.ContractManagementOne_chennai.Product;
-
 public class Proposal {
 	private int proposal_id;
 	private int buyer_id;
