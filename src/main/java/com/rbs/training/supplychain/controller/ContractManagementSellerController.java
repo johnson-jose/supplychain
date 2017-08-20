@@ -23,7 +23,7 @@ import com.rbs.training.supplychain.service.ContractManagementSellerService;
 public class ContractManagementSellerController {
 	 ContractManagementSellerService service = new ContractManagementSellerService();
     
-	
+	/*service 1*/
 	 @RequestMapping(value = "/viewrfp/{sellerid}",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Proposal_Sellers_Bid>> getProposals(@PathVariable("sellerid") String id) {
 		
@@ -45,7 +45,7 @@ public class ContractManagementSellerController {
 			
 		}
     
-   
+	 /*service 2*/
 	@RequestMapping(value="/listfeatures/{proposalid}",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Features>> getFeatures(@PathVariable("proposalid") String propid) {
         int proposal_id = Integer.parseInt(propid);
@@ -66,6 +66,27 @@ public class ContractManagementSellerController {
     public String service3() {
         return "Hello, World!" ;
     }
+    
+ /*  SERVICE 4*/
+    
+    @RequestMapping(value = "/updatebidsellerstatus/{seller_id}/{proposal_id}/{seller_status}",method = RequestMethod.POST)
+   
+    public void updatebidSellerStatus(@PathVariable("seller_id") String id,@PathVariable("proposal_id") String pid,@PathVariable("seller_status") String sts) {
+    	
+    	int seller_id = Integer.parseInt(id);
+    	int proposal_id=Integer.parseInt(pid);
+    	try {
+    		
+			 service.updateBidSellerStatus(seller_id,proposal_id,sts);
+			 
+		} catch (Exception e) {
+			
+			System.out.println(e.getMessage());
+		}
+    	
+      
+    }
+   
    
 
 }

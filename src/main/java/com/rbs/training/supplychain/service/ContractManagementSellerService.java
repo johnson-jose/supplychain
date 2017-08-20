@@ -27,7 +27,7 @@ public class ContractManagementSellerService {
 	 
 	/*service to fetch all the request for proposals(rfps)*/
 	 
- 
+ /*service 1*/
 	 public List<Proposal_Sellers_Bid> listAllProposals(int seller_id) throws SQLException{
 	 	
 	 		//int seller_id=1;
@@ -61,27 +61,14 @@ public class ContractManagementSellerService {
 	}
 	
 	
-/*service to update the seller's status(accept/reject/later) in the proposal_sellers_bid table 
-*/	
 	
-	public void updateSellerResponseStatus(int seller_id){
-	try{
-	 dbobj = new DatabaseConnectionPostgreSQL();
-	 con = dbobj.getConnection();
-	Statement st = con.createStatement();
-	int res = st.executeUpdate("update proposal_sellers_bid set status=? where seller_id=?;");
-
-	}
-	catch(Exception e){
-		System.out.println(e.getMessage());
-	}
-	}
 	
 	
 /* function to list a particular proposal if the proposal id is passed from proposal table
   */	
  
-	//this function is yet to be edited.
+	/*service 2*/
+	
 	public List<Features> getFeaturesforaproduct(int proposal_id) throws ClassNotFoundException, SQLException{
 	
 		List<Features> lst= new ArrayList<Features>();
@@ -105,5 +92,24 @@ public class ContractManagementSellerService {
 		return lst;
 		
 	}
-}
 
+
+ 
+ /*service to update the seller's status(accept/reject/later) in the proposal_sellers_bid table 
+  */	
+ 	/* SERVICE 4*/
+  	
+  	public void updateBidSellerStatus(int seller_id,int proposal_id,String seller_status){
+  	try{
+  	 dbobj = new DatabaseConnectionPostgreSQL();
+  	 con = dbobj.getConnection();
+  	Statement st = con.createStatement();
+  	con.commit();
+  	st.executeUpdate("update proposal_sellers_bid set seller_status= " +seller_status+ " where seller_id=" +seller_id+ " and proposal_id="+proposal_id);
+  	}
+  	catch(Exception e){
+  		System.out.println(e.getMessage());
+  	}
+  	}
+  }
+ 
