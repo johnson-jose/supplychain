@@ -34,6 +34,35 @@ public class AccountingManagementService {
 		}
 		return swiftList;
 	}
+	public List<ChartOfAccount> getCOAList()
+	{
+		DataBaseConnection dbobj = new DataBaseConnection();
+		List<ChartOfAccount> coaList=new LinkedList<ChartOfAccount>();
+		try {
+			Connection con = dbobj.getConnection();
+			Statement statement = con.createStatement();  
+			System.out.println("In getCOAswiftList - After create statement");
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM ChartOfAccounts");		
+			while(resultSet.next())
+			{
+				ChartOfAccount coa=new ChartOfAccount();
+				coa.setHead(resultSet.getString("head"));
+				coa.setLegalEntity(resultSet.getString("legalEntity"));
+				coa.setCountry(resultSet.getString("country"));
+				coa.setBranch(resultSet.getString("branch"));
+				coa.setProduct(resultSet.getString("product"));
+				coa.setCurrency(resultSet.getString("currency"));
+				coa.setBook(resultSet.getInt("book"));
+				coa.setProductSwiftID(resultSet.getString("productSwiftID"));
+				coaList.add(coa);
+			}
+			con.close();
+		}
+		catch(Exception e) {
+			System.out.println("Exception " + e.getMessage());
+		}
+		return coaList;
+	}
 	
 	public List<GeneralLedger> getEachGLEntry() {
 		DataBaseConnection dbobj = new DataBaseConnection();
