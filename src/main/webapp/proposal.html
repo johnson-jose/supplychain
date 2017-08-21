@@ -13,8 +13,7 @@
 </head>
 <body>
     <div ng-app="myApp2">
-    	 <p><b>Proposal Name:</b></p>
-         <p><b>Description:</b><p>
+    	 <p><b>Proposal ID:</b></p>
          <a href="HtmlPage5.html">View full proposal</a>    
 		<br><br>		 
 		<div class="row" style="margin: 0 auto; width: 100%">
@@ -30,7 +29,8 @@
                                     <thead>
                                         <tr>
                                             <th>S.No</th>
-											<th>Features</th>
+											<th>Feature-ID</th>
+											<th>Feature-Specification</th>
 											<th>P or M</th>
 											<th>A</th>
 											<th>C</th>
@@ -39,9 +39,10 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="i in features">                   
-										<td>{{$parent.$index + 1 }}</td>
-										<td>{{i.Features}}</td>
-										<td>{{i.PriorityMandatory}}</td>
+										<td>{{$index + 1 }}</td>
+										<td>{{i.feature_id}}</td>
+										<td>{{i.specification}}</td>
+										<td>{{i.priority_order}}</td>
 										<td><input type="checkbox" name="A{{ $index + 1 }}" /></td>
 										<td><input type="checkbox" name="C{{ $index + 1 }}" /></td>
 										<td><input type="checkbox" name="N{{ $index + 1 }}" /></td>
@@ -63,6 +64,8 @@
 					</div>
                     <!-- /.panel -->
                 </div>
+           </div>
+           </div>
 
 <br>        
 

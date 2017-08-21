@@ -97,7 +97,7 @@ public class ContractManagementSellerService {
  
  /*service to update the seller's status(accept/reject/later) in the proposal_sellers_bid table 
   */	
- 	/* SERVICE 4*/
+ 	/* SERVICE 4
   	
   	public void updateBidSellerStatus(int seller_id,int proposal_id,String seller_status){
   	try{
@@ -110,6 +110,7 @@ public class ContractManagementSellerService {
   	catch(Exception e){
   		System.out.println(e.getMessage());
   	}
-  	}
+  	}*/
   }
+ 
  

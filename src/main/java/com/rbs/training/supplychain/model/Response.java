@@ -1,17 +1,10 @@
 package com.rbs.training.supplychain.model;
 
 public class Response {
-	private int response_id;
 	private int feature_id;
 	private char response_status;
 	private int seller_id;
 	
-	public int getResponse_id(){
-		return response_id;
-	}
-	public void setResponse_id(int response_id){
-		this.response_id = response_id;
-	}
 	public int getFeature_id(){
 		return feature_id;
 	}
