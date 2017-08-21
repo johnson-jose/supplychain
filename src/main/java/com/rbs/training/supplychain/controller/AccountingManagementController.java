@@ -1,5 +1,6 @@
 package com.rbs.training.supplychain.controller;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.websocket.server.PathParam;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,19 +32,64 @@ public class AccountingManagementController {
 	 @RequestMapping(value = "/viewGL",method = RequestMethod.GET)
 	 public String ViewLedger(){
 	
-			String resultString="";
+			String resultString="<form action='http://localhost:8181/ACM/viewGLBySearch'>"+"enter the account entry number"+"<br>"+
+	    	 "<input type='text' name='search'></input>"+"<input type='submit' value='search'>"+"</form>";
 			List<GeneralLedger> generalledgerlists=accountingManagementServiceObj.getEachGLEntry();
-			
+			resultString +="<table>";
+			resultString +="<tr><th>Account Entry No.</th><th>Current Date</th><th>Payment Date</th><th>Transaction No</th><th>Customer Account No.</th><th>Invoice No.</th><th>Dr/Cr</th><th>Amount</th><th>Due Date</th></tr>";
 			for(GeneralLedger generalledgerlist:generalledgerlists){
-								resultString += "Account Entry Number = " + generalledgerlist.getAccountEntryNo() + "\n"+
-								"Payment Date = " + generalledgerlist.getPaymentDate()  + "\n"+
-								"Transaction Number = " + generalledgerlist.getTransactionNo() +"\n"+
-								"Customer Account Number = " + generalledgerlist.getCustomerAccountNo()+"\n"+
-								"Invoice Number = " + generalledgerlist.getInvoiceNo()+"\n"+
-								"Debit or Credit = " + generalledgerlist.getDrOrCr()+"\n"+
-								"Amount = " + generalledgerlist.getAmount() +"\n"+
-								"Due Date = " + generalledgerlist.getDueDate() + "\n";
+								resultString += "<tr><td>" + generalledgerlist.getAccountEntryNo() + "</td><td>"+
+								generalledgerlist.getCurrentDate()  + "</td><td>"+
+								generalledgerlist.getPaymentDate()  + "</td><td>"+
+								generalledgerlist.getTransactionNo() +"</td><td>"+
+								generalledgerlist.getCustomerAccountNo()+"</td><td>"+
+								generalledgerlist.getInvoiceNo()+"</td><td>"+
+								generalledgerlist.getDrOrCr()+"</td><td>"+
+								generalledgerlist.getAmount() +"</td><td>"+
+								generalledgerlist.getDueDate() + "</td></tr>";
 	       }
+			resultString +="</table>";
+			return resultString;
+		}
+	 @RequestMapping(value = "/viewGLBySearch",method = RequestMethod.GET)
+	 @ResponseBody
+	 public String ViewLedgerBySearch(HttpServletRequest request,HttpServletResponse response){
+	
+			String resultString="";
+			String searchBy=request.getParameter("search");
+			List<GeneralLedger> generalledgerlists=accountingManagementServiceObj.getEachGLEntryBySearch(searchBy);
+			resultString +="<table>";
+			int flag=0;
+			for(GeneralLedger generalledgerlist:generalledgerlists){
+				if(flag==0)
+				{
+					resultString +="<tr><th>Account Entry No.</th><th>Current Date</th><th>Payment Date</th><th>Transaction No</th><th>Customer Account No.</th><th>Invoice No.</th><th>Dr/Cr</th><th>Amount</th><th>Due Date</th></tr>";
+				}
+				flag=1;
+				resultString += "<tr><td>" + generalledgerlist.getAccountEntryNo() + "</td><td>"+
+						generalledgerlist.getCurrentDate()  + "</td><td>"+
+						generalledgerlist.getPaymentDate()  + "</td><td>"+
+						generalledgerlist.getTransactionNo() +"</td><td>"+
+						generalledgerlist.getCustomerAccountNo()+"</td><td>"+
+						generalledgerlist.getInvoiceNo()+"</td><td>"+
+						generalledgerlist.getDrOrCr()+"</td><td>"+
+						generalledgerlist.getAmount() +"</td><td>"+
+						generalledgerlist.getDueDate() + "</td></tr>";
+	       }
+			resultString +="</table>";
+			if(flag==0)
+			{
+				try{
+				response.sendRedirect("http://localhost:8181/ACM/viewGL");
+				}
+				catch(Exception e)
+				{
+			    	System.out.println("Exception " + e.getMessage());
+			    }
+			}
+			
+			resultString+="<br><form action='http://localhost:8181/ACM/viewGL'>"+
+	    	"<input type='submit' value='back'>"+"</form>";
 			return resultString;
 		}
 	 /*@RequestMapping(value = "/viewCOA/{productSwiftID}",method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
@@ -139,4 +184,62 @@ public class AccountingManagementController {
 	    	System.out.println("Exception " + e.getMessage());
 	    }
 	 }
+	 @RequestMapping(value = "/CheckCompliance",method = RequestMethod.GET)
+	 @ResponseBody
+	 public String complianceCheck(HttpServletRequest request,HttpServletResponse response){
+	
+		 
+			String resultString="";
+			String individualCountry=request.getParameter("Countryname");
+			String individualname=request.getParameter("individualname");
+			
+			List<String> lstCountries = new ArrayList<String>();
+			List<String> lstNames = new ArrayList<String>();
+			
+			lstCountries = accountingManagementServiceObj.sanctionedCountries();
+			lstNames =accountingManagementServiceObj.sanctionedIndividuals();
+			
+		int c1=	checkCountry(lstCountries, individualCountry);
+		int c2=	checkName(lstNames, individualname);
+			
+		if(c1==0||c2==0)
+		{
+			resultString="<b>Approval Denied. <br>Under Sanctioned List</b>";
+		}
+		else
+			resultString="<b>Approval Sanctioned.</b>";
+			
+			return resultString;
+		}
+	 public int checkCountry(List<String> lstCountries,String country){
+			
+			int flag=0;
+				for(int i=0;i<lstCountries.size();i++){
+				    if(country.equalsIgnoreCase((String) lstCountries.get(i)))
+				     {
+				    	flag=1;
+			     	}
+			 	
+				}
+			  	if(flag==1)
+					return 0;
+			    else
+				    return 1;
+			}
+			
+	public int checkName(List<String> lstNames,String name){
+				
+				int flag=0;
+					for(int i=0;i<lstNames.size();i++){
+						if(name.equalsIgnoreCase((String) lstNames.get(i)))
+					     {
+					    	flag=1;
+				     	}
+				 	
+					}
+				  	if(flag==1)
+						return 0;
+				    else
+					    return 1;
+				}
 }

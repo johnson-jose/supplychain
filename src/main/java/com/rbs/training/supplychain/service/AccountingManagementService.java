@@ -72,6 +72,38 @@ public class AccountingManagementService {
 			Statement statement = 	con.createStatement();       
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM General_Ledger");
 			entries=new ArrayList<GeneralLedger>();
+			
+			while (resultSet.next()) {
+				GeneralLedger gl=new GeneralLedger();
+				gl.setAccountEntryNo(resultSet.getString("Account_Entry_No"));
+				gl.setCurrentDate(resultSet.getDate("Current_Date"));
+				gl.setPaymentDate(resultSet.getDate("Payment_Date"));
+				gl.setTransactionNo(resultSet.getString("Transaction_No"));
+				gl.setCustomerAccountNo(resultSet.getString("Customer_Account_No"));
+				gl.setInvoiceNo(resultSet.getString("Invoice_No"));
+				gl.setDrOrCr(resultSet.getString("Dr_Cr"));
+				gl.setAmount(resultSet.getDouble("Amount"));
+				gl.setDueDate(resultSet.getDate("Due_date"));
+				System.out.println(gl.toString());
+				entries.add(gl);	
+				con.close();
+			}
+			}
+			catch(Exception e) {
+				System.out.println("Exception " + e.getMessage());
+			}
+			return entries;
+		}
+	
+	public List<GeneralLedger> getEachGLEntryBySearch(String searchBy) {
+		DataBaseConnection dbobj = new DataBaseConnection();
+		List<GeneralLedger> entries = null;
+		
+			try {
+				Connection con = dbobj.getConnection();
+			Statement statement = 	con.createStatement();       
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM General_Ledger where Account_Entry_no='"+searchBy+"'");
+			entries=new ArrayList<GeneralLedger>();
 			GeneralLedger gl=new GeneralLedger();
 			while (resultSet.next()) {
 				gl.setAccountEntryNo(resultSet.getString("Account_Entry_No"));
@@ -84,8 +116,7 @@ public class AccountingManagementService {
 				gl.setAmount(resultSet.getDouble("Amount"));
 				gl.setDueDate(resultSet.getDate("Due_date"));
 				
-				entries.add(gl);	
-				con.close();
+				entries.add(gl);			
 			}
 			}
 			catch(Exception e) {
@@ -142,4 +173,68 @@ public class AccountingManagementService {
 	    	System.out.println("Exception " + e.getMessage());
 	    }
 	}
+	public   List<String> sanctionedCountries(){  
+		 
+		 
+		 List<String> lstCountries =null;
+		 
+		 DataBaseConnection dbobj = new DataBaseConnection();
+			try
+		    {
+				Connection con = dbobj.getConnection();
+   	  
+			   	//Step 3 Create the statement object
+			       Statement stmt = con.createStatement();
+			       
+			       //Step 4 execute query
+			       ResultSet rs = stmt.executeQuery("select * from sanctionedCountries");
+			       lstCountries = new ArrayList<String>();
+			      while(rs.next()){
+			       	String Country = rs.getString("countryName");
+			       	lstCountries.add(Country);     
+			      } 
+			       
+			       //Step 5 close the connection
+			       con.close();
+			
+			    }
+			     catch(Exception e){
+			   	  System.out.println("Exception - get rectangle"+e.getMessage());
+			     }
+			     
+     return lstCountries;
+}
+	 
+public   List<String> sanctionedIndividuals(){  
+		 
+	
+		 List<String> lstNames =null;
+		 DataBaseConnection dbobj = new DataBaseConnection();
+			try
+		    {
+				Connection con = dbobj.getConnection();
+   	  
+				   	//Step 3 Create the statement object
+				       Statement stmt = con.createStatement();
+				       
+				       //Step 4 execute query
+				
+				      
+				      ResultSet rs1 = stmt.executeQuery("select * from sanctionedIndividuals");
+				      lstNames = new ArrayList<String>();
+				     while(rs1.next()){
+				      	String name = rs1.getString("IndividualName");
+				      	lstNames.add(name);     
+				     } 
+				       
+				       //Step 5 close the connection
+				       con.close();
+				
+				    }
+				     catch(Exception e){
+				   	  System.out.println("Exception - get rectangle"+e.getMessage());
+     }
+     
+     return lstNames;
+}
 }
