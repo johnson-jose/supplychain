@@ -143,7 +143,7 @@ public class InvoiceService {
 		        + " WHERE USER_ID = ?";
 		PreparedStatement preparedStatement  = dbConnection1.prepareStatement(updateTableSQL1);
 
-		preparedStatement.setString(1, "new_value");
+		preparedStatement.setString(1,"new_value");
 		preparedStatement.setInt(2, 1001);
 
 
@@ -174,6 +174,12 @@ public class InvoiceService {
 			msg = new CustomMessage();
 			PreparedStatement stmt=con.prepareStatement("delete from invoice where INVOICENO=?");
 			stmt.setDouble(1,invoiceNo);
+			stmt.executeUpdate();
+
+			System.out.println("Record is updated to DBUSER table!");
+			String updateTableSQL2 = "COMMIT";
+			stmt = con.prepareStatement(updateTableSQL2);
+			stmt.executeUpdate();
 			msg.setMessage("successfully deleted");
 			//ResultSet re=stmt.executeQuery();
 			//while(re.next()){

@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,8 +39,8 @@ public class InvoiceController {
 			return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
 		}
 	
-	@RequestMapping(value = "/searchInvoice",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Invoice> searchInvoice(@PathParam("invoiceNo") double invoiceNo) throws ClassNotFoundException, SQLException {
+	@RequestMapping(value = "/searchInvoice/{invoiceNo}",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Invoice> searchInvoice(@PathVariable("invoiceNo") double invoiceNo) throws ClassNotFoundException, SQLException {
 		System.out.println("Getting Invoice with Invoice no"+ invoiceNo);
 		//Invoice invoiceObj = invoiceServiceObj.search(invoiceNo);
 		
