@@ -66,6 +66,7 @@ public class AccountingManagementService {
 	
 	public List<GeneralLedger> getEachGLEntry() {
 		DataBaseConnection dbobj = new DataBaseConnection();
+		
 		List<GeneralLedger> entries = null;
 			try {
 				Connection con = dbobj.getConnection();
@@ -84,14 +85,16 @@ public class AccountingManagementService {
 				gl.setDrOrCr(resultSet.getString("Dr_Cr"));
 				gl.setAmount(resultSet.getDouble("Amount"));
 				gl.setDueDate(resultSet.getDate("Due_date"));
+				System.out.println("WHile loop"+resultSet.getString("Account_Entry_No"));
 				System.out.println(gl.toString());
 				entries.add(gl);	
-				con.close();
 			}
+			con.close();
 			}
 			catch(Exception e) {
 				System.out.println("Exception " + e.getMessage());
 			}
+		
 			return entries;
 		}
 	
