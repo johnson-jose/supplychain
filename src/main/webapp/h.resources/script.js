@@ -9,17 +9,27 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		templateUrl : 'view_table.html'
 		})
 	});
-	myApp.controller('myController', function($scope, $http){				
-				$http.get('proposals.txt').success(function (data) {
-                    $scope.proposals = data;
-
-                })
+	
+	myApp.controller('myController', function($scope, $http){	
+		console.log("in controller");
+				var x = $scope.seller_id;
+				console.log(x);
+				$http.post('http://localhost:8181/contractmanagementseller/viewrfp/' +x)
+				.success(function (data) {
+                    $scope.proposals = data;                    
+                    console.log(data);
+                });
             });
+	
+	
 var myApp2 = angular.module('myApp2', []);
-	myApp2.controller('proposalTableCtrl', function ($scope, $http) {       
+	myApp2.controller('proposalTableCtrl', function ($scope, $http){       
 				console.log("proposalTableCtrl");
-                $http.get('features.txt').success(function (data) {
+				var y = 1;
+				console.log("y=" +y);
+                $http.post('http://localhost:8181/contractmanagementseller/listfeatures/' +y).success(function (data) {
                     $scope.features = data;
+                    console.log(data);
                 });           
         });
 	myApp2.controller("sampleController", function ($scope, $window) {

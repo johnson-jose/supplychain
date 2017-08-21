@@ -24,8 +24,8 @@ public class ContractManagementSellerController {
 	 ContractManagementSellerService service = new ContractManagementSellerService();
     
 	/*service 1*/
-	 @RequestMapping(value = "/viewrfp/{sellerid}",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Proposal_Sellers_Bid>> getProposals(@PathVariable("sellerid") String id) {
+	 @RequestMapping(value = "/viewrfp/{seller_id}",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Proposal_Sellers_Bid>> getProposals(@PathVariable("seller_id") String id) {
 		
 		int seller_id = Integer.parseInt(id);
 		
@@ -46,8 +46,8 @@ public class ContractManagementSellerController {
 		}
     
 	 /*service 2*/
-	@RequestMapping(value="/listfeatures/{proposalid}",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Features>> getFeatures(@PathVariable("proposalid") String propid) {
+	@RequestMapping(value="/listfeatures/{proposal_id}",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Features>> getFeatures(@PathVariable("proposal_id") String propid) {
         int proposal_id = Integer.parseInt(propid);
 		List<Features> featureslist= new ArrayList<Features>();
 		try {
@@ -67,7 +67,7 @@ public class ContractManagementSellerController {
         return "Hello, World!" ;
     }
     
- /*  SERVICE 4*/
+ /*  SERVICE 4
     
     @RequestMapping(value = "/updatebidsellerstatus/{seller_id}/{proposal_id}/{seller_status}",method = RequestMethod.POST)
    
@@ -85,7 +85,7 @@ public class ContractManagementSellerController {
 		}
     	
       
-    }
+    }*/
    
    
 
