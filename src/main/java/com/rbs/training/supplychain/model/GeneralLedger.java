@@ -1,5 +1,9 @@
 package com.rbs.training.supplychain.model;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
 public class GeneralLedger {
@@ -21,10 +25,29 @@ private Date dueDate;
 			this.accountEntryNo = accountEntryNo;
 		}
 		public Date getCurrentDate() {
+			//DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+
+			// Get the date today using Calendar object.
+			//Date currentDate = Calendar.getInstance().getTime();        
+			// Using DateFormat format method we can create a string 
+			// representation of a date with the defined format.
+			//currentDate = df.format(today);
+			
+			//LocalDate ld=LocalDate.now();
+			
+			//Date date=new SimpleDateFormat("yyyy/MM/dd").parse(ld);
+			//DateFormat df=new Simple
+			//String date=format(ld);
+			//currentDate=new SimpleDateFormat("yyyy/MM/dd").parse(date);
+			
 			return currentDate;
+			
 		}
 		public void setCurrentDate(Date currentDate) {
-			this.currentDate = currentDate;
+			LocalDate localDate = LocalDate.now();
+			Date date = java.sql.Date.valueOf(localDate);
+			System.out.println(date);
+			this.currentDate = date;
 		}
 		public String getTransactionNo() {
 			return transactionNo;
