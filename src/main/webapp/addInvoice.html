@@ -1,0 +1,125 @@
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="myApp">
+<head>
+    <meta charset="utf-8">
+    <title>View RFP Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+
+</head>
+<body ng-app="myApp">
+<script>
+        var myApp = angular.module('myApp', []);
+        myApp.controller('myCtrl', function ($scope, $http) {
+            $scope.myfunc = function () {
+            	var invoiceNo = $scope.invoiceNo;
+            	var contractNo = $scope.contractNo;
+            	var buyerId = $scope.buyerId;
+            	var sellerId = $scope.sellerId;
+            	var quantity = $scope.quantity;
+            	var productId= $scope.productId;
+            	var unitPrice = $scope.unitPrice;
+            	var grossAmount = $scope.grossAmount;
+            	var netAmount = $scope.netAmount;
+            	var tax = $scope.tax;
+				console.log("add Invoice");
+				console.log('http://localhost:8181/invoice/addInvoice/?invoiceNo='+invoiceNo+'&contractNo='+contractNo+
+                		'&buyerId='+buyerId+'&sellerId='+sellerId+'&quantity='+quantity+'&productId='+
+                		productId+'&unitPrice='+unitPrice+'&grossAmount='+grossAmount+
+                		'&netAmount='+netAmount+'&tax='+tax);
+				
+                $http.post('http://localhost:8181/invoice/addInvoice/?invoiceNo='+invoiceNo+'&contractNo='+contractNo+
+                		'&buyerId='+buyerId+'&sellerId='+sellerId+'&quantity='+quantity+'&productId='+
+                		productId+'&unitPrice='+unitPrice+'&grossAmount='+grossAmount+
+                		'&netAmount='+netAmount+'&tax='+tax).success(function (data) {
+                    $scope.invoices = data;
+                    console.log( $scope.invoices);
+
+                });
+            }
+        });  
+  </script> 
+<div ng-controller="myCtrl">
+    Enter the details of the invoice you want to create!!!
+   <form id="myForm" method="post" ng-submit="sendRequest()" role="form">
+    	
+    	<table border=0 >
+	
+	<tr>
+		<td>Invoice No:</td>
+		<td><input type="text" name="invoiceNo" id="invoiceNo" ng-model="invoiceNo" required/></td>
+	</tr>
+	<tr>
+		<td>PO/Contract No:</td>
+		<td><input type="text" name="contractNo" id="contractNo" ng-model="contractNo" required /></td>
+	</tr>
+	<tr>
+		<td>Buyer Id:</td>
+		<td><input type="text" name="buyerId"  id="buyerId" ng-model="buyerId" required /></td>
+	</tr>
+	<tr>
+		<td>Seller Id:</td>
+		<td><input type="text" name="sellerId" id="sellerId" ng-model="sellerId" required/></td>
+	</tr>
+</table>
+		<table border=1>
+			<tr>
+				<th>Product name</th>
+				<th>Product id</th>
+				<th>Quantity</th>
+				<th>Unit Price</th>
+				<th>Tax</th>
+				<th>Gross Amount</th>
+				<th>Net Amount</th>
+			</tr>
+			<tr>
+				<td><input type="text" name="productName" id="productName" ng-model="productName" required/></td>
+				<td><input type="text" name="productId" id="productId" ng-model="productId" required/></td>
+				<td><input type="text" name="quantity" id="quantity" ng-model="quantity" required/></td>
+				<td><input type="text" name="unitPrice" id="unitPrice" ng-model="unitPrice" required/></td>
+				<td><input type="text" name="tax" id="tax" ng-model="tax" required/></td>
+				<td><input type="text" name="grossAmount" id="grossAmount" ng-model="grossAmount" required/></td>
+				<td><input type="text" name="netAmount" id="netAmount" ng-model="netAmount" required/></td>
+			</tr>
+		</table>
+    	<button type="submit" ng-click="myfunc()">Add Invoice</button>
+      
+	</form>
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+<h2>Invoice Details</h2>
+        <div>
+            <table border=1>
+                <tr>
+                	<th Style="padding:5px 5px">Invoice No</th>
+                    <th Style="padding:5px 5px">Contract No</th>
+                    <th Style="padding:5px 5px">Buyer ID</th>
+                    <th Style="padding:5px 5px">Seller ID</th>
+                    <th Style="padding:5px 5px">product ID</th>
+                    <th Style="padding:5px 5px">Quantity</th>
+                    <th Style="padding:5px 5px">Unit Price</th>
+                    <th Style="padding:5px 5px">Gross amt</th>
+                    <th Style="padding:5px 5px">tax</th>
+                    <th Style="padding:5px 5px">Net amt</th>
+           
+                </tr>
+                <tr ng-repeat="i in invoices">
+                	<td>{{i.invoiceNo}}</td>
+                    <td>{{i.contractNo}}</td>
+                    <td>{{i.buyerId}}</td>
+                    <td>{{i.sellerId}}</td>
+                    <td>{{i.productId}}</td>
+                    <td>{{i.quantity}}</td>
+                    <td>{{i.unitPrice}}</td>
+                    <td>{{i.grossAmount}}</td>
+                    <td>{{i.tax}}</td>
+                    <td>{{i.netAmount}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
