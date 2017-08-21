@@ -102,9 +102,9 @@ public class AccountingManagementService {
 		DataBaseConnection dbobj = new DataBaseConnection();
 		List<GeneralLedger> entries = null;
 		
-			try {
+			try{
 				Connection con = dbobj.getConnection();
-			Statement statement = 	con.createStatement();       
+				Statement statement = 	con.createStatement();       
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM General_Ledger where Account_Entry_no='"+searchBy+"'");
 			entries=new ArrayList<GeneralLedger>();
 			GeneralLedger gl=new GeneralLedger();
