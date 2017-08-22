@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.List;
-
 import javax.websocket.server.PathParam;
 
 import org.springframework.http.HttpStatus;
@@ -86,43 +85,22 @@ public class InvoiceController {
 	
 	
 	
-	
-	private static String UPLOADED_FOLDER = "C://temp//";
-
-    @GetMapping("/")
-    public String index() {
-        return "/upload";
-    }
-
-    @PostMapping("/upload") // //new annotation since 4.3
-    public String singleFileUpload(@RequestParam("file") MultipartFile file,
+	private static String s;
+	@PostMapping("/upload")
+    public String uploadInvoice(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
-
-        if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
-            return "redirect:uploadStatus";
-        }
-
-        try {
-
-            // Get the file and save it somewhere
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
-            Files.write(path, bytes);
-
-            redirectAttributes.addFlashAttribute("message",
-                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return "redirect:/uploadStatus";
-    }
-
-    @GetMapping("/invoice/uploadStatus")
-    public String uploadStatus() {
-        return "uploadStatus";
-    }
+		s=invoiceServiceObj.uploadInvoice(file, redirectAttributes);
+		String res=invoiceServiceObj.processInvoice(s);
+		return res;
+	}
+	@RequestMapping(value="/insertAll",method = RequestMethod.POST,produces=MediaType.ALL_VALUE)
+	public String insertAll()
+	{
+		
+		return "hi";
+	
+	}
+	
+	
 	 
 }
