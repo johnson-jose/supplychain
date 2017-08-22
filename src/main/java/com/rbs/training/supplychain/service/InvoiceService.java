@@ -297,9 +297,7 @@ public class InvoiceService {
             e.printStackTrace();
         }
         s+="</table></body></html>";
-        s+="in right format...add to db<br> <input type=\"button\" onClick=\"http://localhost:8181/insertAll\"";
-    	
-        System.out.println(s);
+        s+="in right format...add to db<br> <input type=\"button\" onClick=\"parent.location='http://localhost:8181/invoice/insertAll'\" value=\"Enter data into db\"></body></html>";
         return s;
     }
 

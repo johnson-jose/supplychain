@@ -93,11 +93,11 @@ public class InvoiceController {
 		String res=invoiceServiceObj.processInvoice(s);
 		return res;
 	}
-	@RequestMapping(value="/insertAll",method = RequestMethod.POST,produces=MediaType.ALL_VALUE)
+	@RequestMapping(value="/insertAll",method = RequestMethod.GET,produces=MediaType.ALL_VALUE)
 	public String insertAll()
 	{
 		
-		return "hi";
+		return s;
 	
 	}
 	
