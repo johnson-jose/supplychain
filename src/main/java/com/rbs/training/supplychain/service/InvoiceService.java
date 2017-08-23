@@ -239,7 +239,7 @@ public class InvoiceService {
             e.printStackTrace();
         }
 
-        return file.getOriginalFilename();
+        return UPLOADED_FOLDER+File.separator+file.getOriginalFilename();
     }
 
     @GetMapping("/invoice/uploadStatus")
