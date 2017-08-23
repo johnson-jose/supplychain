@@ -12,10 +12,17 @@
 	
 </head>
 <body>
-    <div ng-app="myApp2">
+    <html>
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="proposalTableCtrl">
+<div>
     	 <p><b>Proposal ID:</b></p>
          <a href="HtmlPage5.html">View full proposal</a>    
-		<br><br>		 
+		<br><br>				
 		<div class="row" style="margin: 0 auto; width: 100%">
                 <div class="col-lg-6">
                     <div class="panel panel-default">
@@ -41,7 +48,7 @@
                                         <tr ng-repeat="i in features">                   
 										<td>{{$index + 1 }}</td>
 										<td>{{i.feature_id}}</td>
-										<td>{{i.specification}}</td>
+										<td>{{i.specification}}</td> 
 										<td>{{i.priority_order}}</td>
 										<td><input type="checkbox" name="A{{ $index + 1 }}" /></td>
 										<td><input type="checkbox" name="C{{ $index + 1 }}" /></td>
@@ -54,21 +61,17 @@
                         </div>
                         <!-- /.panel-body -->
                     </div>
-					<div data-ng-app="sampleapp" data-ng-controller="sampleController">
+				<div data-ng-app="sampleapp" data-ng-controller="sampleController">
 					<input type="button" value="Accept" ng-click="showconfirmbox()" />
 
 					<input type="button" value="Reject" ng-click="showconfirmbox1()" />
 
 					<input type="button" value="See later" ng-click="showconfirmbox2()" />
 
-					</div>
-                    <!-- /.panel -->
-                </div>
-           </div>
-           </div>
-
-<br>        
-
+				</div>
+                   <!-- /.panel -->
+            </div>
+        </div>
+</div>
 </body>
 </html>
-

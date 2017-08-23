@@ -13,23 +13,46 @@
     </style>
 	<script type="text/javascript" src="h.resources/script.js">      
     </script>
+    
 </head>
 
 <body ng-app="myApp" ng-controller="myController">   
 
-    <div>
-    <input type="text" ng-model="seller_id" id="seller_id" name="seller_id"/>
-        <a href ="#/view_table">View Request for Proposal</a>
-		<br>
-		<br>
-		<br>
-		 <a href ="http://localhost:8181/ACM/viewGL">View General Ledger</a>
-		 <br>
-		 <a href ="http://localhost:8181/ACM/viewCOAlist">Chart of Accounts</a>
-		 <br>
-		 <a href ="http://localhost:8181/complianceCheck.html">Compliance Check</a>
-    </div>
+     <div>
+    <input type="text" ng-model="seller_id" id="seller_id" name="seller_id" />
+    <button ng-click="myfunc()">View Table</button>
+
 	<div ng-view></div>
 	
+	 <script type="text/ng-template" id="view_table.htm" >
+        <div class="row" style="margin: 0 auto; width: 100%">
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="font-size: 20px; font-weight: bold">
+                            PROPOSALS RECEIVED
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body" ng-controller="myController">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>    
+                	                    <th>Seller ID</th>
+					                    <th>Proposal ID</th>
+					                    <th>Cost</th>
+					                	</tr>
+					                </thead>
+                						<tr ng-repeat="i in proposals">
+						                    <td>{{i.seller_id}}</td>
+						                    <td><a href="#/proposals">{{i.proposal_id}}</a></td>
+						                    <td>{{i.cost_avail}}</td>
+						                </tr>				
+            					</table>
+        					</div>
+    					</div>
+    				</div>
+    			</div>
+    		</div>
+    </script>   
 </body>
 </html>

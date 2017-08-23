@@ -6,33 +6,42 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		redirectTo : 'index.html'
 		})
 		.when('/view_table', {
-		templateUrl : 'view_table.html'
+		templateUrl : 'view_table.htm'
+		})
+		.when('/proposals', {
+		templateUrl : 'proposals.htm'
 		})
 	});
 	
 	myApp.controller('myController', function($scope, $http){	
-		console.log("in controller");
-				var x = $scope.seller_id;
-				console.log(x);
-				$http.post('http://localhost:8181/contractmanagementseller/viewrfp/' +x)
-				.success(function (data) {
-                    $scope.proposals = data;                    
-                    console.log(data);
-                });
-            });
+		
+		$scope.myfunc = function () {
+        	
+			console.log("on click function ");
+			var x = $scope.seller_id;
+			console.log(x);
+			$http.post('http://localhost:8181/contractmanagementseller/viewrfp/' + x)
+			.success(function (data) {
+                $scope.proposals = data;                    
+                console.log(data);
+				window.location = "#/view_table";
+			});
+		}        		
+	});
 	
-	
-var myApp2 = angular.module('myApp2', []);
-	myApp2.controller('proposalTableCtrl', function ($scope, $http){       
+	myApp.controller('proposalTableCtrl', function ($scope, $http){       
 				console.log("proposalTableCtrl");
+				
 				var y = 1;
 				console.log("y=" +y);
-                $http.post('http://localhost:8181/contractmanagementseller/listfeatures/' +y).success(function (data) {
+                $http.post('http://localhost:8181/contractmanagementseller/listfeatures/' + y)
+                .success(function (data) {
                     $scope.features = data;
                     console.log(data);
-                });           
+							
         });
-	myApp2.controller("sampleController", function ($scope, $window) {
+	});
+	myApp.controller("sampleController", function ($scope, $window) {
 				console.log("sampleCtrl"); 
 				$scope.showconfirmbox = function () {
 					if($window.confirm("Do you want to accept the proposal?"))
