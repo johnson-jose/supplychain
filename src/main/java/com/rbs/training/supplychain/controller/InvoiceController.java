@@ -1,21 +1,29 @@
 package com.rbs.training.supplychain.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.List;
-
 import javax.websocket.server.PathParam;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.rbs.training.supplychain.model.*;
-import com.rbs.training.supplychain.service.*;
+import com.rbs.training.supplychain.model.Invoice;
+import com.rbs.training.supplychain.service.InvoiceService;
 import com.rbs.training.supplychain.util.CustomMessage;
 
 @Component
@@ -38,8 +46,8 @@ public class InvoiceController {
 			return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
 		}
 	
-	@RequestMapping(value = "/searchInvoice",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Invoice> searchInvoice(@PathParam("invoiceNo") double invoiceNo) throws ClassNotFoundException, SQLException {
+	@RequestMapping(value = "/searchInvoice/{invoiceNo}",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Invoice> searchInvoice(@PathVariable("invoiceNo") double invoiceNo) throws ClassNotFoundException, SQLException {
 		System.out.println("Getting Invoice with Invoice no"+ invoiceNo);
 		//Invoice invoiceObj = invoiceServiceObj.search(invoiceNo);
 		
@@ -73,5 +81,26 @@ public class InvoiceController {
 		}
 		return new ResponseEntity<CustomMessage>(msg,HttpStatus.OK);
     }
-
+	
+	
+	
+	
+	private static String s;
+	@PostMapping("/upload")
+    public String uploadInvoice(@RequestParam("file") MultipartFile file,
+                                   RedirectAttributes redirectAttributes) {
+		s=invoiceServiceObj.uploadInvoice(file, redirectAttributes);
+		String res=invoiceServiceObj.processInvoice(s);
+		return res;
+	}
+	@RequestMapping(value="/insertAll",method = RequestMethod.GET,produces=MediaType.ALL_VALUE)
+	public String insertAll()
+	{
+		
+		return s;
+	
+	}
+	
+	
+	 
 }

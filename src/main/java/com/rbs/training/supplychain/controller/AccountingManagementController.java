@@ -31,10 +31,13 @@ public class AccountingManagementController {
 	    }
 	 @RequestMapping(value = "/viewGL",method = RequestMethod.GET)
 	 public String ViewLedger(){
-	
-			String resultString="<form action='http://localhost:8181/ACM/viewGLBySearch'>"+"enter the account entry number"+"<br>"+
+		 String resultString ="<html><head>";
+			resultString +="<style>table, th, td { border: 1px solid black;}</style>";
+			resultString +="</head><body>";
+			resultString+="<form action='http://localhost:8181/ACM/viewGLBySearch'>"+"<b>ENTER THE ACCOUNT ENTRY NUMBER</b>"+"<br>"+
 	    	 "<input type='text' name='search'></input>"+"<input type='submit' value='search'>"+"</form>";
 			List<GeneralLedger> generalledgerlists=accountingManagementServiceObj.getEachGLEntry();
+			/**/
 			resultString +="<table>";
 			resultString +="<tr><th>Account Entry No.</th><th>Current Date</th><th>Payment Date</th><th>Transaction No</th><th>Customer Account No.</th><th>Invoice No.</th><th>Dr/Cr</th><th>Amount</th><th>Due Date</th></tr>";
 			for(GeneralLedger generalledgerlist:generalledgerlists){
@@ -48,14 +51,17 @@ public class AccountingManagementController {
 								generalledgerlist.getAmount() +"</td><td>"+
 								generalledgerlist.getDueDate() + "</td></tr>";
 	       }
-			resultString +="</table>";
+			
+			resultString +="</table><br><a href='http://localhost:8181/index.html'>Home</a></BODY></html>";
+			
 			return resultString;
 		}
 	 @RequestMapping(value = "/viewGLBySearch",method = RequestMethod.GET)
 	 @ResponseBody
 	 public String ViewLedgerBySearch(HttpServletRequest request,HttpServletResponse response){
-	
-			String resultString="";
+		 String resultString ="<html><head>";
+			resultString +="<style>table, th, td { border: 1px solid black;}</style>";
+			resultString +="</head><body>";
 			String searchBy=request.getParameter("search");
 			List<GeneralLedger> generalledgerlists=accountingManagementServiceObj.getEachGLEntryBySearch(searchBy);
 			resultString +="<table>";
@@ -80,7 +86,9 @@ public class AccountingManagementController {
 			if(flag==0)
 			{
 				try{
-				response.sendRedirect("http://localhost:8181/ACM/viewGL");
+					resultString +="<script type='text/javascript'>alert('Record not found');location='http://localhost:8181/ACM/viewGL';</script>";
+					//response.sendRedirect("http://localhost:8181/ACM/viewGL");
+				
 				}
 				catch(Exception e)
 				{
@@ -90,6 +98,7 @@ public class AccountingManagementController {
 			
 			resultString+="<br><form action='http://localhost:8181/ACM/viewGL'>"+
 	    	"<input type='submit' value='back'>"+"</form>";
+			resultString +="<br><a href='http://localhost:8181/index.html'>Home</a></BODY></html>";
 			return resultString;
 		}
 	 /*@RequestMapping(value = "/viewCOA/{productSwiftID}",method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
@@ -105,10 +114,15 @@ public class AccountingManagementController {
 	 public String dispCOAlist()
 	 {
 		 	List<ChartOfAccount> coaList=accountingManagementServiceObj.getCOAList();
-			String resultString="<html><head><meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'><title>Chart of Accounts List</title><script type='text/javascript' src='chartOfAccountsList.js'></script></head><body><h1>Chart of Accounts(Swift ID)</h1><br>";
+		
+			
+			String resultString="<html><head><meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'><title>Chart of Accounts List</title><style>table, th, td { border: 1px solid black;}</style><script type='text/javascript' src='chartOfAccountsList.js'></script></head><body><h1>Chart of Accounts</h1><br>";
 			
 			resultString +="<div id='chartList'><form action='http://localhost:8181/ACM/delCOA' method='post'>";
 			int flag=0;
+			/*resultString +="<head>";
+			resultString +="<style>table, th, td { border: 1px solid black;}</style>";
+			resultString +="</head>";*/
 			resultString +="<table>";
 			for(ChartOfAccount coa:coaList)
 			{
@@ -212,34 +226,16 @@ public class AccountingManagementController {
 			return resultString;
 		}
 	 public int checkCountry(List<String> lstCountries,String country){
-			
-			int flag=0;
-				for(int i=0;i<lstCountries.size();i++){
+				for(int i=0;i<lstCountries.size();i++)
 				    if(country.equalsIgnoreCase((String) lstCountries.get(i)))
-				     {
-				    	flag=1;
-			     	}
-			 	
-				}
-			  	if(flag==1)
-					return 0;
-			    else
-				    return 1;
+				    	return 0;
+				return 1;
 			}
 			
 	public int checkName(List<String> lstNames,String name){
-				
-				int flag=0;
-					for(int i=0;i<lstNames.size();i++){
-						if(name.equalsIgnoreCase((String) lstNames.get(i)))
-					     {
-					    	flag=1;
-				     	}
-				 	
-					}
-				  	if(flag==1)
-						return 0;
-				    else
-					    return 1;
-				}
+				for(int i=0;i<lstNames.size();i++)
+					if(name.equalsIgnoreCase((String) lstNames.get(i)))
+					     return 0;
+				return 1;
+		}
 }
