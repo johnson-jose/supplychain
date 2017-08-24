@@ -40,7 +40,8 @@ public class DatabaseConnectionPostgreSQL {
 	         /* 
 	         c = DriverManager
 	            .getConnection("jdbc:postgresql://localhost:5432/mylocaldb",
-	            "postgres", "manager");*/
+	            "postgres", "manager");
+	            */
 	     
 	           
 	           
