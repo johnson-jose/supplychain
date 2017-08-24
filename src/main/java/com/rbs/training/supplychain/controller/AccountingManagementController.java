@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.websocket.server.PathParam;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rbs.training.supplychain.model.ChartOfAccount;
 import com.rbs.training.supplychain.model.GeneralLedger;
+import com.rbs.training.supplychain.model.Proposal_Sellers_Bid;
 import com.rbs.training.supplychain.service.AccountingManagementService;
 
 @Component
@@ -29,7 +33,7 @@ public class AccountingManagementController {
 	    public String service1() {
 	        return "Hello, World!" ;
 	    }
-	 @RequestMapping(value = "/viewGL",method = RequestMethod.GET)
+	 /*@RequestMapping(value = "/viewGL",method = RequestMethod.GET)
 	 public String ViewLedger(){
 		 String resultString ="<html><head>";
 			resultString +="<style>table, th, td { border: 1px solid black;}</style>";
@@ -37,7 +41,7 @@ public class AccountingManagementController {
 			resultString+="<form action='http://localhost:8181/ACM/viewGLBySearch'>"+"<b>ENTER THE ACCOUNT ENTRY NUMBER</b>"+"<br>"+
 	    	 "<input type='text' name='search'></input>"+"<input type='submit' value='search'>"+"</form>";
 			List<GeneralLedger> generalledgerlists=accountingManagementServiceObj.getEachGLEntry();
-			/**/
+			
 			resultString +="<table>";
 			resultString +="<tr><th>Account Entry No.</th><th>Current Date</th><th>Payment Date</th><th>Transaction No</th><th>Customer Account No.</th><th>Invoice No.</th><th>Dr/Cr</th><th>Amount</th><th>Due Date</th></tr>";
 			for(GeneralLedger generalledgerlist:generalledgerlists){
@@ -55,7 +59,14 @@ public class AccountingManagementController {
 			resultString +="</table><br><a href='http://localhost:8181/index.html'>Home</a></BODY></html>";
 			
 			return resultString;
+		}*/
+	 
+	 @RequestMapping(value = "/viewGL",method = RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
+	 public ResponseEntity<List<GeneralLedger>> ViewLedger(){
+			List<GeneralLedger> generalledgerlists=accountingManagementServiceObj.getEachGLEntry();
+			return new ResponseEntity<List<GeneralLedger>>(generalledgerlists, HttpStatus.OK);
 		}
+	 
 	 @RequestMapping(value = "/viewGLBySearch",method = RequestMethod.GET)
 	 @ResponseBody
 	 public String ViewLedgerBySearch(HttpServletRequest request,HttpServletResponse response){
@@ -110,19 +121,19 @@ public class AccountingManagementController {
 			return coa;
 		}*/
 	
-	 @RequestMapping(value = "/viewCOAlist",method = RequestMethod.GET)
-	 public String dispCOAlist()
+	@RequestMapping(value = "/viewCOAlist",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+	 public ResponseEntity<List<ChartOfAccount>> dispCOAlist()
 	 {
 		 	List<ChartOfAccount> coaList=accountingManagementServiceObj.getCOAList();
 		
 			
-			String resultString="<html><head><meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'><title>Chart of Accounts List</title><style>table, th, td { border: 1px solid black;}</style><script type='text/javascript' src='chartOfAccountsList.js'></script></head><body><h1>Chart of Accounts</h1><br>";
+		 	 /*String resultString="<html><head><meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'><title>Chart of Accounts List</title><style>table, th, td { border: 1px solid black;}</style><script type='text/javascript' src='chartOfAccountsList.js'></script></head><body><h1>Chart of Accounts</h1><br>";
 			
 			resultString +="<div id='chartList'><form action='http://localhost:8181/ACM/delCOA' method='post'>";
 			int flag=0;
-			/*resultString +="<head>";
+			resultString +="<head>";
 			resultString +="<style>table, th, td { border: 1px solid black;}</style>";
-			resultString +="</head>";*/
+			resultString +="</head>";
 			resultString +="<table>";
 			for(ChartOfAccount coa:coaList)
 			{
@@ -138,7 +149,39 @@ public class AccountingManagementController {
 			if(flag==1)
 				resultString +="<input type='submit' value='Delete Charts'><br>";
 			resultString+="</form></div><div id='newEntrySpace'></div><a href='http://localhost:8181/addCOA.html'>Add a chart of Accounts</a><br><a href='http://localhost:8181/index.html'>Home</a></body></html>";
-			return resultString;
+			return resultString;*/
+		 	return new ResponseEntity<List<ChartOfAccount>>(coaList, HttpStatus.OK);
+	 }
+	 @RequestMapping(value = "/viewCOASINGLE",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+	 @ResponseBody
+	 public ResponseEntity<ChartOfAccount> dispCOA(HttpServletRequest request)
+	 {
+		 	ChartOfAccount coa=accountingManagementServiceObj.getCOA(request.getParameter("swiftID"));
+		
+			System.out.println(coa.getBranch());
+			/*String resultString="<html><head><meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'><title>Chart of Accounts List</title><style>table, th, td { border: 1px solid black;}</style><script type='text/javascript' src='chartOfAccountsList.js'></script></head><body><h1>Chart of Accounts</h1><br>";
+			
+			resultString +="<div id='chartList'><form action='http://localhost:8181/ACM/delCOA' method='post'>";
+			int flag=0;
+			resultString +="<head>";
+			resultString +="<style>table, th, td { border: 1px solid black;}</style>";
+			resultString +="</head>";
+			resultString +="<table>";
+			for(ChartOfAccount coa:coaList)
+			{
+				if(flag==0)
+					resultString+="<tr><th></th><th>Head</th><th>Legal Entity</th><th>Country</th><th>Branch</th><th>Product</th><th>Currency</th><th>Book</th><th>SWIFT ID</th></tr>";
+				flag=1;
+				//resultString +="<a href='http://localhost:8181/index.html'>"+s+"</a><br>\n";
+				//String url="ChartOfAccountsEdit.jsp?chSID="+s;
+				String url="http://localhost:8181/index.html";
+				resultString+="<tr><td><input type='checkbox' name='chartGroup' value='"+coa.getProductSwiftID()+"'/></td><td>"+coa.getHead()+"</td><td>"+coa.getLegalEntity()+"</td><td>"+coa.getCountry()+"</td><td>"+coa.getBranch()+"</td><td>"+coa.getProduct()+"</td><td>"+coa.getCurrency()+"</td><td>"+coa.getBook()+"</td><td>"+coa.getProductSwiftID()+"</td></tr>";
+			}
+			resultString +="</table>";
+			if(flag==1)
+				resultString +="<input type='submit' value='Delete Charts'><br>";
+			resultString+="</form></div><div id='newEntrySpace'></div><a href='http://localhost:8181/addCOA.html'>Add a chart of Accounts</a><br><a href='http://localhost:8181/index.html'>Home</a></body></html>";
+			*/return new ResponseEntity<ChartOfAccount>(coa, HttpStatus.OK);
 	 }
 	 
 	 @RequestMapping(value = "/delCOA",method = RequestMethod.POST)

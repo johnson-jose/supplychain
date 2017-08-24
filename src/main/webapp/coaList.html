@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Chart of Accounts List</title>
+<style>table, th, td { border: 1px solid black;}</style>
+<script type='text/javascript' src='chartOfAccountsList.js'></script>
+			
+</head>
+<body ng-app="acmApp" ng-controller="coaListCtrl">
+	<h1>Chart of Accounts</h1><br>
+	<title>Chart of Accounts List</title>
+			<div id='chartList'>
+			<form action='http://localhost:8181/ACM/delCOA' method='post'>
+			<table>
+			<tr><th></th><th>Head</th><th>Legal Entity</th><th>Country</th><th>Branch</th><th>Product</th><th>Currency</th><th>Book</th><th>SWIFT ID</th></tr>
+				<tr ng-repeat="coa in coaList">                   
+					<td><input type='checkbox' name='chartGroup' value='"+coa.getProductSwiftID()+"'/></td>
+					<td>{{coa.head}}</td>
+					<td>{{coa.legalEntity}}</td>
+					<td>{{coa.country}}</td>
+					<td>{{coa.branch}}</td>
+					<td>{{coa.product}}</td>
+					<td>{{coa.currency}}</td>
+					<td>{{coa.book}}</td>
+					<td>{{coa.productSwiftID}}</td>
+				</tr>
+			
+			</table>
+			<input type='submit' value='Delete Charts'><br>
+			</form>
+			</div>
+			
+			<!-- <div id='newEntrySpace'></div>
+			<a href='http://localhost:8181/addCOA.html'>Add a chart of Accounts</a><br>
+			 -->
+			 <a href='http://localhost:8181/index.html'>Home</a>
+
+</body>
+</html>

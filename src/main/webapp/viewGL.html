@@ -1,0 +1,23 @@
+
+
+<body ng-app="acmApp" ng-controller="glCtrl">
+	<form action='http://localhost:8181/ACM/viewGLBySearch'>
+		<b>ENTER THE ACCOUNT ENTRY NUMBER</b><br>
+	    <input type='text' name='search'></input>
+	    <input type='submit' value='search'>
+	</form>
+	<table>
+		<tr><th>Account Entry No.</th><th>Current Date</th><th>Payment Date</th><th>Transaction No</th><th>Customer Account No.</th><th>Invoice No.</th><th>Dr/Cr</th><th>Amount</th><th>Due Date</th></tr>
+			<tr ng-repeat="glEntry in glList">
+				<td>{{glEntry.accountEntryNo}}</td>
+				<td>{{glEntry.currentDate}}</td>
+				<td>{{glEntry.paymentDate}}</td>
+				<td>{{glEntry.transactionNo}}</td>
+				<td>{{glEntry.customerAccountNo}}</td>
+				<td>{{glEntry.invoiceNo}}</td>
+				<td>{{glEntry.drOrCr}}</td>
+				<td>{{glEntry.amount}}</td>
+				<td>{{glEntry.dueDate}}</td>
+			</tr>
+	      </table><br><a href='http://localhost:8181/index.html'>Home</a>
+</body>
