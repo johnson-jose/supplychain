@@ -124,7 +124,7 @@ public class InvoiceService {
 					preparedStatement = con.prepareStatement(updateTableSQL2);
 					preparedStatement.executeUpdate();
 					msg.setMessage("Succesfully Updated");
-					
+						con.close();
 						invobj.setInvoiceNo(invoiceNo);
 						invobj.setContractNo(contractNo);
 						invobj.setBuyerId(buyerId);
