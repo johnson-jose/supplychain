@@ -46,9 +46,9 @@ public class InvoiceService {
 			
 					invobj.setInvoiceNo(rs.getDouble(1)); 
 					invobj.setContractNo(rs.getDouble(2));
-					invobj.setBuyerId(rs.getDouble(3));
-					invobj.setSellerId(rs.getDouble(4));
-					invobj.setProductId(rs.getDouble(5));
+					invobj.setBuyerId(rs.getString(3));
+					invobj.setSellerId(rs.getString(4));
+					invobj.setProductId(rs.getString(5));
 					invobj.setUnitPrice(rs.getDouble(6));
 					invobj.setQuantity(rs.getDouble(7));
 					invobj.setGrossAmount(rs.getDouble(8));
@@ -66,21 +66,22 @@ public class InvoiceService {
 			}
 		return invobj;			
 	}
-	public List<Invoice> listAllInvocies(double id){
+	public List<Invoice> listAllInvocies(String id){
 		DataBaseConnection dbobj = new DataBaseConnection();
 		List<Invoice> lst = new ArrayList<Invoice>();
 		Invoice invobj = null;
 		try{
 			Connection con = dbobj.getConnection();
-				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery("select * from invoice where sellerid='"+id+"'");
+				PreparedStatement stmt = con.prepareStatement("select * from invoice where sellerid=?");
+				stmt.setString(1,id);
+				ResultSet rs = stmt.executeQuery();				
 				invobj = new Invoice();
 				while(rs.next()){
 					invobj.setInvoiceNo(rs.getDouble(1)); 
 					invobj.setContractNo(rs.getDouble(2));
-					invobj.setBuyerId(rs.getDouble(3));
-					invobj.setSellerId(rs.getDouble(4));
-					invobj.setProductId(rs.getDouble(5));
+					invobj.setBuyerId(rs.getString(3));
+					invobj.setSellerId(rs.getString(4));
+					invobj.setProductId(rs.getString(5));
 					invobj.setUnitPrice(rs.getDouble(6));
 					invobj.setQuantity(rs.getDouble(7));
 					invobj.setGrossAmount(rs.getDouble(8));
@@ -100,7 +101,7 @@ public class InvoiceService {
 		return lst;			
 	}
 	
-		public Invoice addInvoice(double invoiceNo,double contractNo, double buyerId, double sellerId, double quantity, double productId, double unitPrice, double  grossAmount,double netAmount, double tax) {
+		public Invoice addInvoice(double invoiceNo,double contractNo, String buyerId, String sellerId, double quantity, String productId, double unitPrice, double  grossAmount,double netAmount, double tax) {
 			DataBaseConnection dbobj = new DataBaseConnection();
 			Invoice invobj = null;
 			CustomMessage msg = null; 
@@ -109,12 +110,13 @@ public class InvoiceService {
 				msg = new CustomMessage();
 					invobj = new Invoice();
 					//double =invobj.invoiceNo++;
-					String updateTableSQL1 ="insert into invoice values("+invoiceNo+","+contractNo+","+buyerId+","+sellerId+","
-							+productId+","+unitPrice+","+quantity+","+grossAmount+","+tax+","+netAmount+",0,1,0)";
+					String updateTableSQL1 ="insert into invoice values("+invoiceNo+","+contractNo+",'"+buyerId+"','"+sellerId+"','"
+							+productId+"',"+unitPrice+","+quantity+","+grossAmount+","+tax+","+netAmount+",0,1,0)";
 					/*stmt.executeQuery("insert into invoice values("+invoiceNo+","+contractNo+","+buyerId+","+sellerId+","
 					+productId+","+unitPrice+","+quantity+","+grossAmount+","+tax+","+netAmount+","+"0,1,0");*/
+					System.out.println(updateTableSQL1);
 					PreparedStatement preparedStatement  = con.prepareStatement(updateTableSQL1);
-
+					
 					preparedStatement.executeUpdate();
 
 					System.out.println("Record is inserted to DBUSER table!");
@@ -239,7 +241,7 @@ public class InvoiceService {
             e.printStackTrace();
         }
 
-        return UPLOADED_FOLDER+File.separator+file.getOriginalFilename();
+        return UPLOADED_FOLDER +file.getOriginalFilename();
     }
 
     @GetMapping("/invoice/uploadStatus")
@@ -261,7 +263,6 @@ public class InvoiceService {
             Workbook workbook = new XSSFWorkbook(excelFile);
             Sheet datatypeSheet = workbook.getSheetAt(0);
             Iterator<Row> iterator = datatypeSheet.iterator();
-
             while (iterator.hasNext()) {
             	s+="<tr>";
                 Row currentRow = iterator.next();
@@ -275,29 +276,122 @@ public class InvoiceService {
                     //getCellTypeEnum ill be renamed to getCellType starting from version 4.0
                     if (currentCell.getCellTypeEnum() == CellType.STRING) {
                         s+="<td>";
+                        //System.out.println("string type");
                     	s+=currentCell.getStringCellValue();
-                    } else if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
+                    } else {
                         s+="<td>";
+                        //System.out.println("integer type");
                     	s+=currentCell.getNumericCellValue();
                     }
                     s+="</td>";
                 }
                 s+="</tr>";
-                if(count>3)
+                if(count!=10)
                 {
-                	s="<html><body>not in right format.....<br> <input type=\"button\" onClick=\"parent.location='http://localhost:8181/uploadInvoice.html'\" value=\"Go back and upload\"></body></html>" ;
+                	s="<html><body>not in right format...<br> <input type=\"button\" onClick=\"parent.location='http://localhost:8181/uploadInvoice.html'\" value=\"Go back and upload\"></body></html>" ;
                 	return s;
                 }
-                System.out.println();
+                
+                //excelFile.close();
+            }
+            
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        s+="</table></body></html>";
+        s+="in right format...add to db<br> <input type=\"button\" onClick=\"parent.location='http://localhost:8181/invoice/insertAll'\" value=\"Enter data into db\"></body></html>";
+        return s;
+    }
 
+    public String insertAll(String file)
+    {
+    	
+    	int rowcount=0;
+    	
+    	String s="<html><body><table style=\"border:1px solid black\">";
+        try {
+        	
+            FileInputStream excelFile = new FileInputStream(new File(file));
+            Workbook workbook = new XSSFWorkbook(excelFile);
+            Sheet datatypeSheet = workbook.getSheetAt(0);
+            Iterator<Row> iterator = datatypeSheet.iterator();
+            double invoiceNo=0;double contractNo=0; String buyerId=""; String sellerId=""; double quantity=0; String productId=""; double unitPrice=0; double  grossAmount=0;double netAmount=0; double tax=0;
+            int count=0;
+            while (iterator.hasNext()) {
+            	s+="<tr>";
+                Row currentRow = iterator.next();
+                Iterator<Cell> cellIterator = currentRow.iterator();
+                count=0;
+                
+                while (cellIterator.hasNext()) {
+                	count++;
+                	
+                    Cell currentCell = cellIterator.next();
+                    //getCellTypeEnum shown as deprecated for version 3.15
+                    //getCellTypeEnum ill be renamed to getCellType starting from version 4.0
+                    if (currentCell.getCellTypeEnum() == CellType.STRING) {
+                        s+="<td>";
+                    	s+=currentCell.getStringCellValue();
+                    	switch(count)
+                    	{
+                    	case 3:
+                    		buyerId=currentCell.getStringCellValue();
+                    		break;
+                    	case 4:
+                    		sellerId=currentCell.getStringCellValue();
+                    		break;
+                    	default:
+                    		productId=currentCell.getStringCellValue();
+                    		break;
+                    	}
+                    	
+                    } else {
+                        s+="<td>";
+                    	s+=currentCell.getNumericCellValue();
+                    	//System.out.println("op"+currentCell.getNumericCellValue());
+                    	switch(count)
+                    	{
+                    	case 1:
+                    		invoiceNo=currentCell.getNumericCellValue();
+                    		break;
+                    	case 2:
+                    		contractNo=currentCell.getNumericCellValue();
+                    		break;
+                    	case 5:
+                    		quantity=currentCell.getNumericCellValue();
+                    		break;
+                    	case 7:
+                    		unitPrice=currentCell.getNumericCellValue();
+                    		break;
+                    	case 8:
+                    		grossAmount=currentCell.getNumericCellValue();
+                    		break;
+                    	case 9:
+                    		netAmount=currentCell.getNumericCellValue();
+                    		break;
+                    	default:
+                    		tax=currentCell.getNumericCellValue();
+                    		break;
+                    	}
+                    }
+                    s+="</td>";
+                }
+                rowcount++;
+                System.out.println(invoiceNo);
+                addInvoice(invoiceNo,contractNo,buyerId,sellerId,quantity,productId,unitPrice,grossAmount,netAmount,tax);
+                s+="</tr>";
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        s+="</table></body></html>";
-        s+="in right format..add to db<br> <input type=\"button\" onClick=\"parent.location='http://localhost:8181/invoice/insertAll'\" value=\"Enter data into db\"></body></html>";
+        s+="</table>"+rowcount+"rows inserted"+"</body></html>";
+        s+="in right format...add to db<br> <input type=\"button\" onClick=\"parent.location='http://localhost:8181/invoice/insertAll'\" value=\"Enter data into db\"></body></html>";
+        
         return s;
     }
 

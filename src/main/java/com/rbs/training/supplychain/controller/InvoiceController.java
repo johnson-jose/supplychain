@@ -37,7 +37,7 @@ public class InvoiceController {
 // List all the invoices by id
 		
 	@RequestMapping(value = "/viewInvoices", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-		public ResponseEntity<List<Invoice>> listAllUsers(@PathParam("id") double id) {
+		public ResponseEntity<List<Invoice>> listAllUsers(@PathParam("id") String id) {
 		System.out.println("id is"+id);
 			List<Invoice> invoices = invoiceServiceObj.listAllInvocies(id);
 			if (invoices.isEmpty()) {
@@ -59,7 +59,7 @@ public class InvoiceController {
 		return new ResponseEntity<Invoice>(invoiceObj,HttpStatus.OK);
     }
 	@RequestMapping(value = "/addInvoice",method = RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
-	 public ResponseEntity<Invoice> addInvoice(@PathParam("invoiceNo") double invoiceNo,@PathParam("contractNo") double contractNo,@PathParam("buyerId") double buyerId,@PathParam("sellerId") double sellerId,@PathParam("quantity") double quantity,@PathParam("productId") double productId,@PathParam("unitPrice") double unitPrice,@PathParam("grossAmount") double  grossAmount,@PathParam("netAmount")double netAmount,@PathParam("tax") double tax) throws ClassNotFoundException, SQLException {
+	 public ResponseEntity<Invoice> addInvoice(@PathParam("invoiceNo") double invoiceNo,@PathParam("contractNo") double contractNo,@PathParam("buyerId") String buyerId,@PathParam("sellerId") String sellerId,@PathParam("quantity") double quantity,@PathParam("productId") String productId,@PathParam("unitPrice") double unitPrice,@PathParam("grossAmount") double  grossAmount,@PathParam("netAmount")double netAmount,@PathParam("tax") double tax) throws ClassNotFoundException, SQLException {
 		System.out.println("Adding Invoice with Invoice no"+ invoiceNo);
 		
 		Invoice invoiceObj=invoiceServiceObj.addInvoice(invoiceNo,contractNo, buyerId, sellerId, quantity, productId, unitPrice, grossAmount, netAmount, tax);
@@ -87,7 +87,7 @@ public class InvoiceController {
 	
 	private static String s;
 	@PostMapping("/upload")
-    public String uploadInvoice(@RequestParam("file") MultipartFile file,
+	public String uploadInvoice(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
 		s=invoiceServiceObj.uploadInvoice(file, redirectAttributes);
 		String res=invoiceServiceObj.processInvoice(s);
@@ -96,8 +96,8 @@ public class InvoiceController {
 	@RequestMapping(value="/insertAll",method = RequestMethod.GET,produces=MediaType.ALL_VALUE)
 	public String insertAll()
 	{
-		
-		return s;
+		String t=invoiceServiceObj.insertAll(s);
+		return t;
 	
 	}
 	

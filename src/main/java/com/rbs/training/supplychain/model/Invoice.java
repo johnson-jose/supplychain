@@ -4,10 +4,10 @@ public class Invoice {
 		public double invoiceNo;
 		
 		public double contractNo;
-		public double buyerId;
-		public double sellerId;
+		public String buyerId;
+		public String sellerId;
 		public double quantity;
-		public double productId;
+		public String productId;
 		public double unitPrice;
 		public double grossAmount;
 		public double netAmount;
@@ -27,16 +27,16 @@ public class Invoice {
 		public void setContractNo(double contractNo) {
 			this.contractNo = contractNo;
 		}
-		public double getBuyerId() {
+		public String getBuyerId() {
 			return buyerId;
 		}
-		public void setBuyerId(double buyerId) {
+		public void setBuyerId(String buyerId) {
 			this.buyerId = buyerId;
 		}
-		public double getSellerId() {
+		public String getSellerId() {
 			return sellerId;
 		}
-		public void setSellerId(double sellerId) {
+		public void setSellerId(String sellerId) {
 			this.sellerId = sellerId;
 		}
 		public double getQuantity() {
@@ -45,10 +45,10 @@ public class Invoice {
 		public void setQuantity(double quantity) {
 			this.quantity = quantity;
 		}
-		public double getProductId() {
+		public String getProductId() {
 			return productId;
 		}
-		public void setProductId(double productId) {
+		public void setProductId(String productId) {
 			this.productId = productId;
 		}
 		public double getUnitPrice() {
