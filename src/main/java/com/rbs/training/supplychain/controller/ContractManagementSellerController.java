@@ -88,5 +88,24 @@ public class ContractManagementSellerController {
     }*/
    
    
-
+    @RequestMapping(value="/fetchbuyerStatus/{seller_id}",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Proposal_Sellers_Bid>> getBuyerStatus(@PathVariable("seller_id") String sid) {
+        int seller_id = Integer.parseInt(sid);
+		List<Proposal_Sellers_Bid> buyerstatuslist= new ArrayList<Proposal_Sellers_Bid>();
+		try {
+			buyerstatuslist = service.fetchBuyerStatus(seller_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		if(buyerstatuslist.isEmpty()){
+			//return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		
+		return new ResponseEntity<List<Proposal_Sellers_Bid>>(buyerstatuslist, HttpStatus.OK);
+    }
+    
+   /* @RequestMapping("/updatesellerresponse")
+    public String service3() {
+        return "Hello, World!" ;
+    }*/
 }

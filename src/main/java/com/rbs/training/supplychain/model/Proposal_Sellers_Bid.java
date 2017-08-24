@@ -7,7 +7,14 @@ public class Proposal_Sellers_Bid {
 	private int cost_avail_cust;
 	private String seller_status;
 	private int score;
+	private char buyer_bid_status;
 	
+	public char getBuyer_bid_status() {
+		return buyer_bid_status;
+	}
+	public void setBuyer_bid_status(char buyer_bid_status) {
+		this.buyer_bid_status = buyer_bid_status;
+	}
 	public int getScore() {
 		return score;
 	}
