@@ -12,19 +12,6 @@
     <script>
         var myApp = angular.module('myApp', []);
         myApp.controller('myCtrl', function ($scope, $http) {
-        	//$scope.id = document.getElementById("myForm").elements[0].value;
-        	
-        	/*  $scope.sendRequest = function() {
-        	        var httpRequest = $http({
-        	            method: 'POST',
-        	            url: 'http://localhost:8221/invoice/viewInvoices',
-        	            
-
-        	        }).success(function(data, status) {
-        	            $scope.people = data;
-        	        });
-
-        	    }; */
         	
             $scope.myfunc = function () {
             	var x = $scope.id;
@@ -39,31 +26,7 @@
             }
         });  
   </script> 
-     
-     <!--    app.controller('postserviceCtrl', function ($scope, $http) {
-        $scope.name = null;
-        $scope.age = null;
-        $scope.adress = null;
-        $scope.lblMsg = null;
-        $scope.postdata = function (name, age, adress) {
-        var data = {
-        name: name,
-        age: age,
-        adress: adress
-        };
-        //Call the services
-        $http.post('/api/users/post', JSON.stringify(data)).then(function (response) {
-        if (response.data)
-        $scope.msg = "Post Data Submitted Successfully!";
-        }, function (response) {
-        $scope.msg = "Service not Exists";
-        $scope.statusval = response.status;
-        $scope.statustext = response.statusText;
-        $scope.headers = response.headers();
-        });
-        };
-        });  -->
-    
+   
 
     <div ng-controller="myCtrl">
     
@@ -74,7 +37,7 @@
 
 
         <div>
-            <table border=1>
+            <table border=1 class="table table-striped table-bordered table-hover">
                 <tr>
                 	<th Style="padding:5px 5px">Invoice No</th>
                     <th Style="padding:5px 5px">Contract No</th>

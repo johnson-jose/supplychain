@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8">
     <title>Search Invoice</title>
-   
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
 
 </head>
@@ -16,9 +16,9 @@
             	var x = $scope.invoiceNo;
             	console.log("x is:"+x);
 				console.log("yayyyy");
-                $http.post('http://localhost:8181/invoice/searchInvoice/'+x).success(function (response) {
-                    $scope.proposals = response;
-                    console.log( $scope.proposals);
+                $http.post('http://localhost:8181/invoice/searchInvoice/'+x).success(function (data) {
+                    $scope.invoices = data;
+                    console.log( $scope.invoices);
 
                 });
             }
@@ -26,28 +26,25 @@
   </script> 
   <div ng-controller="myCtrl">
     
-   <form id="myForm" method="post" role="form">
+   <form id="myForm" method="get" ng-submit="sendRequest()" role="form">
     	Invoice No<input type="text" id="invoiceNo" name="invoiceNo" ng-model="invoiceNo" required/>
         <button type="submit" ng-click="myfunc()">View Invoices</button>
-	</form>
 
+</form>
 
-        <div ng-controller="myCtrl">
-            <table border=1>
+         <div>
+            <table border=1 class="table table-striped table-bordered table-hover">
                 <tr>
                 	<th Style="padding:5px 5px">Invoice No</th>
                     <th Style="padding:5px 5px">Contract No</th>
                     <th Style="padding:5px 5px">Buyer ID</th>
                     <th Style="padding:5px 5px">Seller ID</th>
-                    <th Style="padding:5px 5px">quantity</th>
-                    <th Style="padding:5px 5px">productId</th>
-                    <th Style="padding:5px 5px">unitPrice</th>
-                    <th Style="padding:5px 5px">grossAmount</th>
-                    <th Style="padding:5px 5px">netAmount</th>
+                    <th Style="padding:5px 5px">product ID</th>
+                    <th Style="padding:5px 5px">Quantity</th>
+                    <th Style="padding:5px 5px">Unit Price</th>
+                    <th Style="padding:5px 5px">Gross amt</th>
                     <th Style="padding:5px 5px">tax</th>
-                    <th Style="padding:5px 5px">draftStatus</th>
-                    <th Style="padding:5px 5px">approvalStatus</th>
-                    <th Style="padding:5px 5px">financingStatus</th>
+                    <th Style="padding:5px 5px">Net amt</th>
            
                 </tr>
                 <tr ng-repeat="i in invoices">
@@ -55,15 +52,12 @@
                     <td>{{i.contractNo}}</td>
                     <td>{{i.buyerId}}</td>
                     <td>{{i.sellerId}}</td>
-                    <td>{{i.quantity}}</td>
                     <td>{{i.productId}}</td>
+                    <td>{{i.quantity}}</td>
                     <td>{{i.unitPrice}}</td>
                     <td>{{i.grossAmount}}</td>
-                    <td>{{i.netAmount}}</td>
                     <td>{{i.tax}}</td>
-                     <td>{{i.draftStatus}}</td>
-                    <td>{{i.approvalStatus}}</td>
-                    <td>{{i.financingStatus}}</td>
+                    <td>{{i.netAmount}}</td>
                 </tr>
             </table>
         </div>
