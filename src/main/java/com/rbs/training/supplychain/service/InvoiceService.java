@@ -285,7 +285,7 @@ public class InvoiceService {
                 s+="</tr>";
                 if(count>3)
                 {
-                	s="<html><body>not in right format...<br> <input type=\"button\" onClick=\"parent.location='http://localhost:8181/uploadInvoice.html'\" value=\"Go back and upload\"></body></html>" ;
+                	s="<html><body>not in right format.....<br> <input type=\"button\" onClick=\"parent.location='http://localhost:8181/uploadInvoice.html'\" value=\"Go back and upload\"></body></html>" ;
                 	return s;
                 }
                 System.out.println();
@@ -297,7 +297,7 @@ public class InvoiceService {
             e.printStackTrace();
         }
         s+="</table></body></html>";
-        s+="in right format...add to db<br> <input type=\"button\" onClick=\"parent.location='http://localhost:8181/invoice/insertAll'\" value=\"Enter data into db\"></body></html>";
+        s+="in right format..add to db<br> <input type=\"button\" onClick=\"parent.location='http://localhost:8181/invoice/insertAll'\" value=\"Enter data into db\"></body></html>";
         return s;
     }
 
