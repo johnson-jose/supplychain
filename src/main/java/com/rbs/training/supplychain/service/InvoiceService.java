@@ -75,8 +75,9 @@ public class InvoiceService {
 				PreparedStatement stmt = con.prepareStatement("select * from invoice where sellerid=?");
 				stmt.setString(1,id);
 				ResultSet rs = stmt.executeQuery();				
-				invobj = new Invoice();
+				
 				while(rs.next()){
+					invobj = new Invoice();
 					invobj.setInvoiceNo(rs.getDouble(1)); 
 					invobj.setContractNo(rs.getDouble(2));
 					invobj.setBuyerId(rs.getString(3));
@@ -111,6 +112,7 @@ public class InvoiceService {
 				ResultSet rs = stmt.executeQuery();				
 				invobj = new Invoice();
 				while(rs.next()){
+					invobj = new Invoice();
 					invobj.setInvoiceNo(rs.getDouble(1)); 
 					invobj.setContractNo(rs.getDouble(2));
 					invobj.setBuyerId(rs.getString(3));
