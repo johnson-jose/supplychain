@@ -46,6 +46,16 @@ public class InvoiceController {
 			return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
 		}
 	
+	@RequestMapping(value = "/approvedInvocies", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+		public ResponseEntity<List<Invoice>> listAllUsers(@PathParam("approvalStatus") double approvalStatus) {
+		System.out.println("id is"+approvalStatus);
+			List<Invoice> invoices = invoiceServiceObj.approvedInvocies(approvalStatus);
+			if (invoices.isEmpty()) {
+				return new ResponseEntity<List<Invoice>>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
+		}
+	
 	@RequestMapping(value = "/searchInvoice/{invoiceNo}",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Invoice> searchInvoice(@PathVariable("invoiceNo") double invoiceNo) throws ClassNotFoundException, SQLException {
 		System.out.println("Getting Invoice with Invoice no"+ invoiceNo);

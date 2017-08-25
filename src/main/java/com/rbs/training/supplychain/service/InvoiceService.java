@@ -100,6 +100,40 @@ public class InvoiceService {
 			}
 		return lst;			
 	}
+	public List<Invoice> approvedInvocies(double approvalStatus){
+		DataBaseConnection dbobj = new DataBaseConnection();
+		List<Invoice> lst = new ArrayList<Invoice>();
+		Invoice invobj = null;
+		try{
+			Connection con = dbobj.getConnection();
+				PreparedStatement stmt = con.prepareStatement("select * from invoice where approvalStatus=?");
+				stmt.setDouble(1,approvalStatus);
+				ResultSet rs = stmt.executeQuery();				
+				invobj = new Invoice();
+				while(rs.next()){
+					invobj.setInvoiceNo(rs.getDouble(1)); 
+					invobj.setContractNo(rs.getDouble(2));
+					invobj.setBuyerId(rs.getString(3));
+					invobj.setSellerId(rs.getString(4));
+					invobj.setProductId(rs.getString(5));
+					invobj.setUnitPrice(rs.getDouble(6));
+					invobj.setQuantity(rs.getDouble(7));
+					invobj.setGrossAmount(rs.getDouble(8));
+					invobj.setTax(rs.getDouble(9));
+					invobj.setNetAmount(rs.getDouble(10));
+					invobj.setApprovalStatus(rs.getDouble(11));
+					invobj.setDraftStatus(rs.getDouble(12));
+					invobj.setFinancingStatus(rs.getDouble(13));
+					System.out.println(invobj.toString());
+					lst.add(invobj);
+			}
+			}
+			catch(Exception e)
+			{							
+				System.out.println(e.getMessage());
+			}
+		return lst;			
+	}
 	
 		public Invoice addInvoice(double invoiceNo,double contractNo, String buyerId, String sellerId, double quantity, String productId, double unitPrice, double  grossAmount,double netAmount, double tax) {
 			DataBaseConnection dbobj = new DataBaseConnection();
@@ -191,7 +225,7 @@ public class InvoiceService {
 		try{
 			Connection con = dbobj.getConnection();
 			msg = new CustomMessage();
-			PreparedStatement stmt=con.prepareStatement("delete from invoice where INVOICENO=?");
+			PreparedStatement stmt=con.prepareStatement("update invoice set deletestatus=1 where INVOICENO=?");
 			stmt.setDouble(1,invoiceNo);
 			stmt.executeUpdate();
 

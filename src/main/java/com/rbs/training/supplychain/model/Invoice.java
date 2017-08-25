@@ -15,6 +15,13 @@ public class Invoice {
 		public double draftStatus;
 		public double approvalStatus;
 		public double financingStatus;
+		public int deleteStatus;
+		public int getDeleteStatus() {
+			return deleteStatus;
+		}
+		public void setDeleteStatus(int deleteStatus) {
+			this.deleteStatus = deleteStatus;
+		}
 		public double getInvoiceNo() {
 			return invoiceNo;
 		}
