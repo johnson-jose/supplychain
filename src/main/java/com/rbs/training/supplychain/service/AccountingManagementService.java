@@ -98,18 +98,21 @@ public class AccountingManagementService {
 		List<GeneralLedger> entries = null;
 			try {
 				Connection con = dbobj.getConnection();
-			Statement statement = 	con.createStatement();       
+			Statement statement = 	con.createStatement();  
+			System.out.println("before select in viewGList");
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM General_Ledger");
+			System.out.println("after select in viewGList");
 			entries=new ArrayList<GeneralLedger>();
 			
 			while (resultSet.next()) {
+				System.out.println("after select in viewGList");
 				GeneralLedger gl=new GeneralLedger();
 				gl.setAccountEntryNo(resultSet.getString("Account_Entry_No"));
 				gl.setCurrentDate(resultSet.getDate("Current_Date"));
 				gl.setPaymentDate(resultSet.getDate("Payment_Date"));
 				gl.setTransactionNo(resultSet.getString("Transaction_No"));
 				gl.setCustomerAccountNo(resultSet.getString("Customer_Account_No"));
-				gl.setDueDate(resultSet.getDate("SWIFTID"));
+				gl.setSwiftID(resultSet.getString("SWIFTID"));
 				gl.setInvoiceNo(resultSet.getString("Invoice_No"));
 				gl.setDrOrCr(resultSet.getString("Dr_Cr"));
 				gl.setAmount(resultSet.getDouble("Amount"));
@@ -143,7 +146,7 @@ public class AccountingManagementService {
 				gl.setPaymentDate(resultSet.getDate("Payment_Date"));
 				gl.setTransactionNo(resultSet.getString("Transaction_No"));
 				gl.setCustomerAccountNo(resultSet.getString("Customer_Account_No"));
-				gl.setDueDate(resultSet.getDate("SWIFTID"));
+				gl.setSwiftID(resultSet.getString("SWIFTID"));
 				gl.setInvoiceNo(resultSet.getString("Invoice_No"));
 				gl.setDrOrCr(resultSet.getString("Dr_Cr"));
 				gl.setAmount(resultSet.getDouble("Amount"));
