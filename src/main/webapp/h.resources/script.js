@@ -11,9 +11,14 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		.when('/proposals', {
 		templateUrl : 'proposals.htm'
 		})
+		.when('/view_stats', {
+		templateUrl : 'view_stats.htm'
+		})
 	});
 	
 	myApp.controller('myController', function($scope, $http){	
+		
+		/*function to fetch request for proposals*/
 		
 		$scope.myfunc = function () {
         	
@@ -26,7 +31,22 @@ var myApp = angular.module('myApp', ["ngRoute"]);
                 console.log(data);
 				window.location = "#/view_table";
 			});
-		}        		
+		}
+		 
+		/*function to get status of accepted proposals*/
+		
+		$scope.myfuncstats = function () {
+        	
+			console.log("on click stats function1 ");
+			var x2 = $scope.seller_id;
+			console.log(x2);
+			$http.post('http://localhost:8181/contractmanagementseller/fetchbuyerStatus/' + x2)
+			.success(function (data) {
+                $scope.stats = data;                    
+                console.log(data);
+				window.location = "#/view_stats";
+			});
+		}   
 	});
 	
 	myApp.controller('proposalTableCtrl', function ($scope, $http){       
