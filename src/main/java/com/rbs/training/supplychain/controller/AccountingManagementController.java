@@ -188,18 +188,18 @@ public class AccountingManagementController {
 	 }
 	 @RequestMapping(value = "/addCOAContoller",method = RequestMethod.POST)
 	 @ResponseBody
-	 public void addCOAController(@PathParam("head") String head,@PathParam("legalEntity") String legalEntity,@PathParam("country") String country,@PathParam("branch") String branch,@PathParam("product") String product,@PathParam("currency") String currency,@PathParam("book") int book,@PathParam("productSwiftID") String productSwiftID,HttpServletResponse response)
+	 public void addCOAController(HttpServletRequest request,HttpServletResponse response)
 	 {
 		 System.out.println("inside addCOAController");
 		 ChartOfAccount coa=new ChartOfAccount();
-		 coa.setHead(head);
-		 coa.setLegalEntity(legalEntity);
-		 coa.setCountry(country);
-		 coa.setBranch(branch);
-		 coa.setProduct(product);
-		 coa.setCurrency(currency);
-		 coa.setBook(book);
-		 coa.setProductSwiftID(productSwiftID);
+		 coa.setHead(request.getParameter("head"));
+		 coa.setLegalEntity(request.getParameter("legalEntity"));
+		 coa.setCountry(request.getParameter("country"));
+		 coa.setBranch(request.getParameter("branch"));
+		 coa.setProduct(request.getParameter("product"));
+		 coa.setCurrency(request.getParameter("currency"));
+		 coa.setBook(Integer.parseInt(request.getParameter("book")));
+		 coa.setProductSwiftID(request.getParameter("productSwiftID"));
 		 System.out.println(coa.toString());
 		 System.out.println("Before calling add");
 		 accountingManagementServiceObj.addCOAService(coa);
@@ -207,15 +207,16 @@ public class AccountingManagementController {
 	    try
 	    {
 	    	System.out.println("Inside redirect");
-	    	response.sendRedirect("http://localhost:8181/ACM/viewCOAlist");
+	    	response.sendRedirect("http://localhost:8181/ACMindex.html");
 	    	
 	    }
 	    
 	    catch(Exception e)
 	    {
-	    	System.out.println("Exception " + e.getMessage());
+	    	System.out.println("Exception  " + e.getMessage());
 	    }
 	 }
+	 
 	 @RequestMapping(value = "/CheckCompliance",method = RequestMethod.GET)
 	 @ResponseBody
 	 public String complianceCheck(HttpServletRequest request,HttpServletResponse response){

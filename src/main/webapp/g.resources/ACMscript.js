@@ -11,6 +11,9 @@ var acmApp = angular.module('acmApp', ["ngRoute"]);
 		.when('/viewGL', {
 		templateUrl : 'viewGL.html'
 		})
+		.when('/addCOA', {
+		templateUrl : 'addCOA.html'
+		})
 	});
 	
 	/*myApp.controller('myController', function($scope, $http){	
