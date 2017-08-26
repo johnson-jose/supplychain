@@ -5,7 +5,7 @@ public class Proposal_Sellers_Bid {
 	private int seller_id;
 	private int cost_avail;
 	private int cost_avail_cust;
-	private String seller_status;
+	private char seller_status;
 	private int score;
 	private char buyer_bid_status;
 	
@@ -45,10 +45,10 @@ public class Proposal_Sellers_Bid {
 	public void setCost_avail_cust(int cost_avail_cust) {
 		this.cost_avail_cust = cost_avail_cust;
 	}
-	public String getSeller_status() {
+	public char getSeller_status() {
 		return seller_status;
 	}
-	public void setSeller_status(String seller_status) {
+	public void setSeller_status(char seller_status) {
 		this.seller_status = seller_status;
 	}
 	

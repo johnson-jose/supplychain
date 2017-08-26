@@ -1,33 +1,42 @@
 package com.rbs.training.supplychain.model;
 
 public class ProductInvoice {
-	public String productId;
-	public String invoiceNo;
-	public double price;
-	public String sellerId;
+	private double productID;
+	private String productName; 
+	private float unitPrice; 
+	private float  tax;
+	private String  description;
 
-	public String getProductId() {
-		return productId;
+	
+	public double getProductID() {
+		return productID;
 	}
-	public void setProductId(String productId) {
-		this.productId = productId;
+	public void setProductID(double productID) {
+		this.productID = productID;
 	}
-	public String getInvoiceNo() {
-		return invoiceNo;
+	public String getProductName() {
+		return productName;
 	}
-	public void setInvoiceNo(String invoiceNo) {
-		this.invoiceNo = invoiceNo;
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
-	public double getPrice() {
-		return price;
+	public float getUnitPrice() {
+		return unitPrice;
 	}
-	public void setPrice(double price) {
-		this.price = price;
+	public void setUnitPrice(float unitPrice) {
+		this.unitPrice = unitPrice;
 	}
-	public String getSellerId() {
-		return sellerId;
+	public float getTax() {
+		return tax;
 	}
-	public void setSellerId(String sellerId) {
-		this.sellerId = sellerId;
+	public void setTax(float tax) {
+		this.tax = tax;
 	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 }

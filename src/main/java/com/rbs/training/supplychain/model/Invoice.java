@@ -1,105 +1,126 @@
 package com.rbs.training.supplychain.model;
 
-public class Invoice {
-		public double invoiceNo;
-		
-		public double contractNo;
-		public String buyerId;
-		public String sellerId;
-		public double quantity;
-		public String productId;
-		public double unitPrice;
-		public double grossAmount;
-		public double netAmount;
-		public double tax;
-		public double draftStatus;
-		public double approvalStatus;
-		public double financingStatus;
-		public int deleteStatus;
-		public int getDeleteStatus() {
-			return deleteStatus;
-		}
-		public void setDeleteStatus(int deleteStatus) {
-			this.deleteStatus = deleteStatus;
-		}
-		public double getInvoiceNo() {
-			return invoiceNo;
-		}
-		public void setInvoiceNo(double invoiceNo) {
-			this.invoiceNo = invoiceNo;
-		}
-		public double getContractNo() {
-			return contractNo;
-		}
-		public void setContractNo(double contractNo) {
-			this.contractNo = contractNo;
-		}
-		public String getBuyerId() {
-			return buyerId;
-		}
-		public void setBuyerId(String buyerId) {
-			this.buyerId = buyerId;
-		}
-		public String getSellerId() {
-			return sellerId;
-		}
-		public void setSellerId(String sellerId) {
-			this.sellerId = sellerId;
-		}
-		public double getQuantity() {
-			return quantity;
-		}
-		public void setQuantity(double quantity) {
-			this.quantity = quantity;
-		}
-		public String getProductId() {
-			return productId;
-		}
-		public void setProductId(String productId) {
-			this.productId = productId;
-		}
-		public double getUnitPrice() {
-			return unitPrice;
-		}
-		public void setUnitPrice(double unitPrice) {
-			this.unitPrice = unitPrice;
-		}
-		public double getGrossAmount() {
-			return grossAmount;
-		}
-		public void setGrossAmount(double grossAmount) {
-			this.grossAmount = grossAmount;
-		}
-		public double getNetAmount() {
-			return netAmount;
-		}
-		public void setNetAmount(double netAmount) {
-			this.netAmount = netAmount;
-		}
-		public double getTax() {
-			return tax;
-		}
-		public void setTax(double tax) {
-			this.tax = tax;
-		}
-		public double getDraftStatus() {
-			return draftStatus;
-		}
-		public void setDraftStatus(double draftStatus) {
-			this.draftStatus = draftStatus;
-		}
-		public double getApprovalStatus() {
-			return approvalStatus;
-		}
-		public void setApprovalStatus(double approvalStatus) {
-			this.approvalStatus = approvalStatus;
-		}
-		public double getFinancingStatus() {
-			return financingStatus;
-		}
-		public void setFinancingStatus(double financingStatus) {
-			this.financingStatus = financingStatus;
-		}
-		
-}
+import java.util.Date;
 
+public class Invoice {
+	private double invoiceID;
+	private double contractID; 
+	private double sellerID; 
+	private double buyerID; 
+	private double billbookNo; 
+	private double senderID; 
+	private double receiverID; 
+	private int fundingRequestStatus;
+	private int approvalStatus; 
+	private int draftStatus; 
+	private Date invoiceCreatedDate;
+	private Date paymentDate; 
+	private float invoiceAmount; 
+	private Date invoiceDueDate; 
+	private int complianceStatus; 
+	private int deleteStatus;
+	private Date deleteTimestamp;
+	public double getInvoiceID() {
+		return invoiceID;
+	}
+	public void setInvoiceID(double invoiceID) {
+		this.invoiceID = invoiceID;
+	}
+	public double getContractID() {
+		return contractID;
+	}
+	public void setContractID(double contractID) {
+		this.contractID = contractID;
+	}
+	public double getSellerID() {
+		return sellerID;
+	}
+	public void setSellerID(double sellerID) {
+		this.sellerID = sellerID;
+	}
+	public double getBuyerID() {
+		return buyerID;
+	}
+	public void setBuyerID(double buyerID) {
+		this.buyerID = buyerID;
+	}
+	public double getBillbookNo() {
+		return billbookNo;
+	}
+	public void setBillbookNo(double billbookNo) {
+		this.billbookNo = billbookNo;
+	}
+	public double getSenderID() {
+		return senderID;
+	}
+	public void setSenderID(double senderID) {
+		this.senderID = senderID;
+	}
+	public double getReceiverID() {
+		return receiverID;
+	}
+	public void setReceiverID(double receiverID) {
+		this.receiverID = receiverID;
+	}
+	public int getFundingRequestStatus() {
+		return fundingRequestStatus;
+	}
+	public void setFundingRequestStatus(int fundingRequestStatus) {
+		this.fundingRequestStatus = fundingRequestStatus;
+	}
+	public int getApprovalStatus() {
+		return approvalStatus;
+	}
+	public void setApprovalStatus(int approvalStatus) {
+		this.approvalStatus = approvalStatus;
+	}
+	public int getDraftStatus() {
+		return draftStatus;
+	}
+	public void setDraftStatus(int draftStatus) {
+		this.draftStatus = draftStatus;
+	}
+	public Date getInvoiceCreatedDate() {
+		return invoiceCreatedDate;
+	}
+	public void setInvoiceCreatedDate(Date invoiceCreatedDate) {
+		this.invoiceCreatedDate = invoiceCreatedDate;
+	}
+	public Date getPaymentDate() {
+		return paymentDate;
+	}
+	public void setPaymentDate(Date paymentDate) {
+		this.paymentDate = paymentDate;
+	}
+	public float getInvoiceAmount() {
+		return invoiceAmount;
+	}
+	public void setInvoiceAmount(float invoiceAmount) {
+		this.invoiceAmount = invoiceAmount;
+	}
+	public Date getInvoiceDueDate() {
+		return invoiceDueDate;
+	}
+	public void setInvoiceDueDate(Date invoiceDueDate) {
+		this.invoiceDueDate = invoiceDueDate;
+	}
+	public int getComplianceStatus() {
+		return complianceStatus;
+	}
+	public void setComplianceStatus(int complianceStatus) {
+		this.complianceStatus = complianceStatus;
+	}
+	public int getDeleteStatus() {
+		return deleteStatus;
+	}
+	public void setDeleteStatus(int deleteStatus) {
+		this.deleteStatus = deleteStatus;
+	}
+	public Date getDeleteTimestamp() {
+		return deleteTimestamp;
+	}
+	public void setDeleteTimestamp(Date deleteTimestamp) {
+		this.deleteTimestamp = deleteTimestamp;
+	}
+	
+}
