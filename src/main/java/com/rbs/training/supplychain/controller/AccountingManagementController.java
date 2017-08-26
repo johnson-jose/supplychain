@@ -1,17 +1,21 @@
 package com.rbs.training.supplychain.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.websocket.server.PathParam;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rbs.training.supplychain.model.ChartOfAccount;
 import com.rbs.training.supplychain.model.GeneralLedger;
-import com.rbs.training.supplychain.model.Proposal_Sellers_Bid;
 import com.rbs.training.supplychain.service.AccountingManagementService;
 
 @Component
@@ -33,33 +36,6 @@ public class AccountingManagementController {
 	    public String service1() {
 	        return "Hello, World!" ;
 	    }
-	 /*@RequestMapping(value = "/viewGL",method = RequestMethod.GET)
-	 public String ViewLedger(){
-		 String resultString ="<html><head>";
-			resultString +="<style>table, th, td { border: 1px solid black;}</style>";
-			resultString +="</head><body>";
-			resultString+="<form action='http://localhost:8181/ACM/viewGLBySearch'>"+"<b>ENTER THE ACCOUNT ENTRY NUMBER</b>"+"<br>"+
-	    	 "<input type='text' name='search'></input>"+"<input type='submit' value='search'>"+"</form>";
-			List<GeneralLedger> generalledgerlists=accountingManagementServiceObj.getEachGLEntry();
-			
-			resultString +="<table>";
-			resultString +="<tr><th>Account Entry No.</th><th>Current Date</th><th>Payment Date</th><th>Transaction No</th><th>Customer Account No.</th><th>Invoice No.</th><th>Dr/Cr</th><th>Amount</th><th>Due Date</th></tr>";
-			for(GeneralLedger generalledgerlist:generalledgerlists){
-								resultString += "<tr><td>" + generalledgerlist.getAccountEntryNo() + "</td><td>"+
-								generalledgerlist.getCurrentDate()  + "</td><td>"+
-								generalledgerlist.getPaymentDate()  + "</td><td>"+
-								generalledgerlist.getTransactionNo() +"</td><td>"+
-								generalledgerlist.getCustomerAccountNo()+"</td><td>"+
-								generalledgerlist.getInvoiceNo()+"</td><td>"+
-								generalledgerlist.getDrOrCr()+"</td><td>"+
-								generalledgerlist.getAmount() +"</td><td>"+
-								generalledgerlist.getDueDate() + "</td></tr>";
-	       }
-			
-			resultString +="</table><br><a href='http://localhost:8181/index.html'>Home</a></BODY></html>";
-			
-			return resultString;
-		}*/
 	 
 	 @RequestMapping(value = "/viewGL",method = RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
 	 public ResponseEntity<List<GeneralLedger>> ViewLedger(){
@@ -67,50 +43,18 @@ public class AccountingManagementController {
 			return new ResponseEntity<List<GeneralLedger>>(generalledgerlists, HttpStatus.OK);
 		}
 	 
-	 @RequestMapping(value = "/viewGLBySearch",method = RequestMethod.GET)
+	 @RequestMapping(value = "/viewGLBySearch/{acEntryNo}/{transNo}/{custAcNo}/{swiftID}/{invoiceNo}/{drCr}/{paymentDate}/{dueDate}",method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	 @ResponseBody
-	 public String ViewLedgerBySearch(HttpServletRequest request,HttpServletResponse response){
-		 String resultString ="<html><head>";
-			resultString +="<style>table, th, td { border: 1px solid black;}</style>";
-			resultString +="</head><body>";
-			String searchBy=request.getParameter("search");
-			List<GeneralLedger> generalledgerlists=accountingManagementServiceObj.getEachGLEntryBySearch(searchBy);
-			resultString +="<table>";
-			int flag=0;
-			for(GeneralLedger generalledgerlist:generalledgerlists){
-				if(flag==0)
-				{
-					resultString +="<tr><th>Account Entry No.</th><th>Current Date</th><th>Payment Date</th><th>Transaction No</th><th>Customer Account No.</th><th>Invoice No.</th><th>Dr/Cr</th><th>Amount</th><th>Due Date</th></tr>";
-				}
-				flag=1;
-				resultString += "<tr><td>" + generalledgerlist.getAccountEntryNo() + "</td><td>"+
-						generalledgerlist.getCurrentDate()  + "</td><td>"+
-						generalledgerlist.getPaymentDate()  + "</td><td>"+
-						generalledgerlist.getTransactionNo() +"</td><td>"+
-						generalledgerlist.getCustomerAccountNo()+"</td><td>"+
-						generalledgerlist.getInvoiceNo()+"</td><td>"+
-						generalledgerlist.getDrOrCr()+"</td><td>"+
-						generalledgerlist.getAmount() +"</td><td>"+
-						generalledgerlist.getDueDate() + "</td></tr>";
-	       }
-			resultString +="</table>";
-			if(flag==0)
-			{
-				try{
-					resultString +="<script type='text/javascript'>alert('Record not found');location='http://localhost:8181/ACM/viewGL';</script>";
-					//response.sendRedirect("http://localhost:8181/ACM/viewGL");
-				
-				}
-				catch(Exception e)
-				{
-			    	System.out.println("Exception " + e.getMessage());
-			    }
-			}
-			
-			resultString+="<br><form action='http://localhost:8181/ACM/viewGL'>"+
-	    	"<input type='submit' value='back'>"+"</form>";
-			resultString +="<br><a href='http://localhost:8181/index.html'>Home</a></BODY></html>";
-			return resultString;
+	 public  ResponseEntity<List<GeneralLedger>> ViewLedgerBySearch(HttpServletRequest request,HttpServletResponse response,@PathVariable("acEntryNo") String acEntryNo,@PathVariable("transNo") String transNo,@PathVariable("custAcNo") String custAcNo,@PathVariable("swiftID") String swiftID,@PathVariable("invoiceNo") String invoiceNo,@PathVariable("drCr") String drCr,@PathVariable("paymentDate") String paymentDate,@PathVariable("dueDate") String dueDate){
+			List<GeneralLedger> generalledgerlists=accountingManagementServiceObj.getEachGLEntryBySearch(acEntryNo,transNo,custAcNo,swiftID,invoiceNo,drCr,paymentDate,dueDate);
+			return new ResponseEntity<List<GeneralLedger>>(generalledgerlists, HttpStatus.OK);
+		}
+	 @RequestMapping(value = "/viewGLBySearch",method = RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
+	 @ResponseBody
+	 public  ResponseEntity<List<GeneralLedger>> ViewLedgerBySearch(HttpServletRequest request,HttpServletResponse response){
+		// ,@PathVariable("acEntryNo") String acEntryNo,@PathVariable("transNo") String transNo,@PathVariable("custAcNo") String custAcNo,@PathVariable("swiftID") String swiftID,@PathVariable("invoiceNo") String invoiceNo,@PathVariable("drCr") String drCr,@PathVariable("paymentDate") String paymentDate,@PathVariable("dueDate") String dueDate
+			List<GeneralLedger> generalledgerlists=accountingManagementServiceObj.getEachGLEntryBySearch(request.getParameter("acEntryNo"),request.getParameter("transNo"),request.getParameter("custAcNo"),request.getParameter("swiftID"),request.getParameter("invoiceNo"),request.getParameter("drCr"),request.getParameter("paymentDate"),request.getParameter("dueDate"));
+			return new ResponseEntity<List<GeneralLedger>>(generalledgerlists, HttpStatus.OK);
 		}
 	 /*@RequestMapping(value = "/viewCOA/{productSwiftID}",method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	 public ChartOfAccount getCOAinJSON(@PathParam("productSwiftID") String ProductSwiftID){

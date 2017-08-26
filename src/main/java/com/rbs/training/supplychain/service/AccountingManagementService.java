@@ -1,10 +1,10 @@
 package com.rbs.training.supplychain.service;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -130,14 +130,42 @@ public class AccountingManagementService {
 			return entries;
 		}
 	
-	public List<GeneralLedger> getEachGLEntryBySearch(String searchBy) {
+	public List<GeneralLedger> getEachGLEntryBySearch(String acEntryNo,String transNo,String custAcNo,String swiftID,String invoiceNo,String drCr,String paymentDate,String dueDate) {
 		DataBaseConnection dbobj = new DataBaseConnection();
 		List<GeneralLedger> entries = null;
 		
 			try{
 				Connection con = dbobj.getConnection();
-				Statement statement = 	con.createStatement();       
-			ResultSet resultSet = statement.executeQuery("SELECT * FROM General_Ledger where Account_Entry_no='"+searchBy+"'");
+				Statement statement = 	con.createStatement();
+				ResultSet resultSet=null;
+				System.out.println("acEntryNo"+acEntryNo);
+				System.out.println("transNo"+transNo);
+				/*if(!acEntryNo.equals("null"))
+				{
+					System.out.println("IF--acEntryNo is not null");*/
+				//System.out.println("SELECT * FROM General_Ledger where Account_Entry_no like'%"+acEntryNo+"%' and transaction_no like '%"+transNo+"%' and customer_account_no like '%"+custAcNo+"%' and swiftID like '%"+swiftID+"%' and invoice_no like '%"+invoiceNo+"%' and dr_cr like '%"+drCr+"%' and payment_date like '%"+paymentDate+"%' and due_date like '%"+dueDate+"%'");
+				System.out.println("SELECT * FROM General_Ledger where (Account_Entry_no like'%"+acEntryNo+"%' or Account_Entry_no is null) and "
+						+"(transaction_no like '%"+transNo+"%' or transaction_no is null) and "
+						+"(customer_account_no like '%"+custAcNo+"%' or customer_account_no is null) and "
+						+"(swiftID like '%"+swiftID+"%' or swiftID is null) and "
+						+"(invoice_no like '%"+invoiceNo+"%' or invoice_no is null) and "
+						+"(dr_cr like '%"+drCr+"%' or dr_cr is null) and "
+						+"(payment_date like '%"+paymentDate +"%' or payment_date is null) and "
+						+"(due_date like '%"+dueDate+"%' or due_date is null)");
+				resultSet = statement.executeQuery("SELECT * FROM General_Ledger where (Account_Entry_no like'%"+acEntryNo+"%' or Account_Entry_no is null) and "
+						+"(transaction_no like '%"+transNo+"%' or transaction_no is null) and "
+						+"(customer_account_no like '%"+custAcNo+"%' or customer_account_no is null) and "
+						+"(swiftID like '%"+swiftID+"%' or swiftID is null) and "
+						+"(invoice_no like '%"+invoiceNo+"%' or invoice_no is null) and "
+						+"(dr_cr like '%"+drCr+"%' or dr_cr is null) and "
+						+"(payment_date like '%"+paymentDate +"%' or payment_date is null) and "
+						+"(due_date like '%"+dueDate+"%' or due_date is null)");
+				/*}
+				if(!transNo.equals("null"))
+				{
+					System.out.println("IF--transNo is not null");
+					resultSet = statement.executeQuery("SELECT * FROM General_Ledger where Transaction_No='"+transNo+"'");
+				}*/
 			entries=new ArrayList<GeneralLedger>();
 			GeneralLedger gl=new GeneralLedger();
 			while (resultSet.next()) {

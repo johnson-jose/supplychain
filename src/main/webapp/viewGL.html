@@ -6,10 +6,25 @@ table, td, th {
 </style>
 </head>
 
-<body ng-app="acmApp" ng-controller="glCtrl">
-	<form action='http://localhost:8181/ACM/viewGLBySearch'>
-		<b>ENTER THE ACCOUNT ENTRY NUMBER</b><br>
-	    <input type='text' name='search'></input>
+<body ng-app="acmApp" ng-controller="coaListCtrl">
+	<!-- <form action='http://localhost:8181/ACM/viewGLBySearch'> -->
+	<form ng-submit="callGlSearch()">
+		<b>ACCOUNT ENTRY NUMBER</b><br>
+	    <input type='text' id='acEntryNo' name='acEntryNo' ng-model='acEntryNo'></input><br>
+	    <b>TRANSACTION NUMBER</b><br>
+	    <input type='text' id='transNo' name='transNo' ng-model='transNo'></input><br>
+	    <b>COSTUMER ACCOUNT NUMBER</b><br>
+	    <input type='text' id='custAcNo' name='custAcNo' ng-model='custAcNo'></input><br>
+	    <b>SWIFT ID</b><br>
+	    <input type='text' id='swiftID' name='swiftID' ng-model='swiftID'></input><br>
+	    <b>PAYMENT DATE</b><br>
+	    <input type='text' id='paymentDate' name='paymentDate' ng-model='paymentDate'></input><br>
+	    <b>INVOICE NUMBER</b><br>
+	    <input type='text' id='invoiceNo' name='invoiceNo' ng-model='invoiceNo'></input><br>
+	    <b>EVENT</b><br>
+	    <input type='text' id='drCr' name='drCr' ng-model='drCr'></input><br>
+	    <b>DUE DATE</b><br>
+	    <input type='text' id='dueDate' name='dueDate' ng-model='dueDate'></input><br>
 	    <input type='submit' value='search'>
 	</form>
 	<table>
