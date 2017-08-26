@@ -125,31 +125,6 @@ public class AccountingManagementController {
 	 public ResponseEntity<List<ChartOfAccount>> dispCOAlist()
 	 {
 		 	List<ChartOfAccount> coaList=accountingManagementServiceObj.getCOAList();
-		
-			
-		 	 /*String resultString="<html><head><meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'><title>Chart of Accounts List</title><style>table, th, td { border: 1px solid black;}</style><script type='text/javascript' src='chartOfAccountsList.js'></script></head><body><h1>Chart of Accounts</h1><br>";
-			
-			resultString +="<div id='chartList'><form action='http://localhost:8181/ACM/delCOA' method='post'>";
-			int flag=0;
-			resultString +="<head>";
-			resultString +="<style>table, th, td { border: 1px solid black;}</style>";
-			resultString +="</head>";
-			resultString +="<table>";
-			for(ChartOfAccount coa:coaList)
-			{
-				if(flag==0)
-					resultString+="<tr><th></th><th>Head</th><th>Legal Entity</th><th>Country</th><th>Branch</th><th>Product</th><th>Currency</th><th>Book</th><th>SWIFT ID</th></tr>";
-				flag=1;
-				//resultString +="<a href='http://localhost:8181/index.html'>"+s+"</a><br>\n";
-				//String url="ChartOfAccountsEdit.jsp?chSID="+s;
-				String url="http://localhost:8181/index.html";
-				resultString+="<tr><td><input type='checkbox' name='chartGroup' value='"+coa.getProductSwiftID()+"'/></td><td>"+coa.getHead()+"</td><td>"+coa.getLegalEntity()+"</td><td>"+coa.getCountry()+"</td><td>"+coa.getBranch()+"</td><td>"+coa.getProduct()+"</td><td>"+coa.getCurrency()+"</td><td>"+coa.getBook()+"</td><td>"+coa.getProductSwiftID()+"</td></tr>";
-			}
-			resultString +="</table>";
-			if(flag==1)
-				resultString +="<input type='submit' value='Delete Charts'><br>";
-			resultString+="</form></div><div id='newEntrySpace'></div><a href='http://localhost:8181/addCOA.html'>Add a chart of Accounts</a><br><a href='http://localhost:8181/index.html'>Home</a></body></html>";
-			return resultString;*/
 		 	return new ResponseEntity<List<ChartOfAccount>>(coaList, HttpStatus.OK);
 	 }
 	 @RequestMapping(value = "/viewCOASINGLE",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)

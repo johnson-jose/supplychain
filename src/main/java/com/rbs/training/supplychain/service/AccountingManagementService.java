@@ -109,6 +109,7 @@ public class AccountingManagementService {
 				gl.setPaymentDate(resultSet.getDate("Payment_Date"));
 				gl.setTransactionNo(resultSet.getString("Transaction_No"));
 				gl.setCustomerAccountNo(resultSet.getString("Customer_Account_No"));
+				gl.setDueDate(resultSet.getDate("SWIFTID"));
 				gl.setInvoiceNo(resultSet.getString("Invoice_No"));
 				gl.setDrOrCr(resultSet.getString("Dr_Cr"));
 				gl.setAmount(resultSet.getDouble("Amount"));
@@ -142,6 +143,7 @@ public class AccountingManagementService {
 				gl.setPaymentDate(resultSet.getDate("Payment_Date"));
 				gl.setTransactionNo(resultSet.getString("Transaction_No"));
 				gl.setCustomerAccountNo(resultSet.getString("Customer_Account_No"));
+				gl.setDueDate(resultSet.getDate("SWIFTID"));
 				gl.setInvoiceNo(resultSet.getString("Invoice_No"));
 				gl.setDrOrCr(resultSet.getString("Dr_Cr"));
 				gl.setAmount(resultSet.getDouble("Amount"));
