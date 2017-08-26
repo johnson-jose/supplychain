@@ -11,11 +11,11 @@
 	<h1>Chart of Accounts</h1><br>
 	<title>Chart of Accounts List</title>
 			<div id='chartList'>
-			<form action='http://localhost:8181/ACM/delCOA' method='post'>
+			<form action="http://localhost:8181/ACM/delCOA" method="post">
 			<table>
 			<tr><th></th><th>Head</th><th>Legal Entity</th><th>Country</th><th>Branch</th><th>Product</th><th>Currency</th><th>Book</th><th>SWIFT ID</th></tr>
 				<tr ng-repeat="coa in coaList">                   
-					<td><input type='checkbox' name='chartGroup' value='"+coa.getProductSwiftID()+"'/></td>
+					<td><input type='checkbox' name='chartGroup' value='{{coa.productSwiftID}}'/></td>
 					<td>{{coa.head}}</td>
 					<td>{{coa.legalEntity}}</td>
 					<td>{{coa.country}}</td>

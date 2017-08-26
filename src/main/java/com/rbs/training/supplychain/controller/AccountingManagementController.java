@@ -163,6 +163,7 @@ public class AccountingManagementController {
 	 @ResponseBody
 	 public void delCOA(HttpServletRequest request,HttpServletResponse response)
 	 {
+		 System.out.println("Inside delCOA");
 		 String[] chartNamesToDelete=request.getParameterValues("chartGroup");
 		 List<String> res=new LinkedList<String>();
 		 for(String chName:chartNamesToDelete)
@@ -179,7 +180,7 @@ public class AccountingManagementController {
 		    finally
 		    {
 		    	try{
-		    	response.sendRedirect("http://localhost:8181/ACM/viewCOAlist");
+		    	response.sendRedirect("http://localhost:8181/ACMindex.html");
 		    	}catch(Exception e)
 			    {
 			    	System.out.println("Exception " + e.getMessage());
