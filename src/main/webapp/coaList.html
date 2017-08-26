@@ -5,10 +5,9 @@
 <meta charset="ISO-8859-1">
 <title>Chart of Accounts List</title>
 <style>table, th, td { border: 1px solid black;}</style>
-<script type='text/javascript' src='chartOfAccountsList.js'></script>
-			
+<script type='text/javascript' src='g.resources/ACMscript.js'></script>
 </head>
-<body ng-app="acmApp" ng-controller="coaListCtrl">
+<body ng-app="acmApp" ng-controller="coaListCtrl" onload="function ()">
 	<h1>Chart of Accounts</h1><br>
 	<title>Chart of Accounts List</title>
 			<div id='chartList'>
@@ -27,13 +26,15 @@
 					<td>{{coa.productSwiftID}}</td>
 				</tr>
 			
-			</table>
-			<input type='submit' value='Delete Charts'><br>
+			</table><br>
+			<input type='submit' value='Delete Charts'>
+			<a href='#addCOA'><input type="button" value="Add Chart of Accounts" /></a><br>
 			</form>
+			<!--<input type='submit' value='Add Charts'><br>-->
 			</div>
 			
-			<!-- <div id='newEntrySpace'></div>
-			<a href='http://localhost:8181/addCOA.html'>Add a chart of Accounts</a><br>
-			 -->
+			<!-- <div id='newEntrySpace'></div>-->
+			
+			 
 </body>
 </html>
