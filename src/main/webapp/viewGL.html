@@ -13,13 +13,14 @@ table, td, th {
 	    <input type='submit' value='search'>
 	</form>
 	<table>
-		<tr><th>Account Entry No.</th><th>Current Date</th><th>Payment Date</th><th>Transaction No</th><th>Customer Account No.</th><th>Invoice No.</th><th>Dr/Cr</th><th>Amount</th><th>Due Date</th></tr>
+		<tr><th>Account Entry No.</th><th>Current Date</th><th>Payment Date</th><th>Transaction No</th><th>Customer Account No.</th><th>SWIFT ID</th><th>Invoice No.</th><th>Dr/Cr</th><th>Amount</th><th>Due Date</th></tr>
 			<tr ng-repeat="glEntry in glList">
 				<td>{{glEntry.accountEntryNo}}</td>
 				<td>{{glEntry.currentDate}}</td>
 				<td>{{glEntry.paymentDate}}</td>
 				<td>{{glEntry.transactionNo}}</td>
 				<td>{{glEntry.customerAccountNo}}</td>
+				<td><a href="http://localhost:8181/ACMindex.html">{{glEntry.swiftID}}</a></td>
 				<td>{{glEntry.invoiceNo}}</td>
 				<td>{{glEntry.drOrCr}}</td>
 				<td>{{glEntry.amount}}</td>
