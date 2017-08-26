@@ -1,22 +1,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8">
-    <title>ACM Index</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
-	<script type="text/javascript" src="g.resources/ACMscript.js">      
-    </script>
-    
-</head>
-
-<body ng-app="acmApp" ng-controller="coaListCtrl">   
-
-     <div>
-     <a href="" ng-click="callGl()">General Ledger</a>
-     <a href="" ng-click="callCoaList()">Chart Of Accounts</a>
-     <!-- <button ng-click="callGl()">General Ledger</button>
-	<button ng-click="callCoaList()">Chart Of Accounts</button> -->
-	<div ng-view></div>  
-</body>
+	<head>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <title>ACM Index</title>
+	    
+	    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">-->
+	    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script> 
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
+		<script type="text/javascript" src="g.resources/ACMscript.js">      
+	    </script>
+	    
+	</head>
+	
+	<body ng-app="acmApp" ng-controller="coaListCtrl">   
+		<div class="container">
+			<div>
+	     		<a href="" ng-click="callGl()">General Ledger</a>
+	     		<a href="" ng-click="callCoaList()">Chart Of Accounts</a>
+			</div>
+			<div ng-view></div>  
+		</div>
+	</body>
 </html>

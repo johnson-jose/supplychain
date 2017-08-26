@@ -1,12 +1,3 @@
-
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Chart of Accounts List</title>
-<style>table, th, td { border: 1px solid black;}</style>
-<script type='text/javascript' src='g.resources/ACMscript.js'></script>
-</head>
 <body ng-app="acmApp" ng-controller="coaListCtrl">
 	<h1>Chart of Accounts</h1><br>
 	<title>Chart of Accounts List</title>
@@ -15,7 +6,7 @@
 			<table>
 			<tr><th></th><th>Head</th><th>Legal Entity</th><th>Country</th><th>Branch</th><th>Product</th><th>Currency</th><th>Book</th><th>SWIFT ID</th></tr>
 				<tr ng-repeat="coa in coaList">                   
-					<td><input type='checkbox' name='chartGroup' value='{{coa.productSwiftID}}'/></td>
+					<td><input class='myCheckBox' type='checkbox' name='chartGroup' value='{{coa.productSwiftID}}'/></td>
 					<td>{{coa.head}}</td>
 					<td>{{coa.legalEntity}}</td>
 					<td>{{coa.country}}</td>
@@ -27,7 +18,7 @@
 				</tr>
 			
 			</table><br>
-			<input type='submit' value='Delete Charts'>
+			<input type='submit' id='deleteButton' value='Delete Charts'>
 			<a href='#addCOA'><input type="button" value="Add Chart of Accounts" /></a><br>
 			</form>
 			<!--<input type='submit' value='Add Charts'><br>-->
@@ -37,4 +28,3 @@
 			
 			 
 </body>
-</html>
