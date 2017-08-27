@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.rbs.training.supplychain.model.*;
 
 import com.rbs.training.supplychain.model.Invoice;
 import com.rbs.training.supplychain.service.InvoiceService;
@@ -48,7 +49,7 @@ public class InvoiceController {
 		}
 	
 	@RequestMapping(value = "/approvedInvocies", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-		public ResponseEntity<List<Invoice>> listAllUsers(@PathParam("approvalStatus") int approvalStatus) {
+		public ResponseEntity<List<Invoice>> listAllUsers1(@PathParam("approvalStatus") int approvalStatus) {
 		System.out.println("id is"+approvalStatus);
 			List<Invoice> invoices = invoiceServiceObj.approvedInvocies(approvalStatus);
 			if (invoices.isEmpty()) {
@@ -99,7 +100,7 @@ public class InvoiceController {
 		
 		InvoiceItems invoiceObj=invoiceServiceObj.getItemDetails(invoiceID,productID,quantity);
 		if(invoiceObj == null){
-			System.out.println(""item is not found");
+			System.out.println("item is not found");
 			return new ResponseEntity<InvoiceItems>(invoiceObj,HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<InvoiceItems>(invoiceObj,HttpStatus.OK);

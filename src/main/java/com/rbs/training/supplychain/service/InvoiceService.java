@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import com.rbs.training.supplychain.model.*;
 import com.rbs.training.supplychain.DAO.DataBaseConnection;
 import com.rbs.training.supplychain.model.Invoice;
 import com.rbs.training.supplychain.util.CustomMessage;
@@ -203,14 +203,14 @@ public class InvoiceService {
 	}
 	
 	
-		public List<InvoiceItems> viewProduct(String id){
+		public List<InvoiceItems> viewProduct(int id){
 			DataBaseConnection dbobj = new DataBaseConnection();
 			List<InvoiceItems> lst = new ArrayList<InvoiceItems>();
 			InvoiceItems itemobj = null;
 			try{
 				Connection con = dbobj.getConnection();
 					PreparedStatement stmt = con.prepareStatement("select * from invoiceitems where invoiceNo=?");
-					stmt.setString(1,id);
+					stmt.setInt(1,id);
 					ResultSet rs = stmt.executeQuery();				
 					
 					while(rs.next()){
@@ -219,9 +219,9 @@ public class InvoiceService {
 						itemobj.setInvoiceID(rs.getInt(2));
 						itemobj.setProductID(rs.getInt(3));
 						itemobj.setQuantity(rs.getInt(4));
-						itemobj.setGrossAmount(rs.getDouble(5));
+						itemobj.setGrossAmount(rs.getFloat(5));
 						itemobj.setTax(rs.getFloat(6));
-						itemobj.setNetAmount(rs.getDouble(7));
+						itemobj.setNetAmount(rs.getFloat(7));
 						lst.add(itemobj);
 				}
 				}
@@ -233,7 +233,7 @@ public class InvoiceService {
 		}
 		
 		
-	public InvoiceItems getItemDetails(int invoiceID, int productID, int quantity) {
+	public InvoiceItems getItemDetails(double invoiceID, int productID, int quantity) {
 				DataBaseConnection dbobj = new DataBaseConnection();
 				InvoiceItems itemobj = null;
 				CustomMessage msg = null; 
@@ -243,18 +243,18 @@ public class InvoiceService {
 						itemobj = new InvoiceItems();
 						
 						PreparedStatement preparedStatement  = con.prepareStatement("select unitprice,tax from Product where product_id=?");
-						stmt.setInt(1,productID);
-						ResultSet rs=preparedStatement.executeUpdate();
+						preparedStatement.setInt(1,productID);
+						ResultSet rs=preparedStatement.executeQuery();
 						double unitPrice=rs.getDouble(1);
 						float tax= rs.getFloat(2);
 						double grossAmount=quantity*unitPrice;
-						double grossTax= grossAmount*tax;
+						float grossTax=(float) grossAmount*tax;
 						double netAmount=grossAmount+grossTax;
 							con.close();
-							itemobj.setInvoiceNo(invoiceID);
-							itemobj.setProductId(productID);
+							itemobj.setInvoiceID(invoiceID);
+							itemobj.setProductID(productID);
 							itemobj.setTax(grossTax);
-							itemobj.setUnitPrice(unitPrice);
+							itemobj.setUnitprice(unitPrice);
 							itemobj.setQuantity(quantity);
 							itemobj.setGrossAmount(grossAmount);
 							itemobj.setNetAmount(netAmount);
@@ -271,7 +271,7 @@ public class InvoiceService {
 		}	
 		
 		
-	public InvoiceItems addItems( int invoiceID,int productId,double quantity, double grossAmount, double tax,double netAmount) {
+	public InvoiceItems addItems( int invoiceID,int productId,double quantity, double grossAmount, float tax,double netAmount) {
 				DataBaseConnection dbobj = new DataBaseConnection();
 				InvoiceItems itemobj = null;
 				CustomMessage msg = null; 
@@ -298,8 +298,8 @@ public class InvoiceService {
 						msg.setMessage("Succesfully added item");
 							con.close();
 							itemobj.setItemNo(itemNo);
-							itemobj.setInvoiceNo(invoiceNo);
-							itemobj.setProductId(productId);
+							itemobj.setInvoiceID(invoiceID);
+							itemobj.setProductID(productId);
 							itemobj.setTax(tax);
 							itemobj.setQuantity(quantity);
 							itemobj.setGrossAmount(grossAmount);

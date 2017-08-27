@@ -26,10 +26,10 @@ public class InvoiceItems {
 	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
-	public float getGrossAmount() {
+	public double getGrossAmount() {
 		return grossAmount;
 	}
-	public void setGrossAmount(float grossAmount) {
+	public void setGrossAmount(double grossAmount) {
 		this.grossAmount = grossAmount;
 	}
 	public float getTax() {
@@ -38,17 +38,25 @@ public class InvoiceItems {
 	public void setTax(float tax) {
 		this.tax = tax;
 	}
-	public float getNetAmount() {
+	public double getNetAmount() {
 		return netAmount;
 	}
-	public void setNetAmount(float netAmount) {
+	public void setNetAmount(double netAmount) {
 		this.netAmount = netAmount;
+	}
+	public double getUnitprice() {
+		return unitprice;
+	}
+	public void setUnitprice(double unitprice) {
+		this.unitprice = unitprice;
 	}
 	private double  invoiceID;
 	private double  ProductID;
 	private double quantity ;
-	private float grossAmount;
+	private double grossAmount;
 	private float tax;
-	private float netAmount;
+	private double netAmount;
+	private double unitprice;
+	
 }
 
