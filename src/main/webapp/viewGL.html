@@ -1,38 +1,56 @@
-<body ng-app="acmApp" ng-controller="coaListCtrl">
-	<!-- <form action='http://localhost:8181/ACM/viewGLBySearch'> -->
+</div>
 	<form ng-submit="callGlSearch()">
-		<b>ACCOUNT ENTRY NUMBER</b><br>
-	    <input type='text' id='acEntryNo' name='acEntryNo' ng-model='acEntryNo'></input><br>
-	    <b>TRANSACTION NUMBER</b><br>
-	    <input type='text' id='transNo' name='transNo' ng-model='transNo'></input><br>
-	    <b>COSTUMER ACCOUNT NUMBER</b><br>
-	    <input type='text' id='custAcNo' name='custAcNo' ng-model='custAcNo'></input><br>
-	    <b>SWIFT ID</b><br>
-	    <input type='text' id='swiftID' name='swiftID' ng-model='swiftID'></input><br>
-	    <b>PAYMENT DATE</b><br>
-	    <input type='date' id='paymentDate' name='paymentDate' ng-model='paymentDate'></input><br>
-	    <b>INVOICE NUMBER</b><br>
-	    <input type='text' id='invoiceNo' name='invoiceNo' ng-model='invoiceNo'></input><br>
-	    <b>EVENT</b><br>
-	    <input type='text' id='drCr' name='drCr' ng-model='drCr'></input><br>
-	    <b>DUE DATE</b><br>
-	    <input type='date' id='dueDate' name='dueDate' ng-model='dueDate'></input><br>
+		<table>
+			<tr>
+				<td>ACCOUNT ENTRY NUMBER</td>
+	    		<td><input type='text' id='acEntryNo' name='acEntryNo' ng-model='acEntryNo'></input></td>
+	    	</tr>
+	    	<tr>
+				<td>TRANSACTION NUMBER</td>
+	    		<td><input type='text' id='transNo' name='transNo' ng-model='transNo'></input></td>
+	    	</tr><tr>
+				<td>COSTUMER ACCOUNT NUMBER</td>
+	    		<td><input type='text' id='custAcNo' name='custAcNo' ng-model='custAcNo'></input></td>
+	    	</tr>
+	    	<tr>
+				<td>SWIFT ID</td>
+	    		<td><input type='text' id='swiftID' name='swiftID' ng-model='swiftID'></input></td>
+	    	</tr>
+	    	<tr>
+				<td>PAYMENT DATE</td>
+	    		<td><input type='date' id='paymentDate' name='paymentDate' ng-model='paymentDate'></input></td>
+	    	</tr>
+	    	<tr>
+				<td>INVOICE NUMBER</td>
+	    		<td><input type='text' id='invoiceNo' name='invoiceNo' ng-model='invoiceNo'></input></td>
+	    	</tr>
+	    	<tr>
+				<td>EVENT</td>
+	    		<td><input type='text' id='drCr' name='drCr' ng-model='drCr'></input></td>
+	    	</tr>
+	    	<tr>
+				<td>DUE DATE</td>
+	    		<td><input type='date' id='dueDate' name='dueDate' ng-model='dueDate'></input></td>
+	    	</tr>
+	    </table>
 	    <input type='submit' value='search'>
 	</form>
+</div>
+<div>
 	<table>	
 		<tr ng-if="glList.length != 0"><th>Account Entry No.</th><th>Current Date</th><th>Payment Date</th><th>Transaction No</th><th>Customer Account No.</th><th>SWIFT ID</th><th>Invoice No.</th><th>Dr/Cr</th><th>Amount</th><th>Due Date</th></tr>
-			<tr ng-repeat="glEntry in glList">
-				<td>{{glEntry.accountEntryNo}}</td>
-				<td>{{glEntry.currentDate}}</td>
-				<td>{{glEntry.paymentDate}}</td>
-				<td>{{glEntry.transactionNo}}</td>
-				<td>{{glEntry.customerAccountNo}}</td>
-				<td><a href="http://localhost:8181/ACMindex.html">{{glEntry.swiftID}}</a></td>
-				<td>{{glEntry.invoiceNo}}</td>
-				<td>{{glEntry.drOrCr}}</td>
-				<td>{{glEntry.amount}}</td>
-				<td>{{glEntry.dueDate}}</td>
-			</tr>
-	      </table>
-	      <h1 ng-hide="glList.length">No records</h1>
-</body>
+		<tr ng-repeat="glEntry in glList">
+			<td>{{glEntry.accountEntryNo}}</td>
+			<td>{{glEntry.currentDate}}</td>
+			<td>{{glEntry.paymentDate}}</td>
+			<td>{{glEntry.transactionNo}}</td>
+			<td>{{glEntry.customerAccountNo}}</td>
+			<td><a href="http://localhost:8181/ACMindex.html">{{glEntry.swiftID}}</a></td>
+			<td>{{glEntry.invoiceNo}}</td>
+			<td>{{glEntry.drOrCr}}</td>
+			<td>{{glEntry.amount}}</td>
+			<td>{{glEntry.dueDate}}</td>
+		</tr>
+	</table>
+	<h1 ng-hide="glList.length">No records</h1>
+</div>
