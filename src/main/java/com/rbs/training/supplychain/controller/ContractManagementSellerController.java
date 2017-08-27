@@ -62,7 +62,7 @@ public class ContractManagementSellerController {
 		return new ResponseEntity<List<Features>>(featureslist, HttpStatus.OK);
     }
     
-    @RequestMapping("/updatesellerresponse")
+    @RequestMapping("/updatesellerresponse/{proposal_id}/{product_id}/{feature_id}/{seller_id}/{response}")
     public String service3() {
         return "Hello, World!" ;
     }
