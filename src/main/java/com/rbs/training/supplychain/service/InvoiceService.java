@@ -30,7 +30,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.rbs.training.supplychain.model.*;
 import com.rbs.training.supplychain.DAO.DataBaseConnection;
 import com.rbs.training.supplychain.model.Invoice;
-import com.rbs.training.supplychain.model.InvoiceItems;
 import com.rbs.training.supplychain.util.CustomMessage;
 
 @Service("invoiceServiceObj")
