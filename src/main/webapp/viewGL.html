@@ -26,7 +26,11 @@
 	    	</tr>
 	    	<tr>
 				<td>EVENT</td>
-	    		<td><input type='text' id='drCr' name='drCr' ng-model='drCr'></input></td>
+	    		<td><select type='text' id='drCr' name='drCr' ng-model='drCr'>
+	    				<option value="allEvents" selected>--all events--</option>
+					 	<option value="Cr">Credit (Cr)</option>
+					  	<option value="Dr">Debit (Dr)</option>
+					</select></td>
 	    	</tr>
 	    	<tr>
 				<td>DUE DATE</td>

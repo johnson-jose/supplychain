@@ -67,6 +67,8 @@ acmApp.controller('coaListCtrl', function ($scope, $http){
 		}
 		else
 		{
+			if(drCr=='allEvents')
+				drCr='';
 			var url='http://localhost:8181/ACM/viewGLBySearch';
 			$http({url:url,method:"POST",params:{'acEntryNo':acEntryNo,'transNo':transNo,'custAcNo':custAcNo,'swiftID':swiftID,'paymentDate':paymentDate,'invoiceNo':invoiceNo,'drCr':drCr,'dueDate':dueDate}}).success(function (data) {
 	            $scope.glList = data;
