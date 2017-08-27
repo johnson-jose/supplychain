@@ -78,15 +78,16 @@ public class ContractManagementSellerService {
 		con = dbobj.getConnection();
 		
 		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery("select \"Features\".feature_id, \"Features\".product_id, \"Features\".specification, \"Features\".priority_order, \"Features\".attachment from \"Features\",\"Products\" where \"Features\".product_id=\"Products\".product_id AND \"Products\".proposal_id ="+proposal_id);
+		ResultSet rs = stmt.executeQuery("select * from \"Features\" where proposal_id ="+proposal_id);
 		
 		
 		while(rs.next()){
 			features = new Features();
-			features.setF_id(rs.getInt("feature_id"));
-			features.setP_id(rs.getInt("product_id"));
-			//features.setSpecification(rs.getString("specification"));
+			features.setF_id(rs.getInt("f_id"));
+			features.setP_id(rs.getInt("p_id"));
+			features.setProposal_id(rs.getInt("proposal_id"));
 			features.setPriority_order(rs.getString("priority_order"));
+			features.setAttachment(rs.getString("attachment"));
 			lst.add(features);
 		}
 		return lst;

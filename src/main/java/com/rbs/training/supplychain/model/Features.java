@@ -6,7 +6,7 @@ public class Features {
 	private int p_id;
 	private int proposal_id;
 	private String priority_order;
-	private File attachment;
+	private String attachment;
 	public int getF_id() {
 		return f_id;
 	}
@@ -31,10 +31,10 @@ public class Features {
 	public void setPriority_order(String priority_order) {
 		this.priority_order = priority_order;
 	}
-	public File getAttachment() {
+	public String getAttachment() {
 		return attachment;
 	}
-	public void setAttachment(File attachment) {
+	public void setAttachment(String attachment) {
 		this.attachment = attachment;
 	}
 	
