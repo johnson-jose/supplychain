@@ -50,10 +50,9 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 	});
 	
 	myApp.controller('proposalTableCtrl', function ($scope, $http){       
-				console.log("proposalTableCtrl");
-				
-				var y = 1;
-				console.log("y=" +y);
+				console.log("proposalTableCtrl");				
+				var y = $scope.proposal_id;
+				console.log("y=" +y);			
                 $http.post('http://localhost:8181/contractmanagementseller/listfeatures/' + y)
                 .success(function (data) {
                     $scope.features = data;
