@@ -81,6 +81,54 @@ public class InvoiceController {
 		}
 		return new ResponseEntity<Invoice>(invoiceObj,HttpStatus.OK);
    }
+	
+	@RequestMapping(value = "/viewProduct", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<InvoiceItems>> listAllUsers(@PathParam("id") int id) {
+	System.out.println("id is"+id);
+		List<InvoiceItems> invoicesItems = invoiceServiceObj.viewProduct(id);
+		if (invoicesItems.isEmpty()) {
+			return new ResponseEntity<List<InvoiceItems>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<InvoiceItems>>(invoicesItems, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/getItemDetails",method = RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
+	
+	 public ResponseEntity<InvoiceItems> getItemDetails(@PathParam("invoiceID") int invoiceID,@PathParam("productID") int productID,@PathParam("quantity") int quantity) throws ClassNotFoundException, SQLException {
+		System.out.println("getting item details");
+		
+		InvoiceItems invoiceObj=invoiceServiceObj.getItemDetails(invoiceID,productID,quantity);
+		if(invoiceObj == null){
+			System.out.println(""item is not found");
+			return new ResponseEntity<InvoiceItems>(invoiceObj,HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<InvoiceItems>(invoiceObj,HttpStatus.OK);
+  }
+	
+	@RequestMapping(value = "/addItems",method = RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
+	
+	 public ResponseEntity<InvoiceItems> addItems(@PathParam("invoiceID") int invoiceID,@PathParam("productID") int productID,@PathParam("quantity") int quantity,@PathParam("grossAmount") double grossAmount,@PathParam("tax") float tax,@PathParam("netAmount") double  netAmount) throws ClassNotFoundException, SQLException {
+		System.out.println("Adding Items with Invoice no"+ invoiceID+"and ProductID"+productID);
+		
+		InvoiceItems invoiceObj=invoiceServiceObj.addItems(invoiceID,productID,quantity,grossAmount,tax,netAmount);
+		if(invoiceObj == null){
+			System.out.println("Item with Invoice No"+invoiceID+"and productID "+productID+"is not found");
+			return new ResponseEntity<InvoiceItems>(invoiceObj,HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<InvoiceItems>(invoiceObj,HttpStatus.OK);
+  }
+	
+	@RequestMapping(value = "/deleteItem",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CustomMessage> deleteInvoice(@PathParam("invoiceID") int invoiceID,@PathParam("productID") int productID) throws ClassNotFoundException, SQLException {
+		System.out.println("delete Item with Invoice no"+ invoiceID+" and productID "+productID);
+		CustomMessage msg = invoiceServiceObj.deleteItem(invoiceID,productID);
+		if(msg == null){
+			System.out.println("Invoice with Invoice No"+invoiceID+" and productID "+productID+"is not found");
+			return new ResponseEntity<CustomMessage>(msg,HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<CustomMessage>(msg,HttpStatus.OK);
+    }
+	
 	@RequestMapping(value = "/deleteInvoice",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomMessage> deleteInvoice(@PathParam("invoiceID") double invoiceID) throws ClassNotFoundException, SQLException {
 		System.out.println("delete Invoice with Invoice no"+ invoiceID);
