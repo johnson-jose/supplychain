@@ -22,7 +22,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		
 		$scope.myfunc = function () {
         	
-			console.log("on click function ");
+			console.log("on click function 1");
 			var x = $scope.seller_id;
 			console.log(x);
 			$http.post('http://localhost:8181/contractmanagementseller/viewrfp/' + x)
@@ -32,12 +32,26 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 				window.location = "#/view_table";
 			});
 		}
+		
+		/* function to get Features for a given proposal id */
+		
+		$scope.getFeatures = function() {
+			console.log("on click function 2");			
+			var y = $scope.proposal_id;
+			console.log("proposal id=" +y);			
+            $http.post('http://localhost:8181/contractmanagementseller/listfeatures/' + y)
+            .success(function (data) {
+                $scope.features = data;
+                console.log(data);
+                window.location = "#/proposals";
+            });				
+		}
 		 
 		/*function to get status of accepted proposals*/
 		
 		$scope.myfuncstats = function () {
         	
-			console.log("on click stats function1 ");
+			console.log("on click function 3");
 			var x2 = $scope.seller_id;
 			console.log(x2);
 			$http.post('http://localhost:8181/contractmanagementseller/fetchbuyerStatus/' + x2)
@@ -49,17 +63,6 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		}   
 	});
 	
-	myApp.controller('proposalTableCtrl', function ($scope, $http){       
-				console.log("proposalTableCtrl");				
-				var y = $scope.proposal_id;
-				console.log("y=" +y);			
-                $http.post('http://localhost:8181/contractmanagementseller/listfeatures/' + y)
-                .success(function (data) {
-                    $scope.features = data;
-                    console.log(data);
-							
-        });
-	});
 	myApp.controller("sampleController", function ($scope, $window) {
 				console.log("sampleCtrl"); 
 				$scope.showconfirmbox = function () {

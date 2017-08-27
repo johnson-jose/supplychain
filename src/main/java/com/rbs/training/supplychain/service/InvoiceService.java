@@ -150,7 +150,7 @@ public class InvoiceService {
 		return lst;			
 	}
 	
-		public Invoice addInvoice(double invoiceID,double contractID, double sellerID, double buyerID, double billbookNo, Date invoiceCreatedDate, Date paymentDate, float invoiceAmount,Date invoiceDueDate) {
+		public Invoice addInvoice(double invoiceID,double contractID,double productID,double quantity, double sellerID, double buyerID, double billbookNo,double senderID,double receiverID, Date paymentDate, float invoiceAmount,Date invoiceDueDate) {
 			DataBaseConnection dbobj = new DataBaseConnection();
 			Invoice invobj = null;
 			CustomMessage msg = null; 
@@ -159,21 +159,30 @@ public class InvoiceService {
 				msg = new CustomMessage();
 					invobj = new Invoice();
 					//double =invobj.invoiceNo++;
-					String updateTableSQL1 ="insert into invoice values("+invoiceID+","+contractID+","+sellerID+","+buyerID+","
-							+billbookNo+",NULL,NULL,0,0,1,"+invoiceCreatedDate+","+paymentDate+","+invoiceAmount+","+invoiceDueDate+",NULL,0,NULL)";
+					//String p="insert into invoice(invoice_id) value(22)";
+					
+					String updateTableSQL1 ="insert into invoice(invoice_id,contractID,sellerID,buyerID, billbookNo,senderID,receiverID,Payment_Date,invoice_amount,invoice_due_date)"+ "values("+invoiceID+","+contractID+","+sellerID+","+buyerID+","
+							+billbookNo+","+senderID+","+receiverID+","+paymentDate+","+invoiceAmount+","+invoiceDueDate+");";
 					/*stmt.executeQuery("insert into invoice values("+invoiceNo+","+contractNo+","+buyerId+","+sellerId+","
 					+productId+","+unitPrice+","+quantity+","+grossAmount+","+tax+","+netAmount+","+"0,1,0");*/
 					System.out.println(updateTableSQL1);
 					PreparedStatement preparedStatement  = con.prepareStatement(updateTableSQL1);
 					
 					preparedStatement.executeUpdate();
-
+					
 					System.out.println("Record is inserted to DBUSER table!");
 					String updateTableSQL2 = "COMMIT";
+					//preparedStatement = con.prepareStatement(p);
+					//preparedStatement.executeUpdate();
 					preparedStatement = con.prepareStatement(updateTableSQL2);
 					preparedStatement.executeUpdate();
 					msg.setMessage("Succesfully Updated");
-						con.close();
+					
+					
+					InvoiceItems i= getItemDetails(invoiceID,(int)productID,(int)quantity);
+					 addItems((int)invoiceID,(int)productID,(int)quantity,i.getGrossAmount(),i.getTax(),i.getNetAmount());
+							
+					con.close();
 						invobj.setInvoiceID(invoiceID); 
 						invobj.setContractID(contractID);
 						invobj.setSellerID(sellerID);
@@ -184,7 +193,6 @@ public class InvoiceService {
 						invobj.setFundingRequestStatus(0);
 						invobj.setApprovalStatus(0);
 						invobj.setDraftStatus(1);
-						invobj.setInvoiceCreatedDate(invoiceCreatedDate);
 						invobj.setPaymentDate(paymentDate);
 						invobj.setInvoiceAmount(invoiceAmount);
 						invobj.setInvoiceDueDate(invoiceDueDate);
@@ -325,7 +333,7 @@ public class InvoiceService {
 			try{
 				Connection con = dbobj.getConnection();
 				msg = new CustomMessage();
-				PreparedStatement stmt=con.prepareStatement("delete from invoiceitems where ,invoice_id  =? and Product_id=?");
+				PreparedStatement stmt=con.prepareStatement("delete from invoiceitems where invoice_id  =? and Product_id=?");
 				stmt.setInt(1,invoiceNo);
 				stmt.setInt(2,productID);
 				stmt.executeUpdate();
@@ -406,10 +414,6 @@ public class InvoiceService {
         return UPLOADED_FOLDER +file.getOriginalFilename();
     }
 
-    @GetMapping("/invoice/uploadStatus")
-    public String uploadStatus() {
-        return "uploadStatus";
-    }
     
     
     
@@ -448,7 +452,8 @@ public class InvoiceService {
                     s+="</td>";
                 }
                 s+="</tr>";
-                if(count!=10)
+                System.out.println("count="+count);
+                if(count!=12)
                 {
                 	s="<html><body>not in right format...<br> <input type=\"button\" onClick=\"parent.location='http://localhost:8181/uploadInvoice.html'\" value=\"Go back and upload\"></body></html>" ;
                 	return s;
@@ -480,7 +485,8 @@ public class InvoiceService {
             Workbook workbook = new XSSFWorkbook(excelFile);
             Sheet datatypeSheet = workbook.getSheetAt(0);
             Iterator<Row> iterator = datatypeSheet.iterator();
-            double invoiceNo=0;double contractNo=0; String buyerId=""; String sellerId=""; double quantity=0; String productId=""; double unitPrice=0; double  grossAmount=0;double netAmount=0; double tax=0;
+            double invoiceNo=0;double contractNo=0,qty=0, buyerId=0,sellerId=0; double quantity=0, productId=0; double unitPrice=0; double  grossAmount=0;double netAmount=0; double tax=0;
+            Date invDate=new Date(),dueDate=new Date();
             int count=0;
             while (iterator.hasNext()) {
             	s+="<tr>";
@@ -497,19 +503,18 @@ public class InvoiceService {
                     if (currentCell.getCellTypeEnum() == CellType.STRING) {
                         s+="<td>";
                     	s+=currentCell.getStringCellValue();
+                    	//System.out.println("string value detected");
                     	switch(count)
                     	{
-                    	case 3:
-                    		buyerId=currentCell.getStringCellValue();
+                    	case 10:
+                    		String c=currentCell.getStringCellValue();
+                    		//invDate=Date;
+                    		System.out.println("date="+invDate);
                     		break;
-                    	case 4:
-                    		sellerId=currentCell.getStringCellValue();
-                    		break;
-                    	default:
-                    		productId=currentCell.getStringCellValue();
+                    	case 12:
+                    		dueDate=currentCell.getDateCellValue();
                     		break;
                     	}
-                    	
                     } else {
                         s+="<td>";
                     	s+=currentCell.getNumericCellValue();
@@ -519,12 +524,23 @@ public class InvoiceService {
                     	case 1:
                     		invoiceNo=currentCell.getNumericCellValue();
                     		break;
+                    	
                     	case 2:
                     		contractNo=currentCell.getNumericCellValue();
                     		break;
-                    	case 5:
-                    		quantity=currentCell.getNumericCellValue();
+                    	case 3:
+                    		productId=currentCell.getNumericCellValue();
                     		break;
+                    	case 4:
+                    		qty=currentCell.getNumericCellValue();
+                        	break;
+                    	case 6:
+                    		buyerId=currentCell.getNumericCellValue();
+                    		break;
+                    	case 5:
+                    		sellerId=currentCell.getNumericCellValue();
+                    		break;
+                    	
                     	case 7:
                     		unitPrice=currentCell.getNumericCellValue();
                     		break;
@@ -534,6 +550,11 @@ public class InvoiceService {
                     	case 9:
                     		netAmount=currentCell.getNumericCellValue();
                     		break;
+                    	
+                    	case 11:
+                    		tax=currentCell.getNumericCellValue();
+                    		break;
+                    	
                     	default:
                     		tax=currentCell.getNumericCellValue();
                     		break;
@@ -543,7 +564,7 @@ public class InvoiceService {
                 }
                 rowcount++;
                 System.out.println(invoiceNo);
-                //addInvoice(invoiceNo,contractNo,buyerId,sellerId,quantity,productId,unitPrice,grossAmount,netAmount,tax);
+                addInvoice(invoiceNo,contractNo,productId,qty,buyerId,sellerId,unitPrice,grossAmount,netAmount,invDate,(float)tax,dueDate);
                 s+="</tr>";
             }
         } catch (FileNotFoundException e) {

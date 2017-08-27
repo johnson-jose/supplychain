@@ -18,43 +18,43 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
 </head>
-<body ng-app="myApp" ng-controller="proposalTableCtrl">
+<body ng-app="myApp" ng-controller="myController">
 <div>
-    	 <p><b>Proposal ID:</b></p>
+    	 <p><b>Proposal ID::</b></p>
          <!-- <a href="HtmlPage5.html">View full proposal</a> -->    
 		<br><br>				
-		<div class="row" style="margin: 0 auto; width: 100%">
+		<div class="row" style="margin: 0 auto; width: 150%">
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading" style="font-size: 20px; font-weight: bold">
                             SUPPLIER'S RESPONSE
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body" ng-controller="proposalTableCtrl">
+                        <div class="panel-body" ng-controller="myController">
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr>
                                             <th>S.No</th>
+                                            <th>Product-ID</th>
 											<th>Feature-ID</th>
-											<th>Feature-Specification</th>
+											<th>Feature-Name</th>
 											<th>P or M</th>
 											<th>A</th>
 											<th>C</th>
 											<th>N</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
                                         <tr ng-repeat="i in features">                   
 										<td>{{$index + 1 }}</td>
-										<td>{{i.feature_id}}</td>
-										<td>{{i.specification}}</td> 
+										<td>{{i.p_id}}</td>
+										<td>{{i.f_id}}</td>
+										<td>{{i.feature_name}}</td> 
 										<td>{{i.priority_order}}</td>
-										<td><input type="checkbox" name="A{{ $index + 1 }}" /></td>
-										<td><input type="checkbox" name="C{{ $index + 1 }}" /></td>
-										<td><input type="checkbox" name="N{{ $index + 1 }}" /></td>
+										<td><input type="radio" name="A{{ $index + 1 }}" checked /></td>
+										<td><input type="radio" name="C{{ $index + 1 }}" /></td>
+										<td><input type="radio" name="N{{ $index + 1 }}" /></td>
 										</tr>
-                                    </tbody>
                                 </table>
                             </div>
                             <!-- /.table-responsive -->

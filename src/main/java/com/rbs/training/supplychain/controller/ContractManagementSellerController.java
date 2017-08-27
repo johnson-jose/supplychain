@@ -16,6 +16,7 @@ import com.rbs.training.supplychain.model.Features;
 import com.rbs.training.supplychain.model.Invoice;
 import com.rbs.training.supplychain.model.Proposal;
 import com.rbs.training.supplychain.model.Proposal_Sellers_Bid;
+import com.rbs.training.supplychain.model.Sfeatures;
 import com.rbs.training.supplychain.service.ContractManagementSellerService;
 
 @RestController
@@ -46,23 +47,26 @@ public class ContractManagementSellerController {
 		}
     
 	 /*service 2*/
-	@RequestMapping(value="/listfeatures/{proposal_id}",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Features>> getFeatures(@PathVariable("proposal_id") String propid) {
-        int proposal_id = Integer.parseInt(propid);
-		List<Features> featureslist= new ArrayList<Features>();
-		try {
-			featureslist = service.getFeaturesforaproduct(proposal_id);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
-		if(featureslist.isEmpty()){
-			//return new ResponseEntity(HttpStatus.NO_CONTENT);
-		}
-		
-		return new ResponseEntity<List<Features>>(featureslist, HttpStatus.OK);
-    }
-    
-    @RequestMapping("/updatesellerresponse")
+	 
+	 @RequestMapping(value="/listfeatures/{proposal_id}",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+		public ResponseEntity<List<Sfeatures>> getFeatures(@PathVariable("proposal_id") String propid) {
+	        int proposal_id = Integer.parseInt(propid);
+			List<Sfeatures> featureslist= new ArrayList<Sfeatures>();
+			try {
+				featureslist = service.getFeaturesforaproduct(proposal_id);
+			} catch (Exception e) {
+				e.printStackTrace();
+			} 
+			if(featureslist.isEmpty()){
+				//return new ResponseEntity(HttpStatus.NO_CONTENT);
+			}
+			
+			return new ResponseEntity<List<Sfeatures>>(featureslist, HttpStatus.OK);
+	    }
+						
+				
+	
+    @RequestMapping("/updatesellerresponse/{proposal_id}/{product_id}/{feature_id}/{seller_id}/{response}")
     public String service3() {
         return "Hello, World!" ;
     }

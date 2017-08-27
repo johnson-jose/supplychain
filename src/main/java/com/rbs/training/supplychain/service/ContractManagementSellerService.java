@@ -17,6 +17,7 @@ import com.rbs.training.supplychain.DAO.DatabaseConnectionPostgreSQL;
 import com.rbs.training.supplychain.model.Features;
 import com.rbs.training.supplychain.model.Proposal;
 import com.rbs.training.supplychain.model.Proposal_Sellers_Bid;
+import com.rbs.training.supplychain.model.Sfeatures;
 
 
  @Service("contractmanagementsellerservice")
@@ -69,30 +70,44 @@ public class ContractManagementSellerService {
  
 	/*service 2*/
 	
-	public List<Features> getFeaturesforaproduct(int proposal_id) throws ClassNotFoundException, SQLException{
-	
-		List<Features> lst= new ArrayList<Features>();
-		Features features = null;
-		dbobj = new DatabaseConnectionPostgreSQL();
-		
-		con = dbobj.getConnection();
-		
-		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery("select * from \"Features\" where proposal_id ="+proposal_id);
-		
-		
-		while(rs.next()){
-			features = new Features();
-			features.setF_id(rs.getInt("f_id"));
-			features.setP_id(rs.getInt("p_id"));
-			features.setProposal_id(rs.getInt("proposal_id"));
-			features.setPriority_order(rs.getString("priority_order"));
-			features.setAttachment(rs.getString("attachment"));
-			lst.add(features);
+	 public List<Sfeatures> getFeaturesforaproduct(int proposal_id) throws ClassNotFoundException, SQLException{
+			
+			List<Sfeatures> lst= new ArrayList<Sfeatures>();
+			Sfeatures features = null;
+			dbobj = new DatabaseConnectionPostgreSQL();
+			
+			con = dbobj.getConnection();
+			
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from \"Features\" where proposal_id ="+proposal_id);
+			
+			
+			while(rs.next()){
+				Statement stmt2=con.createStatement();
+				int fid=rs.getInt("f_id");
+				int pid=rs.getInt("p_id");
+				
+				features = new Sfeatures();
+				features = new Sfeatures();
+				features.setF_id(rs.getInt("f_id"));
+				features.setP_id(rs.getInt("p_id"));
+				features.setProposal_id(rs.getInt("proposal_id"));
+				features.setPriority_order(rs.getString("priority_order"));
+				features.setAttachment(rs.getString("attachment"));
+				ResultSet rs2 = stmt2.executeQuery("select * from \"feature\" where feature_id ="+fid+"and product_id="+pid);
+				while(rs2.next()){
+					
+					features.setFeature_name(rs2.getString("feature_name"));
+					System.out.println(features.getFeature_name());
+					
+				}
+				lst.add(features);
+				
+			}
+			return lst;
+			
 		}
-		return lst;
-		
-	}
+
 	
 	/*service to fetch the buyer's status for the proposals 
 	 * which the seller has already accepted
