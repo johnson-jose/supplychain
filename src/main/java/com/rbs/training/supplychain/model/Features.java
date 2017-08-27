@@ -2,40 +2,42 @@ package com.rbs.training.supplychain.model;
 import java.io.File;
 
 public class Features {
-	private int feature_id;
-	private int product_id;
+	private int f_id;
+	private int p_id;
+	private int proposal_id;
 	private String priority_order;
-	private String specification;
 	private File attachment;
-	
-	public int getFeature_id(){
-		return feature_id;
+	public int getF_id() {
+		return f_id;
 	}
-	public void setFeature_id(int feature_id){
-		this.feature_id = feature_id;
+	public void setF_id(int f_id) {
+		this.f_id = f_id;
 	}
-	public int getProduct_id(){
-		return product_id;
+	public int getP_id() {
+		return p_id;
 	}
-	public void setProduct_id(int product_id){
-		this.product_id = product_id;
+	public void setP_id(int p_id) {
+		this.p_id = p_id;
 	}
-	public String getPriority_order(){
+	public int getProposal_id() {
+		return proposal_id;
+	}
+	public void setProposal_id(int proposal_id) {
+		this.proposal_id = proposal_id;
+	}
+	public String getPriority_order() {
 		return priority_order;
 	}
-	public void setPriority_order(String priority_order){
+	public void setPriority_order(String priority_order) {
 		this.priority_order = priority_order;
 	}
-	public void setSpecification(String specification){
-		this.specification = specification;
-	}
-	public String getSpecification(){
-		return specification;
-	}
-	public File getAttachment(){
+	public File getAttachment() {
 		return attachment;
 	}
-	public void setAttachment(File attachment){
+	public void setAttachment(File attachment) {
 		this.attachment = attachment;
 	}
+	
+	
+	
 }

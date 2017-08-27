@@ -83,9 +83,9 @@ public class ContractManagementSellerService {
 		
 		while(rs.next()){
 			features = new Features();
-			features.setFeature_id(rs.getInt("feature_id"));
-			features.setProduct_id(rs.getInt("product_id"));
-			features.setSpecification(rs.getString("specification"));
+			features.setF_id(rs.getInt("feature_id"));
+			features.setP_id(rs.getInt("product_id"));
+			//features.setSpecification(rs.getString("specification"));
 			features.setPriority_order(rs.getString("priority_order"));
 			lst.add(features);
 		}
