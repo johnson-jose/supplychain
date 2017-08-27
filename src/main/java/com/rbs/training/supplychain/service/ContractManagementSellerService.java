@@ -47,6 +47,7 @@ public class ContractManagementSellerService {
 					Proposal_Sellers_Bid_obj.setProposal_id(rs.getInt("proposal_id"));
 					Proposal_Sellers_Bid_obj.setSeller_id(rs.getInt("seller_id"));
 					Proposal_Sellers_Bid_obj.setCost_avail(rs.getInt("cost_avail"));
+					Proposal_Sellers_Bid_obj.setScore(rs.getInt("score"));
 					lst.add(Proposal_Sellers_Bid_obj);
 					}
 			}catch(Exception e){							
@@ -191,6 +192,23 @@ public class ContractManagementSellerService {
  	}
 	
  
+	/*service to send additional response-service 5*/
+	
+	
+	public void addnresp(int seller_id,int product_id,String specification){
+	  	try{
+	  	 dbobj = new DatabaseConnectionPostgreSQL();
+	  	 con = dbobj.getConnection();
+	  	Statement st = con.createStatement();
+	  	st.executeUpdate("insert into \"Response\" values(specification,'',p_id,'')");
+	  	con.commit();
+	  	
+	  	}
+	  	catch(Exception e){
+	  		System.out.println(e.getMessage());
+	  	}
+	  	}
+	  }
  /*service to update the seller's status(accept/reject/later) in the proposal_sellers_bid table 
   */	
  	/* SERVICE 4
@@ -207,6 +225,6 @@ public class ContractManagementSellerService {
   		System.out.println(e.getMessage());
   	}
   	}*/
-  }
+ 
  
  

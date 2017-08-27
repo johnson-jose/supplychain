@@ -71,27 +71,10 @@ public class ContractManagementSellerController {
         return "Hello, World!" ;
     }
     
- /*  SERVICE 4
-    
-    @RequestMapping(value = "/updatebidsellerstatus/{seller_id}/{proposal_id}/{seller_status}",method = RequestMethod.POST)
    
-    public void updatebidSellerStatus(@PathVariable("seller_id") String id,@PathVariable("proposal_id") String pid,@PathVariable("seller_status") String sts) {
-    	
-    	int seller_id = Integer.parseInt(id);
-    	int proposal_id=Integer.parseInt(pid);
-    	try {
-    		
-			 service.updateBidSellerStatus(seller_id,proposal_id,sts);
-			 
-		} catch (Exception e) {
-			
-			System.out.println(e.getMessage());
-		}
-    	
-      
-    }*/
-   
-   
+  /*  service to fetch the buyer's status for the proposals 
+	 * which the seller has already accepted
+	 * service 4*/
     @RequestMapping(value="/fetchbuyerStatus/{seller_id}",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Proposal_Sellers_Bid>> getBuyerStatus(@PathVariable("seller_id") String sid) {
         int seller_id = Integer.parseInt(sid);
@@ -106,6 +89,27 @@ public class ContractManagementSellerController {
 		}
 		
 		return new ResponseEntity<List<Proposal_Sellers_Bid>>(buyerstatuslist, HttpStatus.OK);
+    }
+    
+    /*service to send additional response-service 5*/
+    
+    
+    @RequestMapping(value = "/addresponse/{seller_id}/{product_id}/{specification}",method = RequestMethod.POST)
+    
+    public void updatebidSellerStatus(@PathVariable("seller_id") String id,@PathVariable("product_id") String pid,@PathVariable("specification") String sps) {
+    	
+    	int seller_id = Integer.parseInt(id);
+    	int product_id=Integer.parseInt(pid);
+    	try {
+    		
+			 service.addnresp(seller_id, product_id, sps);
+			 
+		} catch (Exception e) {
+			
+			System.out.println(e.getMessage());
+		}
+    	
+      
     }
     
    /* @RequestMapping("/updatesellerresponse")

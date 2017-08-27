@@ -61,6 +61,25 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 				window.location = "#/view_stats";
 			});
 		}   
+		
+		/*function to send additional response
+		*/
+		$scope.myfunc4 = function () {
+        	
+			console.log("on click function 4");
+			var s = $scope.seller_id;
+			//var p=$scope.product_id;
+			//var spec=$scope.specification;
+			var p=3;
+			//var spec= new String('i can provide higher');
+			console.log(p);
+			$http.post('http://localhost:8181/contractmanagementseller/addresponse/'+s+'/'+p+'/a')
+			.success(function (data) {
+                $scope.stats = data;                    
+                console.log(data);
+			});
+		}   
+
 	});
 	
 	myApp.controller("sampleController", function ($scope, $window) {
