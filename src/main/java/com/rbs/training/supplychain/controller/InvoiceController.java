@@ -99,7 +99,7 @@ public class InvoiceController {
 		
 		InvoiceItems invoiceObj=invoiceServiceObj.getItemDetails(invoiceID,productID,quantity);
 		if(invoiceObj == null){
-			System.out.println(""item is not found");
+			System.out.println("item is not found");
 			return new ResponseEntity<InvoiceItems>(invoiceObj,HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<InvoiceItems>(invoiceObj,HttpStatus.OK);
