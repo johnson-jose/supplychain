@@ -138,13 +138,8 @@ public class AccountingManagementService {
 				Connection con = dbobj.getConnection();
 				Statement statement = 	con.createStatement();
 				ResultSet resultSet=null;
-				System.out.println("acEntryNo"+acEntryNo);
-				System.out.println("transNo"+transNo);
-				/*if(!acEntryNo.equals("null"))
-				{
-					System.out.println("IF--acEntryNo is not null");*/
-				//System.out.println("SELECT * FROM General_Ledger where Account_Entry_no like'%"+acEntryNo+"%' and transaction_no like '%"+transNo+"%' and customer_account_no like '%"+custAcNo+"%' and swiftID like '%"+swiftID+"%' and invoice_no like '%"+invoiceNo+"%' and dr_cr like '%"+drCr+"%' and payment_date like '%"+paymentDate+"%' and due_date like '%"+dueDate+"%'");
-				System.out.println("SELECT * FROM General_Ledger where (Account_Entry_no like'%"+acEntryNo+"%' or Account_Entry_no is null) and "
+				if(paymentDate.equals("")&&dueDate.equals(""))
+					resultSet = statement.executeQuery("SELECT * FROM General_Ledger where (Account_Entry_no like'%"+acEntryNo+"%' or Account_Entry_no is null) and "
 						+"(transaction_no like '%"+transNo+"%' or transaction_no is null) and "
 						+"(customer_account_no like '%"+custAcNo+"%' or customer_account_no is null) and "
 						+"(swiftID like '%"+swiftID+"%' or swiftID is null) and "
@@ -152,23 +147,36 @@ public class AccountingManagementService {
 						+"(dr_cr like '%"+drCr+"%' or dr_cr is null) and "
 						+"(payment_date like '%"+paymentDate +"%' or payment_date is null) and "
 						+"(due_date like '%"+dueDate+"%' or due_date is null)");
-				resultSet = statement.executeQuery("SELECT * FROM General_Ledger where (Account_Entry_no like'%"+acEntryNo+"%' or Account_Entry_no is null) and "
+				else if(paymentDate.equals(""))
+					resultSet = statement.executeQuery("SELECT * FROM General_Ledger where (Account_Entry_no like'%"+acEntryNo+"%' or Account_Entry_no is null) and "
+							+"(transaction_no like '%"+transNo+"%' or transaction_no is null) and "
+							+"(customer_account_no like '%"+custAcNo+"%' or customer_account_no is null) and "
+							+"(swiftID like '%"+swiftID+"%' or swiftID is null) and "
+							+"(invoice_no like '%"+invoiceNo+"%' or invoice_no is null) and "
+							+"(dr_cr like '%"+drCr+"%' or dr_cr is null) and "
+							+"(payment_date like '%"+paymentDate +"%' or payment_date is null) and "
+							+"(due_date = '"+dueDate+"')");
+				else if(dueDate.equals(""))
+					resultSet = statement.executeQuery("SELECT * FROM General_Ledger where (Account_Entry_no like'%"+acEntryNo+"%' or Account_Entry_no is null) and "
 						+"(transaction_no like '%"+transNo+"%' or transaction_no is null) and "
 						+"(customer_account_no like '%"+custAcNo+"%' or customer_account_no is null) and "
 						+"(swiftID like '%"+swiftID+"%' or swiftID is null) and "
 						+"(invoice_no like '%"+invoiceNo+"%' or invoice_no is null) and "
 						+"(dr_cr like '%"+drCr+"%' or dr_cr is null) and "
-						+"(payment_date like '%"+paymentDate +"%' or payment_date is null) and "
+						+"(payment_date = '"+paymentDate +"') and "
 						+"(due_date like '%"+dueDate+"%' or due_date is null)");
-				/*}
-				if(!transNo.equals("null"))
-				{
-					System.out.println("IF--transNo is not null");
-					resultSet = statement.executeQuery("SELECT * FROM General_Ledger where Transaction_No='"+transNo+"'");
-				}*/
+				else
+					resultSet = statement.executeQuery("SELECT * FROM General_Ledger where (Account_Entry_no like'%"+acEntryNo+"%' or Account_Entry_no is null) and "
+						+"(transaction_no like '%"+transNo+"%' or transaction_no is null) and "
+						+"(customer_account_no like '%"+custAcNo+"%' or customer_account_no is null) and "
+						+"(swiftID like '%"+swiftID+"%' or swiftID is null) and "
+						+"(invoice_no like '%"+invoiceNo+"%' or invoice_no is null) and "
+						+"(dr_cr like '%"+drCr+"%' or dr_cr is null) and "
+						+"(payment_date = '"+paymentDate +"') and "
+						+"(due_date = '"+dueDate+"')");
 			entries=new ArrayList<GeneralLedger>();
-			GeneralLedger gl=new GeneralLedger();
 			while (resultSet.next()) {
+				GeneralLedger gl=new GeneralLedger();
 				gl.setAccountEntryNo(resultSet.getString("Account_Entry_No"));
 				gl.setCurrentDate(resultSet.getDate("Current_Date"));
 				gl.setPaymentDate(resultSet.getDate("Payment_Date"));

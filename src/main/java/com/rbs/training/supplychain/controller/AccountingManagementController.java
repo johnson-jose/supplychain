@@ -43,12 +43,12 @@ public class AccountingManagementController {
 			return new ResponseEntity<List<GeneralLedger>>(generalledgerlists, HttpStatus.OK);
 		}
 	 
-	 @RequestMapping(value = "/viewGLBySearch/{acEntryNo}/{transNo}/{custAcNo}/{swiftID}/{invoiceNo}/{drCr}/{paymentDate}/{dueDate}",method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	/* @RequestMapping(value = "/viewGLBySearch/{acEntryNo}/{transNo}/{custAcNo}/{swiftID}/{invoiceNo}/{drCr}/{paymentDate}/{dueDate}",method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	 @ResponseBody
 	 public  ResponseEntity<List<GeneralLedger>> ViewLedgerBySearch(HttpServletRequest request,HttpServletResponse response,@PathVariable("acEntryNo") String acEntryNo,@PathVariable("transNo") String transNo,@PathVariable("custAcNo") String custAcNo,@PathVariable("swiftID") String swiftID,@PathVariable("invoiceNo") String invoiceNo,@PathVariable("drCr") String drCr,@PathVariable("paymentDate") String paymentDate,@PathVariable("dueDate") String dueDate){
 			List<GeneralLedger> generalledgerlists=accountingManagementServiceObj.getEachGLEntryBySearch(acEntryNo,transNo,custAcNo,swiftID,invoiceNo,drCr,paymentDate,dueDate);
 			return new ResponseEntity<List<GeneralLedger>>(generalledgerlists, HttpStatus.OK);
-		}
+		}*/
 	 @RequestMapping(value = "/viewGLBySearch",method = RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
 	 @ResponseBody
 	 public  ResponseEntity<List<GeneralLedger>> ViewLedgerBySearch(HttpServletRequest request,HttpServletResponse response){
@@ -152,7 +152,7 @@ public class AccountingManagementController {
 	    try
 	    {
 	    	System.out.println("Inside redirect");
-	    	response.sendRedirect("http://localhost:8181/ACMindex.html");
+	    	response.sendRedirect("http://localhost:8181/ACMindex.html#/{{coaList}}");
 	    	
 	    }
 	    
