@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -202,4 +203,19 @@ public class AccountingManagementController {
 					     return 0;
 				return 1;
 		}
+	
+	public double calculateAccruedIncomePerDay(Date paymentDate,Date dueDate,double amount){
+		long noOfDays =((TimeUnit.MINUTES.convert(dueDate.getTime() - paymentDate.getTime(),TimeUnit.MILLISECONDS))/(60*24));
+		double AccruedIncomePerDay = amount/noOfDays;
+		return AccruedIncomePerDay;
+	}
+	
+	public double calculateAccruedIncome(Date paymentDate,Date dueDate,double amount){
+		AccountingManagementController x = new AccountingManagementController();
+		double AccruedIncomePerDay = x.calculateAccruedIncomePerDay(paymentDate, dueDate, amount);
+		long noOfDays =((TimeUnit.MINUTES.convert(new java.util.Date().getTime() - paymentDate.getTime(),TimeUnit.MILLISECONDS))/(60*24));
+		double AccuredIIncome = AccruedIncomePerDay*noOfDays;
+		return AccuredIIncome;
+	} 
+	
 }

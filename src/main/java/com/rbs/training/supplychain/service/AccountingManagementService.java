@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import com.rbs.training.supplychain.DAO.DataBaseConnection;
+import com.rbs.training.supplychain.controller.AccountingManagementController;
 import com.rbs.training.supplychain.model.ChartOfAccount;
 import com.rbs.training.supplychain.model.GeneralLedger;
 
@@ -100,6 +102,11 @@ public class AccountingManagementService {
 				Connection con = dbobj.getConnection();
 			Statement statement = 	con.createStatement();  
 			System.out.println("before select in viewGList");
+			
+			ResultSet resultSet1 = statement.executeQuery("SELECT * FROM General_Ledger");
+			while(resultSet1.next()){
+			getdetails(resultSet1.getString("Account_Entry_No"));
+			}
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM General_Ledger");
 			System.out.println("after select in viewGList");
 			entries=new ArrayList<GeneralLedger>();
@@ -309,4 +316,40 @@ public   List<String> sanctionedIndividuals(){
      
      return lstNames;
 }
+
+public void getdetails(String accountEntryNo){
+
+	AccountingManagementService DateDAOObj = new AccountingManagementService();
+	AccountingManagementController DateLogicObj = new AccountingManagementController();
+	DataBaseConnection dbobj = new DataBaseConnection();
+	System.out.println("before try");
+	try{
+		System.out.println("before con");
+		Connection con = dbobj.getConnection();
+	System.out.println("After con");
+	Statement statement = con.createStatement();
+	System.out.println("After statement");
+	ResultSet resultSet = statement.executeQuery("SELECT payment_date, Amount,due_date FROM General_Ledger where account_entry_no= '"+accountEntryNo+"' and DR_CR ='Dr' ");
+	System.out.println("After select");
+	while(resultSet.next()){
+	Date dueDate = resultSet.getDate("Due_date");
+	 System.out.println("before if");
+	if(((TimeUnit.MINUTES.convert(dueDate.getTime() - new java.util.Date().getTime(),TimeUnit.MILLISECONDS))/(60*24))>=0){
+	    System.out.println("inside if");
+		double accuredIncome = DateLogicObj.calculateAccruedIncome(resultSet.getDate("payment_date"), resultSet.getDate("Due_date"), resultSet.getDouble("Amount")); 
+		System.out.println("accrued income "+accuredIncome);
+		System.out.println("after calling function");
+		String newaccountEntryNo = accountEntryNo.substring(0, 7)+'3'+accountEntryNo.substring(8);
+		resultSet = statement.executeQuery("update General_Ledger set amount ="+accuredIncome+" where account_entry_no= '"+newaccountEntryNo+"'");
+		System.out.println("after updating");
+	}
+	break;
+	}
+	}
+	
+	catch(Exception e){
+		System.out.println("Exception !!  "+e.getMessage());
+	}
+
+}	
 }
