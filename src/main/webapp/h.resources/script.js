@@ -8,8 +8,8 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		.when('/view_table', {
 		templateUrl : 'view_table.htm'
 		})
-		.when('/proposals', {
-		templateUrl : 'proposals.htm'
+		.when('/features', {
+		templateUrl : 'features.htm'
 		})
 		.when('/view_stats', {
 		templateUrl : 'view_stats.htm'
@@ -35,8 +35,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		$scope.getFeatures = function() { 
 			$rootScope.proposal_id = $scope.proposal_id;
 			console.log("Proposal Table Ctroller: on click function 2");	
-			var y = $rootScope.proposal_id;
-	            window.location = "#/proposals";
+	            window.location = "#/features";
 	       
 		}
 		/*function to get status of accepted proposals*/
@@ -56,19 +55,19 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		
 		/*function to send additional response
 		*/
-		$scope.myfunc4 = function () {
-        	
+		$scope.myfunc4 = function () {        	
 			console.log("on click function 4");
 			var s = $scope.seller_id;
-			//var p=$scope.product_id;
-			//var spec=$scope.specification;
-			var p=3;
-			//var spec= new String('i can provide higher');
+			console.log(s);
+			var p=$scope.product_id;
 			console.log(p);
-			$http.post('http://localhost:8181/contractmanagementseller/addresponse/'+s+'/'+p+'/a')
+			var spec=this.specification;
+			console.log(spec);
+			//var spec= new String('i can provide higher');
+			$http.post('http://localhost:8181/contractmanagementseller/addresponse/'+s+'/3/'+spec)
 			.success(function (data) {
                 $scope.stats = data;                    
-                console.log(data);
+                console.log('hi');
 			});
 		}   
 
@@ -76,19 +75,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 	
 	myApp.controller("proposalTableCtrl", function($scope,$rootScope, $http) {
 		
-		 /*function to get Features for a given proposal id 
-		
-			console.log("Proposal Table Ctroller: on click function 2");	
-			var y = $scope.proposal_id;
-			
-			console.log("proposal id=" +y);		
-			console.log("seller id=" + $scope.seller_id);
-            $http.post('http://localhost:8181/contractmanagementseller/listfeatures/' + y)
-            .success(function (data) {
-                $scope.features = data;
-                console.log(data);
-               // window.location = "#/proposals";
-            });*/	
+		 /*function to get Features for a given proposal id */
             
             console.log("Proposal Table Ctroller: on click function 2");	
 			var y = $rootScope.proposal_id;
@@ -99,8 +86,27 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 	        .success(function (data) {
 	            $scope.features = data;
 	            console.log(data);
-	            window.location = "#/proposals";
 	        });
+	        
+	        $scope.update = function (prodid, fid, resp) {        	
+				console.log("radio button service");
+				var s = $scope.seller_id;
+				console.log("seller id:" +s);
+				var p = prodid;
+				console.log("product id:" +p);
+				var f = fid;
+				console.log("feature id:" + f);
+				var r = resp;
+				console.log("response:" + r);
+				console.log('http://localhost:8181/contractmanagementseller/updatesellerresponse/'
+						+ $rootScope.proposal_id +'/' + p + '/' +f + '/' + s + '/' +r);
+				/*$http.post('http://localhost:8181/contractmanagementseller/updatesellerresponse/'
+						+ $rootScope.proposal_id +'/' + p + '/' +f + '/' + s + '/' +r)
+				.success(function (data) {
+	                $scope.stats = data;                    
+	                console.log('hi');
+				});*/
+			}   
             
 	});
 	
