@@ -41,10 +41,17 @@ public class InvoiceService {
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery("select * from invoice where invoice_id='"+InvoiceID+"' and deletestatus=0");
 				invobj = new Invoice();
-				System.out.println(rs.toString());
-				while(rs.next()){
-			
+				//System.out.println(rs.toString());
+				if(rs.next()==false) {
+					
+				}
+				else{
 					invobj.setInvoiceID(rs.getDouble(1)); 
+					do{
+				
+					//if(rs.wasNull())
+						//System.out.println("empty");
+					
 					invobj.setContractID(rs.getDouble(2));
 					invobj.setSellerID(rs.getDouble(3));
 					invobj.setBuyerID(rs.getDouble(4));
@@ -62,7 +69,8 @@ public class InvoiceService {
 					invobj.setDeleteStatus(rs.getInt(16));
 					invobj.setDeleteTimestamp(rs.getDate(17));
 					System.out.println(invobj.toString());
-			}
+			}while(rs.next());
+		}
 			}
 			catch(Exception e)
 			{							
@@ -339,7 +347,7 @@ public class InvoiceService {
 			InvoiceItems itemobj = null;
 			try{
 				Connection con = dbobj.getConnection();
-					PreparedStatement stmt = con.prepareStatement("select * from invoiceitems where invoiceNo=?");
+					PreparedStatement stmt = con.prepareStatement("select * from invoiceitems where invoice_id=?");
 					stmt.setInt(1,id);
 					ResultSet rs = stmt.executeQuery();				
 					
@@ -420,7 +428,7 @@ public class InvoiceService {
 				msg = new CustomMessage();
 					itemobj = new InvoiceItems();
 					
-					PreparedStatement preparedStatement  = con.prepareStatement("select sum(net_amount) from invoiceitems where invoice_id=?");
+					PreparedStatement preparedStatement  = con.prepareStatement("select sum(net_amount) from invoiceitems where invoice_id=? and deletestatus=0");
 					preparedStatement.setInt(1,invoiceID);
 					ResultSet rs=preparedStatement.executeQuery();
 					double sum=0;
@@ -429,7 +437,7 @@ public class InvoiceService {
 						sum=rs.getDouble(1);
 						System.out.println("sum="+sum);
 					}
-					PreparedStatement preparedStatement1  = con.prepareStatement("update invoice set invoice_amount=? where invoice_id=?");
+					PreparedStatement preparedStatement1  = con.prepareStatement("update invoice set invoice_amount=? where invoice_id=? and deletestatus=0");
 					preparedStatement1.setDouble(1, sum);
 					preparedStatement1.setInt(2,invoiceID);
 					preparedStatement1.executeUpdate();
