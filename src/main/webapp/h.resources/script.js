@@ -16,7 +16,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		})
 	});
 	
-	myApp.controller('myController', function($scope, $http){	
+	myApp.controller('myController', function($scope,$rootScope, $http){	
 		
 		/*function to fetch request for proposals*/
 		
@@ -32,7 +32,13 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 				window.location = "#/view_table";
 			});
 		}
-		 
+		$scope.getFeatures = function() { 
+			$rootScope.proposal_id = $scope.proposal_id;
+			console.log("Proposal Table Ctroller: on click function 2");	
+			var y = $rootScope.proposal_id;
+	            window.location = "#/proposals";
+	       
+		}
 		/*function to get status of accepted proposals*/
 		
 		$scope.myfuncstats = function () {
@@ -68,12 +74,13 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 
 	});
 	
-	myApp.controller("proposalTableCtrl", function($scope, $http) {
+	myApp.controller("proposalTableCtrl", function($scope,$rootScope, $http) {
 		
-		/* function to get Features for a given proposal id */
+		 /*function to get Features for a given proposal id 
 		
-			console.log("Proposal Table Ctroller: on click function 2");			
+			console.log("Proposal Table Ctroller: on click function 2");	
 			var y = $scope.proposal_id;
+			
 			console.log("proposal id=" +y);		
 			console.log("seller id=" + $scope.seller_id);
             $http.post('http://localhost:8181/contractmanagementseller/listfeatures/' + y)
@@ -81,7 +88,20 @@ var myApp = angular.module('myApp', ["ngRoute"]);
                 $scope.features = data;
                 console.log(data);
                // window.location = "#/proposals";
-            });				
+            });*/	
+            
+            console.log("Proposal Table Ctroller: on click function 2");	
+			var y = $rootScope.proposal_id;
+			
+			console.log("proposal id=" +y);		
+			console.log("seller id=" + $scope.seller_id);
+	        $http.post('http://localhost:8181/contractmanagementseller/listfeatures/' +y)
+	        .success(function (data) {
+	            $scope.features = data;
+	            console.log(data);
+	            window.location = "#/proposals";
+	        });
+            
 	});
 	
 	myApp.controller("sampleController", function ($scope, $window) {

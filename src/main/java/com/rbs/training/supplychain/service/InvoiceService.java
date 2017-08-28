@@ -116,7 +116,7 @@ public class InvoiceService {
 		Invoice invobj = null;
 		try{
 			Connection con = dbobj.getConnection();
-				PreparedStatement stmt = con.prepareStatement("select * from invoice where approvalStatus=? and deletestatus=0");
+				PreparedStatement stmt = con.prepareStatement("select * from invoice where approvalStatus=? and deletestatus=0 and draftStatus=0");
 				stmt.setInt(1,approvalStatus);
 				ResultSet rs = stmt.executeQuery();				
 				invobj = new Invoice();
@@ -148,6 +148,124 @@ public class InvoiceService {
 				System.out.println(e.getMessage());
 			}
 		return lst;			
+	}
+	public List<Invoice> listSentInvoices(double sellerID) {
+		DataBaseConnection dbobj = new DataBaseConnection();
+		List<Invoice> lst = new ArrayList<Invoice>();
+		Invoice invobj = null;
+		try{
+			Connection con = dbobj.getConnection();
+				PreparedStatement stmt = con.prepareStatement("select * from invoice where approvalStatus=0 and deletestatus=0 and sellerid=? and draftStatus=0");
+				stmt.setDouble(1,sellerID);
+				ResultSet rs = stmt.executeQuery();				
+				invobj = new Invoice();
+				while(rs.next()){
+					invobj = new Invoice();
+					invobj.setInvoiceID(rs.getDouble(1)); 
+					invobj.setContractID(rs.getDouble(2));
+					invobj.setSellerID(rs.getDouble(3));
+					invobj.setBuyerID(rs.getDouble(4));
+					invobj.setBillbookNo(rs.getDouble(5));
+					invobj.setSenderID(rs.getDouble(6));
+					invobj.setReceiverID(rs.getDouble(7));
+					invobj.setFundingRequestStatus(rs.getInt(8));
+					invobj.setApprovalStatus(rs.getInt(9));
+					invobj.setDraftStatus(rs.getInt(10));
+					invobj.setInvoiceCreatedDate(rs.getDate(11));
+					invobj.setPaymentDate(rs.getDate(12));
+					invobj.setInvoiceAmount(rs.getFloat(13));
+					invobj.setInvoiceDueDate(rs.getDate(14));
+					invobj.setComplianceStatus(rs.getInt(15));
+					invobj.setDeleteStatus(rs.getInt(16));
+					invobj.setDeleteTimestamp(rs.getDate(17));
+					System.out.println(invobj.toString());
+					lst.add(invobj);
+			}
+			}
+			catch(Exception e)
+			{							
+				System.out.println(e.getMessage());
+			}
+		return lst;	
+	}
+
+	public List<Invoice> listReceivedInvoices(double sellerID) {
+		DataBaseConnection dbobj = new DataBaseConnection();
+		List<Invoice> lst = new ArrayList<Invoice>();
+		Invoice invobj = null;
+		try{
+			Connection con = dbobj.getConnection();
+				PreparedStatement stmt = con.prepareStatement("select * from invoice where sellerid=? and deletestatus=0 and approvalStatus=0 and draftStatus=0");
+				stmt.setDouble(1,sellerID);
+				ResultSet rs = stmt.executeQuery();				
+				invobj = new Invoice();
+				while(rs.next()){
+					invobj = new Invoice();
+					invobj.setInvoiceID(rs.getDouble(1)); 
+					invobj.setContractID(rs.getDouble(2));
+					invobj.setSellerID(rs.getDouble(3));
+					invobj.setBuyerID(rs.getDouble(4));
+					invobj.setBillbookNo(rs.getDouble(5));
+					invobj.setSenderID(rs.getDouble(6));
+					invobj.setReceiverID(rs.getDouble(7));
+					invobj.setFundingRequestStatus(rs.getInt(8));
+					invobj.setApprovalStatus(rs.getInt(9));
+					invobj.setDraftStatus(rs.getInt(10));
+					invobj.setInvoiceCreatedDate(rs.getDate(11));
+					invobj.setPaymentDate(rs.getDate(12));
+					invobj.setInvoiceAmount(rs.getFloat(13));
+					invobj.setInvoiceDueDate(rs.getDate(14));
+					invobj.setComplianceStatus(rs.getInt(15));
+					invobj.setDeleteStatus(rs.getInt(16));
+					invobj.setDeleteTimestamp(rs.getDate(17));
+					System.out.println(invobj.toString());
+					lst.add(invobj);
+			}
+			}
+			catch(Exception e)
+			{							
+				System.out.println(e.getMessage());
+			}
+		return lst;	
+	}
+	public List<Invoice> listDraftInvoices(double sellerID) {
+		DataBaseConnection dbobj = new DataBaseConnection();
+		List<Invoice> lst = new ArrayList<Invoice>();
+		Invoice invobj = null;
+		try{
+			Connection con = dbobj.getConnection();
+				PreparedStatement stmt = con.prepareStatement("select * from invoice where sellerid=? and deletestatus=0 and draftStatus=1");
+				stmt.setDouble(1,sellerID);
+				ResultSet rs = stmt.executeQuery();				
+				invobj = new Invoice();
+				while(rs.next()){
+					invobj = new Invoice();
+					invobj.setInvoiceID(rs.getDouble(1)); 
+					invobj.setContractID(rs.getDouble(2));
+					invobj.setSellerID(rs.getDouble(3));
+					invobj.setBuyerID(rs.getDouble(4));
+					invobj.setBillbookNo(rs.getDouble(5));
+					invobj.setSenderID(rs.getDouble(6));
+					invobj.setReceiverID(rs.getDouble(7));
+					invobj.setFundingRequestStatus(rs.getInt(8));
+					invobj.setApprovalStatus(rs.getInt(9));
+					invobj.setDraftStatus(rs.getInt(10));
+					invobj.setInvoiceCreatedDate(rs.getDate(11));
+					invobj.setPaymentDate(rs.getDate(12));
+					invobj.setInvoiceAmount(rs.getFloat(13));
+					invobj.setInvoiceDueDate(rs.getDate(14));
+					invobj.setComplianceStatus(rs.getInt(15));
+					invobj.setDeleteStatus(rs.getInt(16));
+					invobj.setDeleteTimestamp(rs.getDate(17));
+					System.out.println(invobj.toString());
+					lst.add(invobj);
+			}
+			}
+			catch(Exception e)
+			{							
+				System.out.println(e.getMessage());
+			}
+		return lst;	
 	}
 	
 		public Invoice addInvoice(double invoiceID,double contractID,double productID,double quantity, double sellerID, double buyerID, double billbookNo,double senderID,double receiverID, Date paymentDate, float invoiceAmount,Date invoiceDueDate) {
@@ -670,5 +788,7 @@ public class InvoiceService {
 			}
 		return msg;
 	}
+
+	
 
 }

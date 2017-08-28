@@ -112,14 +112,8 @@ public class ContractManagementSellerService {
 	//service 3
 	 
 	 public void updatesellerresponse(int productid, int proposalid, int featureid, int sellerid, String response) throws ClassNotFoundException, SQLException {
-//	public static void main(String [] args){
-	//	int productid=1;
-	//	int proposalid=1;
-	//	int featureid=1;
-	//	int sellerid=1;
-	//	String response ="A";
-	 
-		
+
+			
 		 dbobj = new DatabaseConnectionPostgreSQL();
 		 con = dbobj.getConnection();
 		 
@@ -136,6 +130,7 @@ public class ContractManagementSellerService {
 		 }
 		
 	 }
+
 	 
 	 
 	 
