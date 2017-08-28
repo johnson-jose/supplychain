@@ -73,7 +73,7 @@ public class AccountingManagementService {
 			Connection con = dbobj.getConnection();
 			Statement statement = con.createStatement();  
 			System.out.println("In getCOAswiftList - After create statement");
-			ResultSet resultSet = statement.executeQuery("SELECT * FROM ChartOfAccounts where productSwiftID="+swiftID);		
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM ChartOfAccounts where productSwiftID='"+swiftID+"'");		
 			while(resultSet.next())
 			{
 				coa.setHead(resultSet.getString("head"));

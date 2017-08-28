@@ -6,6 +6,8 @@ acmApp.config(function ($routeProvider){
 	.when('/coaList', {templateUrl : 'coaList.html'})
 	.when('/viewGL', {templateUrl : 'viewGL.html'})
 	.when('/addCOA', {templateUrl : 'addCOA.html'})
+	.when('/coaSingle', {templateUrl : 'viewCOA.html'})
+	.when('/checkCompliance',{templateUrl:'complianceCheck.html'})
 });
 	
 acmApp.controller('coaListCtrl', function ($scope, $http){    
@@ -15,6 +17,37 @@ acmApp.controller('coaListCtrl', function ($scope, $http){
             $scope.coaList = data;
             console.log(data);
             window.location = "#/coaList";
+					
+        });
+	}
+$scope.checkCompliance1=function(){
+		var individualname=this.individualname;
+		var Countryname=this.Countryname;
+		if(individualname==undefined || individualname=='null')
+			individualname='';
+		if(Countryname==undefined || Countryname=='null')
+			Countryname='';
+		if(individualname==''||Countryname==''){
+			alert("Enter all the fields");
+			window.location = "#/checkCompliance";
+		}
+		else{
+			var url='http://localhost:8181/ACM/CheckCompliance';
+			$http({url:url,method:"POST",params:{'individualname':individualname,'Countryname':Countryname}}).success(function(data){	
+				 alert(data);
+				window.location = "#/";	
+	            
+			});
+		}
+		
+	}
+	
+	$scope.callCoa = function (swiftID) {
+		console.log("coaCtrl");
+        $http({url:'http://localhost:8181/ACM/viewCOASINGLE',method:"POST",params:{'swiftID':swiftID}}).success(function (data) {
+            $scope.coaSingle = data;
+            console.log(data);
+            window.location = "#/coaSingle";
 					
         });
 	}
