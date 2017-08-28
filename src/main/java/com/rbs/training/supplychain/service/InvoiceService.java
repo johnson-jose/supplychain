@@ -159,6 +159,7 @@ public class InvoiceService {
 				stmt.setDouble(1,sellerID);
 				ResultSet rs = stmt.executeQuery();				
 				invobj = new Invoice();
+				System.out.println(rs.toString());
 				while(rs.next()){
 					invobj = new Invoice();
 					invobj.setInvoiceID(rs.getDouble(1)); 
