@@ -168,7 +168,7 @@ public class InvoiceService {
 					
 					/*stmt.executeQuery("insert into invoice values("+invoiceNo+","+contractNo+","+buyerId+","+sellerId+","
 					+productId+","+unitPrice+","+quantity+","+grossAmount+","+tax+","+netAmount+","+"0,1,0");*/
-					String updateTableSQL1 ="insert into invoice"+ " values("+invoiceID+","+contractID+","+sellerID+","+buyerID+","+billbookNo+","+senderID+","+receiverID+","+"0,0,1,NULL,NULL"+","+invoiceAmount+","+"NULL,1,0,NULL"+")";
+					String updateTableSQL1 ="insert into invoice values(" +invoiceID +","+contractID+","+sellerID+","+buyerID+","+billbookNo+","+senderID+","+receiverID+","+"0,0,1,NULL,NULL"+","+invoiceAmount+","+ "NULL,1,0,NULL )";
 					
 					System.out.println(updateTableSQL1);
 					PreparedStatement preparedStatement  = con.prepareStatement(updateTableSQL1);
