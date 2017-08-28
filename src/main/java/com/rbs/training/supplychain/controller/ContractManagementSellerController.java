@@ -95,6 +95,27 @@ public class ContractManagementSellerController {
 		
 		return new ResponseEntity<List<Proposal_Sellers_Bid>>(buyerstatuslist, HttpStatus.OK);
     }
+     
+    /* SERVICE 4 service to update the seller's status(accept/reject/later) in the proposal_sellers_bid table 
+  	*/
+    
+    @RequestMapping(value = "/updatebidsellerstatus/{seller_id}/{proposal_id}/{seller_status}")
+    // public void updatebidsellerstats(@PathVariable("seller_id") String id,
+    	//	@PathVariable("proposal_id") String pid,@PathVariable("seller_status") String sts){
+    public static void main(String[] args){
+    	
+    	int seller_id =1;// Integer.parseInt(id);
+    	int proposal_id= 1;//Integer.parseInt(pid);
+    	String sts = "a";
+    	try {
+    		ContractManagementSellerService cs = new ContractManagementSellerService();
+			 cs.updateBidSellerStatus(seller_id, proposal_id, sts);
+			 System.out.println("i came out");
+		} catch (Exception e) {
+			
+			System.out.println(e.getMessage());
+		}
+    }
     
     /*service to send additional response-service 5*/
     @RequestMapping(value = "/addresponse/{seller_id}/{product_id}/{specification}",method = RequestMethod.POST)

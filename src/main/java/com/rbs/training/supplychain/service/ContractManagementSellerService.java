@@ -240,25 +240,27 @@ public class ContractManagementSellerService {
 	  		System.out.println(e.getMessage());
 	  	}
 	  	}
-	  }
 
 
- /*service to update the seller's status(accept/reject/later) in the proposal_sellers_bid table 
-  */	
- 	/* SERVICE 4
+
   	
+ 	/* SERVICE 4 service to update the seller's status(accept/reject/later) in the proposal_sellers_bid table 
+  	*/
   	public void updateBidSellerStatus(int seller_id,int proposal_id,String seller_status){
   	try{
   	 dbobj = new DatabaseConnectionPostgreSQL();
   	 con = dbobj.getConnection();
   	Statement st = con.createStatement();
   	con.commit();
-  	st.executeUpdate("update proposal_sellers_bid set seller_status= " +seller_status+ " where seller_id=" +seller_id+ " and proposal_id="+proposal_id);
+  	st.executeUpdate("update \"Proposal_sellers_bid\" set "
+  			+ "\"Proposal_sellers_bid\".seller_status= " +seller_status+ "where \"Proposal_sellers_bid\".seller_id=" +seller_id+ 
+  				 "and \"Proposal_sellers_bid\".proposal_id="+proposal_id);
   	}
   	catch(Exception e){
   		System.out.println(e.getMessage());
   	}
-  	}*/
+  	}
+  	}
  
  
  

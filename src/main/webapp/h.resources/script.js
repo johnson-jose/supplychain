@@ -59,12 +59,12 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 			console.log("on click function 4");
 			var s = $scope.seller_id;
 			console.log(s);
-			var p=$scope.product_id;
+			var p= $scope.prod_id;
 			console.log(p);
-			var spec=this.specification;
+			var spec = $scope.specification;
 			console.log(spec);
 			//var spec= new String('i can provide higher');
-			$http.post('http://localhost:8181/contractmanagementseller/addresponse/'+s+'/3/'+spec)
+			$http.post('http://localhost:8181/contractmanagementseller/addresponse/' +s+ '/' + 3 + '/' +spec)
 			.success(function (data) {
                 $scope.stats = data;                    
                 console.log('hi');
@@ -73,7 +73,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 
 	});
 	
-	myApp.controller("proposalTableCtrl", function($scope,$rootScope, $http) {
+	myApp.controller("proposalTableCtrl", function($scope,$rootScope, $http, $window) {
 		
 		 /*function to get Features for a given proposal id */
             
@@ -100,28 +100,43 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 				console.log("response:" + r);
 				console.log('http://localhost:8181/contractmanagementseller/updatesellerresponse/'
 						+ $rootScope.proposal_id +'/' + p + '/' +f + '/' + s + '/' +r);
-				/*$http.post('http://localhost:8181/contractmanagementseller/updatesellerresponse/'
+				$http.post('http://localhost:8181/contractmanagementseller/updatesellerresponse/'
 						+ $rootScope.proposal_id +'/' + p + '/' +f + '/' + s + '/' +r)
-				.success(function (data) {
-	                $scope.stats = data;                    
-	                console.log('hi');
-				});*/
-			}   
-            
-	});
-	
-	myApp.controller("sampleController", function ($scope, $window) {
+				.success(function (data) {                  
+	                console.log('updated Radio Button');
+				});
+			}   			
+				$scope.showconfirmbox = function (status) {
 				console.log("sampleCtrl"); 
-				$scope.showconfirmbox = function () {
-					if($window.confirm("Do you want to accept the proposal?"))
-						$scope.result = "You accepted this proposal";
+				var s = $scope.seller_id;
+				if(status=='A'){
+					if($window.confirm("Do you want to accept the proposal?")){
+						//$scope.result = "You accepted this proposal";
+						
+						console.log("seller id:" +s);
+						$http.post('http://localhost:8181/contractmanagementseller/updatebidsellerstatus/' +s+ '/' +$rootScope.proposal_id + '/'+ status)
+						.success(function (data) {                 
+			                console.log('updated Seller Status A');
+						});
 					}
-				$scope.showconfirmbox1 = function () {
-					if ($window.confirm("Do you want to reject the proposal?"))
-					$scope.result1 = "You Rejected this proposal";
+				}
+				if(status=='R'){
+					if ($window.confirm("Do you want to reject the proposal?")){
+						//$scope.result = "You accepted this proposal";
+						$http.post('http://localhost:8181/contractmanagementseller/updatebidsellerstatus/' +s+ '/' +$rootScope.proposal_id + '/'+ status)
+						.success(function (data) {                 
+			                console.log('updated Seller Status R');
+						});
 					}
-				$scope.showconfirmbox2 = function () {
-					if ($window.confirm("Do you want to see the proposal later?"))
-					$scope.result2 = "You have neither accepted nor rejected the proposal it is saved for later use";
 					}
+				if(status=='P'){
+					if ($window.confirm("Do you want to see the proposal later?")){
+						$http.post('http://localhost:8181/contractmanagementseller/updatebidsellerstatus/' +s+ '/' +$rootScope.proposal_id + '/'+ status)
+						.success(function (data) {                 
+			                console.log('updated Seller Status P');
+						});
+					}
+					
+					}
+				}
 	});
