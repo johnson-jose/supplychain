@@ -75,6 +75,14 @@ public class InvoiceController {
 			}
 			return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
 		}
+	@RequestMapping(value = "/listProducts", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ProductInvoice>> listProducts() {
+		List<ProductInvoice> invoices = invoiceServiceObj.listProducts();
+		if (invoices.isEmpty()) {
+			return new ResponseEntity<List<ProductInvoice>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<ProductInvoice>>(invoices, HttpStatus.OK);
+	}
 	@RequestMapping(value = "/draftInvoices", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Invoice>> listDraftInvoices(@PathParam("sellerID") double sellerID) {
 	System.out.println("id is"+sellerID);

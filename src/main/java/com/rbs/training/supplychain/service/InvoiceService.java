@@ -25,7 +25,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import com.rbs.training.supplychain.model.ProductInvoice;
 import com.rbs.training.supplychain.DAO.DataBaseConnection;
 import com.rbs.training.supplychain.model.Invoice;
 import com.rbs.training.supplychain.model.InvoiceItems;
@@ -39,7 +39,7 @@ public class InvoiceService {
 		try{
 			Connection con = dbobj.getConnection();
 				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery("select * from invoice where invoice_id='"+InvoiceID+"'");
+				ResultSet rs = stmt.executeQuery("select * from invoice where invoice_id='"+InvoiceID+"' and deletestatus=0");
 				invobj = new Invoice();
 				System.out.println(rs.toString());
 				while(rs.next()){
@@ -268,71 +268,70 @@ public class InvoiceService {
 		return lst;	
 	}
 	
-		public Invoice addInvoice(double invoiceID,double contractID,double productID,double quantity, double sellerID, double buyerID, double billbookNo,double senderID,double receiverID, Date paymentDate, float invoiceAmount,Date invoiceDueDate) {
-			DataBaseConnection dbobj = new DataBaseConnection();
-			Invoice invobj = null;
-			CustomMessage msg = null; 
-			try{
-				Connection con = dbobj.getConnection();
-				msg = new CustomMessage();
-					invobj = new Invoice();
-					//double =invobj.invoiceNo++;
-					//String p="insert into invoice(invoice_id) value(22)";
-					
-					//String updateTableSQL1 ="insert into invoice(invoice_id,contractID,sellerID,buyerID, billbookNo,senderID,receiverID,Payment_Date,invoice_amount,invoice_due_date) values(?,?,?,?,?,?,?,NULL,?,NULL)";
-					
-					
-					
-					
-					/*stmt.executeQuery("insert into invoice values("+invoiceNo+","+contractNo+","+buyerId+","+sellerId+","
-					+productId+","+unitPrice+","+quantity+","+grossAmount+","+tax+","+netAmount+","+"0,1,0");*/
-					String updateTableSQL1 ="insert into invoice values(" +invoiceID +","+contractID+","+sellerID+","+buyerID+","+billbookNo+","+senderID+","+receiverID+","+"0,0,1,NULL,NULL"+","+invoiceAmount+","+ "NULL,1,0,NULL )";
-					
-					System.out.println(updateTableSQL1);
-					PreparedStatement preparedStatement  = con.prepareStatement(updateTableSQL1);
-					//preparedStatement.setDouble(1, invoiceID);preparedStatement.setDouble(2,contractID);preparedStatement.setDouble(3,sellerID);preparedStatement.setDouble(4,buyerID);preparedStatement.setDouble(5,billbookNo);preparedStatement.setDouble(6,senderID);preparedStatement.setDouble(7,receiverID);preparedStatement.setDouble(9,invoiceAmount);
-					preparedStatement.executeUpdate();
-					
-					System.out.println("Record is inserted to DBUSER table!");
-					String updateTableSQL2 = "COMMIT";
-					//preparedStatement = con.prepareStatement(p);
-					//preparedStatement.executeUpdate();
-					preparedStatement = con.prepareStatement(updateTableSQL2);
-					preparedStatement.executeUpdate();
-					msg.setMessage("Succesfully Updated");
-					
-					
-					InvoiceItems i= getItemDetails(invoiceID,(int)productID,(int)quantity);
-					 addItems((int)invoiceID,(int)productID,(int)quantity,i.getGrossAmount(),i.getTax(),i.getNetAmount());
-							
-					con.close();
-						invobj.setInvoiceID(invoiceID); 
-						invobj.setContractID(contractID);
-						invobj.setSellerID(sellerID);
-						invobj.setBuyerID(buyerID);
-						invobj.setBillbookNo(billbookNo);
-						//invobj.setSenderID(SenderID);
-						//invobj.setReceiverID(ReceiverID);
-						invobj.setFundingRequestStatus(0);
-						invobj.setApprovalStatus(0);
-						invobj.setDraftStatus(1);
-						invobj.setPaymentDate(paymentDate);
-						invobj.setInvoiceAmount(invoiceAmount);
-						invobj.setInvoiceDueDate(invoiceDueDate);
+	public Invoice addInvoice(double invoiceID,double contractID,double productID,double quantity, double sellerID, double buyerID, double billbookNo,double senderID,double receiverID, Date paymentDate, float invoiceAmount,Date invoiceDueDate) {
+		DataBaseConnection dbobj = new DataBaseConnection();
+		Invoice invobj = null;
+		CustomMessage msg = null; 
+		try{
+			Connection con = dbobj.getConnection();
+			msg = new CustomMessage();
+				invobj = new Invoice();
+				//double =invobj.invoiceNo++;
+				//String p="insert into invoice(invoice_id) value(22)";
+				
+				//String updateTableSQL1 ="insert into invoice(invoice_id,contractID,sellerID,buyerID, billbookNo,senderID,receiverID,Payment_Date,invoice_amount,invoice_due_date) values(?,?,?,?,?,?,?,NULL,?,NULL)";
+				
+				
+				
+				
+				/*stmt.executeQuery("insert into invoice values("+invoiceNo+","+contractNo+","+buyerId+","+sellerId+","
+				+productId+","+unitPrice+","+quantity+","+grossAmount+","+tax+","+netAmount+","+"0,1,0");*/
+				String updateTableSQL1 ="insert into invoice values(" +invoiceID +","+contractID+","+sellerID+","+buyerID+","+billbookNo+","+senderID+","+receiverID+","+"0,0,1,NULL,NULL"+","+invoiceAmount+","+ "NULL,1,0,NULL )";
+				
+				System.out.println(updateTableSQL1);
+				PreparedStatement preparedStatement  = con.prepareStatement(updateTableSQL1);
+				//preparedStatement.setDouble(1, invoiceID);preparedStatement.setDouble(2,contractID);preparedStatement.setDouble(3,sellerID);preparedStatement.setDouble(4,buyerID);preparedStatement.setDouble(5,billbookNo);preparedStatement.setDouble(6,senderID);preparedStatement.setDouble(7,receiverID);preparedStatement.setDouble(9,invoiceAmount);
+				preparedStatement.executeUpdate();
+				
+				System.out.println("Record is inserted to DBUSER table!");
+				String updateTableSQL2 = "COMMIT";
+				//preparedStatement = con.prepareStatement(p);
+				//preparedStatement.executeUpdate();
+				preparedStatement = con.prepareStatement(updateTableSQL2);
+				preparedStatement.executeUpdate();
+				msg.setMessage("Succesfully Updated");
+				
+				
+				InvoiceItems i= getItemDetails((int)invoiceID,(int)productID,(int)quantity);
+				 addItems((int)invoiceID,(int)productID,(int)quantity,i.getGrossAmount(),i.getTax(),i.getNetAmount());
 						
-						
-						
-						
-						System.out.println(invobj.toString());
-						System.out.println(msg.getMessage());
-				}
-				catch(Exception e)
-				{							
-					System.out.println(e.getMessage());
-				}
-			return invobj;			
-	}
-	
+				con.close();
+					invobj.setInvoiceID(invoiceID); 
+					invobj.setContractID(contractID);
+					invobj.setSellerID(sellerID);
+					invobj.setBuyerID(buyerID);
+					invobj.setBillbookNo(billbookNo);
+					//invobj.setSenderID(SenderID);
+					//invobj.setReceiverID(ReceiverID);
+					invobj.setFundingRequestStatus(0);
+					invobj.setApprovalStatus(0);
+					invobj.setDraftStatus(1);
+					invobj.setPaymentDate(paymentDate);
+					invobj.setInvoiceAmount(invoiceAmount);
+					invobj.setInvoiceDueDate(invoiceDueDate);
+					
+					
+					
+					
+					System.out.println(invobj.toString());
+					System.out.println(msg.getMessage());
+			}
+			catch(Exception e)
+			{							
+				System.out.println(e.getMessage());
+			}
+		return invobj;			
+}
 	
 		public List<InvoiceItems> viewProduct(int id){
 			DataBaseConnection dbobj = new DataBaseConnection();
@@ -364,87 +363,129 @@ public class InvoiceService {
 		}
 		
 		
-	public InvoiceItems getItemDetails(double invoiceID, int productID, int quantity) {
-				DataBaseConnection dbobj = new DataBaseConnection();
-				InvoiceItems itemobj = null;
-				CustomMessage msg = null; 
-				try{
-					Connection con = dbobj.getConnection();
-					msg = new CustomMessage();
-						itemobj = new InvoiceItems();
-						
-						PreparedStatement preparedStatement  = con.prepareStatement("select unitprice,tax from Product where product_id=?");
-						preparedStatement.setInt(1,productID);
-						ResultSet rs=preparedStatement.executeQuery();
-						double unitPrice=rs.getDouble(1);
-						float tax= rs.getFloat(2);
-						double grossAmount=quantity*unitPrice;
-						float grossTax=(float) grossAmount*tax;
-						double netAmount=grossAmount+grossTax;
-							con.close();
-							itemobj.setInvoiceID(invoiceID);
-							itemobj.setProductID(productID);
-							itemobj.setTax(grossTax);
-							itemobj.setUnitprice(unitPrice);
-							itemobj.setQuantity(quantity);
-							itemobj.setGrossAmount(grossAmount);
-							itemobj.setNetAmount(netAmount);
-							
-							
-							System.out.println(itemobj.toString());
-							System.out.println(msg.getMessage());
-					}
-					catch(Exception e)
-					{							
-						System.out.println(e.getMessage());
-					}
-				return itemobj;			
-		}	
-		
-		
-	public InvoiceItems addItems( int invoiceID,int productId,double quantity, double grossAmount, float tax,double netAmount) {
-				DataBaseConnection dbobj = new DataBaseConnection();
-				InvoiceItems itemobj = null;
-				CustomMessage msg = null; 
-				try{
-					Connection con = dbobj.getConnection();
-					msg = new CustomMessage();
-						itemobj = new InvoiceItems();
-						
-						String updateTableSQL1 ="insert into invoiceitems (invoice_id,product_id,quantity,gross_amount,tax,net_amount) values("+invoiceID+",'"
-								+productId+"',"+quantity+","+grossAmount+","+tax+","+netAmount+")";
-						
-						System.out.println(updateTableSQL1);
-						PreparedStatement preparedStatement  = con.prepareStatement(updateTableSQL1,Statement.RETURN_GENERATED_KEYS);
-						
-						preparedStatement.executeUpdate();
-						
-	                     ResultSet tableKeys = preparedStatement.getGeneratedKeys();
-	                     tableKeys.next();
-	                     int itemNo = tableKeys.getInt(1);
-						
-						String updateTableSQL2 = "COMMIT";
-						preparedStatement = con.prepareStatement(updateTableSQL2);
-						preparedStatement.executeUpdate();
-						msg.setMessage("Succesfully added item");
-							con.close();
-							itemobj.setItemNo(itemNo);
-							itemobj.setInvoiceID(invoiceID);
-							itemobj.setProductID(productId);
-							itemobj.setTax(tax);
-							itemobj.setQuantity(quantity);
-							itemobj.setGrossAmount(grossAmount);
-							itemobj.setNetAmount(netAmount);
+		public InvoiceItems getItemDetails(int invoiceID, int productID, int quantity) {
+			DataBaseConnection dbobj = new DataBaseConnection();
+			InvoiceItems itemobj = null;
+			CustomMessage msg = null; 
+			try{
+				Connection con = dbobj.getConnection();
+				msg = new CustomMessage();
+					itemobj = new InvoiceItems();
 					
-							System.out.println(itemobj.toString());
-							System.out.println(msg.getMessage());
+					PreparedStatement preparedStatement  = con.prepareStatement("select unitprice,tax from Product where product_id=?");
+					preparedStatement.setInt(1,productID);
+					ResultSet rs=preparedStatement.executeQuery();
+					double unitPrice=0;
+					float tax=0;
+					while(rs.next())
+					{
+						unitPrice=rs.getDouble(1);
+						tax= rs.getFloat(2);
+							
 					}
-					catch(Exception e)
-					{							
-						System.out.println(e.getMessage());
+					double grossAmount=quantity*unitPrice;
+
+					System.out.println("gross"+grossAmount);
+					
+					float grossTax=(float)(grossAmount*(tax/100));
+					double netAmount=grossAmount+grossTax;
+					System.out.println("grossAmount="+grossAmount);
+							System.out.println("tax="+grossTax);
+						con.close();
+						itemobj.setInvoiceID(invoiceID);
+						itemobj.setProductID(productID);
+						itemobj.setTax(grossTax);
+						itemobj.setUnitprice(unitPrice);
+						itemobj.setQuantity(quantity);
+						itemobj.setGrossAmount(grossAmount);
+						itemobj.setNetAmount(netAmount);
+						System.out.println(itemobj.toString());
+						System.out.println(msg.getMessage());
+				}
+				catch(Exception e)
+				{							
+					System.out.println(e.getMessage());
+				}
+			return itemobj;			
+	}	
+		
+		
+		public void updateInvoiceAmount(int invoiceID)
+		{
+			DataBaseConnection dbobj = new DataBaseConnection();
+			InvoiceItems itemobj = null;
+			CustomMessage msg = null; 
+			try{
+				Connection con = dbobj.getConnection();
+				msg = new CustomMessage();
+					itemobj = new InvoiceItems();
+					
+					PreparedStatement preparedStatement  = con.prepareStatement("select sum(net_amount) from invoiceitems where invoice_id=?");
+					preparedStatement.setInt(1,invoiceID);
+					ResultSet rs=preparedStatement.executeQuery();
+					double sum=0;
+					while(rs.next())
+					{
+						sum=rs.getDouble(1);
+						System.out.println("sum="+sum);
 					}
-				return itemobj;			
+					PreparedStatement preparedStatement1  = con.prepareStatement("update invoice set invoice_amount=? where invoice_id=?");
+					preparedStatement1.setDouble(1, sum);
+					preparedStatement1.setInt(2,invoiceID);
+					preparedStatement1.executeUpdate();
+					}
+			catch(Exception e)
+			{
+				
+			}
 		}
+		public InvoiceItems addItems( int invoiceID,int productId,double quantity, double grossAmount, float tax,double netAmount) {
+					DataBaseConnection dbobj = new DataBaseConnection();
+					InvoiceItems itemobj = null;
+					CustomMessage msg = null; 
+					try{
+						Connection con = dbobj.getConnection();
+						msg = new CustomMessage();
+							itemobj = new InvoiceItems();
+							
+							InvoiceItems in=new InvoiceItems();
+									in=getItemDetails(invoiceID,productId,(int)quantity);
+								
+							String updateTableSQL1 ="insert into invoiceitems (invoice_id,product_id,quantity,gross_amount,tax,net_amount) values("+invoiceID+",'"
+									+productId+"',"+quantity+","+in.getGrossAmount()+","+in.getTax()+","+in.getNetAmount()+")";
+							
+							System.out.println(updateTableSQL1);
+							PreparedStatement preparedStatement  = con.prepareStatement(updateTableSQL1,Statement.RETURN_GENERATED_KEYS);
+							
+							preparedStatement.executeUpdate();
+							updateInvoiceAmount(invoiceID);
+							/*
+		                     ResultSet tableKeys = preparedStatement.getGeneratedKeys();
+		                     tableKeys.next();
+		                     int itemNo = tableKeys.getInt(1);
+							*/
+							String updateTableSQL2 = "COMMIT";
+							preparedStatement = con.prepareStatement(updateTableSQL2);
+							preparedStatement.executeUpdate();
+							msg.setMessage("Succesfully added item");
+								con.close();
+								itemobj.setInvoiceID(invoiceID);
+								itemobj.setProductID(productId);
+								itemobj.setTax(tax);
+								itemobj.setQuantity(quantity);
+								itemobj.setGrossAmount(grossAmount);
+								itemobj.setNetAmount(netAmount);
+						
+								System.out.println(itemobj.toString());
+								System.out.println(msg.getMessage());
+						}
+						catch(Exception e)
+						{							
+							System.out.println(e.getMessage());
+						}
+					return itemobj;			
+			}
+
 			
 			
 	public CustomMessage deleteItem(int invoiceNo ,int productID) {
@@ -474,7 +515,31 @@ public class InvoiceService {
 				}
 			return msg;
 		}		
-	
+	public List<ProductInvoice> listProducts(){
+		DataBaseConnection dbobj = new DataBaseConnection();
+		List<ProductInvoice> lst = new ArrayList<ProductInvoice>();
+		ProductInvoice itemobj = null;
+		try{
+			Connection con = dbobj.getConnection();
+				PreparedStatement stmt = con.prepareStatement("select * from product");
+				ResultSet rs = stmt.executeQuery();				
+				
+				while(rs.next()){
+					itemobj = new ProductInvoice();
+					itemobj.setProductID(rs.getInt(1));
+					itemobj.setProductName(rs.getString(2));
+					itemobj.setUnitPrice(rs.getInt(3));
+					itemobj.setTax(rs.getFloat(4));
+					itemobj.setDescription(rs.getString(5));
+					lst.add(itemobj);
+				}
+			}
+			catch(Exception e)
+			{							
+				System.out.println(e.getMessage());
+			}
+		return lst;			
+	}
 	public CustomMessage deleteInvoice(double invoiceID) {
 		//insert your logic Here can change input and return parameters to your requirements
 		
