@@ -14,18 +14,20 @@ acmApp.controller('coaListCtrl', function ($scope, $http){
         $http.post('http://localhost:8181/ACM/viewCOAlist').success(function (data) {
             $scope.coaList = data;
             console.log(data);
-            window.location = "#coaList";
+            window.location = "#/coaList";
 					
         });
 	}
+	
 	$scope.callGl = function () {
         $http.post('http://localhost:8181/ACM/viewGL').success(function (data) {
             $scope.glList = data;
             console.log(data);
-            window.location = "#viewGL";
+            window.location = "#/viewGL";
 					
 	    });
 	}
+	
 	$scope.callGlSearch = function () {
 		var acEntryNo=this.acEntryNo;
 		var transNo=this.transNo;
@@ -65,17 +67,59 @@ acmApp.controller('coaListCtrl', function ($scope, $http){
 		}
 		else
 		{
+			if(drCr=='allEvents')
+				drCr='';
 			var url='http://localhost:8181/ACM/viewGLBySearch';
 			$http({url:url,method:"POST",params:{'acEntryNo':acEntryNo,'transNo':transNo,'custAcNo':custAcNo,'swiftID':swiftID,'paymentDate':paymentDate,'invoiceNo':invoiceNo,'drCr':drCr,'dueDate':dueDate}}).success(function (data) {
 	            $scope.glList = data;
 	            console.log(data);
-	            window.location = "#viewGL";					
+	            window.location = "#/viewGL";					
 			});
 		}
 	}
-});
-acmApp.controller('glCtrl', function ($scope, $http){    
-		
+	
+	$scope.addCoa = function () {
+		var head=this.head;
+		var legalEntity=this.legalEntity;
+		var country=this.country;
+		var branch=this.branch;
+		var product=this.product;
+		var currency=this.currency;
+		var book=this.book;
+		var productSwiftID=this.productSwiftID;
+		if(head==undefined||head=='null')
+			head='';
+		if(legalEntity==undefined||legalEntity=='null')
+			legalEntity='';
+		if(country==undefined||country=='null')
+			country='';
+		if(branch==undefined||branch=='null')
+			branch='';
+		if(product==undefined||product=='null')
+			product='';
+		if(currency==undefined||currency=='null')
+			currency='';
+		if(book==undefined||book=='null')
+			book='';
+		if(productSwiftID==undefined||productSwiftID=='null')
+			productSwiftID='';
+		if(head==''||legalEntity==''||country==''||branch==''||product==''||currency==''||book==''||productSwiftID=='')
+		{	
+			alert("Enter all the fields");
+			//$scope.callGl();
+		}
+		else
+		{
+			var url='http://localhost:8181/ACM/addCOAContoller';
+			$http({url:url,method:"POST",params:{'head':head,'legalEntity':legalEntity,'country':country,'branch':branch,'product':product,'currency':currency,'book':book,'productSwiftID':productSwiftID}}).success(function (data) {
+	            $scope.glList = data;
+	            console.log(data);  
+	            alert("Chart Of Accounts Added");
+	            window.location = "#/";					
+			});
+			//$scope.callCoaList();
+		}
+	}
 });
 
 function getFormattedDate(input) {
@@ -84,20 +128,17 @@ function getFormattedDate(input) {
         var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
         return p2 + "-" + months[(p1-1)] + "-" + p3%100;
     });
-    //alert(result);
     return result;
 }
 
-//getFormattedDate("6/1/2013");
-	
 /*var boxes = $('.myCheckBox');
 
 boxes.on('change', function() {
     $('#deleteButton').prop('disabled', !boxes.filter(':checked').length);
 }).trigger('change');*/
 
-var checkBoxes = $('.myCheckBox');
+/*var checkBoxes = $('.myCheckBox');
 checkBoxes.change(function () {
     $('#deleteButton').prop('disabled', checkBoxes.filter(':checked').length < 1);
 });
-checkBoxes.change();
+checkBoxes.change();*/
