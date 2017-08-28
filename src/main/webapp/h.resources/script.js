@@ -32,20 +32,6 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 				window.location = "#/view_table";
 			});
 		}
-		
-		/* function to get Features for a given proposal id */
-		
-		$scope.getFeatures = function() {
-			console.log("on click function 2");			
-			var y = $scope.proposal_id;
-			console.log("proposal id=" +y);			
-            $http.post('http://localhost:8181/contractmanagementseller/listfeatures/' + y)
-            .success(function (data) {
-                $scope.features = data;
-                console.log(data);
-                window.location = "#/proposals";
-            });				
-		}
 		 
 		/*function to get status of accepted proposals*/
 		
@@ -80,6 +66,22 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 			});
 		}   
 
+	});
+	
+	myApp.controller("proposalTableCtrl", function($scope, $http) {
+		
+		/* function to get Features for a given proposal id */
+		
+			console.log("Proposal Table Ctroller: on click function 2");			
+			var y = $scope.proposal_id;
+			console.log("proposal id=" +y);		
+			console.log("seller id=" + $scope.seller_id);
+            $http.post('http://localhost:8181/contractmanagementseller/listfeatures/' + y)
+            .success(function (data) {
+                $scope.features = data;
+                console.log(data);
+               // window.location = "#/proposals";
+            });				
 	});
 	
 	myApp.controller("sampleController", function ($scope, $window) {
