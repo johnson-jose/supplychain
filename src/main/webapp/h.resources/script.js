@@ -14,17 +14,11 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		.when('/view_stats', {
 		templateUrl : 'view_stats.htm'
 		})
-		.when('/features', {
-			templateUrl : 'features.html'
-		})
 	});
 	
 	myApp.controller('myController', function($scope,$rootScope, $http){	
 		
 		/*function to fetch request for proposals*/
-		 
-		var newScope = $rootScope;
-		newScope.proposal_id = $scope.proposal_id;
 		
 		$scope.myfunc = function () {
         	
@@ -34,11 +28,10 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 			$http.post('http://localhost:8181/contractmanagementseller/viewrfp/' + x)
 			.success(function (data) {
                 $scope.proposals = data;                    
-                console.log($scope.proposals);
+                console.log(data);
 				window.location = "#/view_table";
 			});
 		}
-<<<<<<< HEAD
 		$scope.getFeatures = function() { 
 			$rootScope.proposal_id = $scope.proposal_id;
 			console.log("Proposal Table Ctroller: on click function 2");	
@@ -46,11 +39,6 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 	            window.location = "#/proposals";
 	       
 		}
-=======
-		
-		/* function to get Features for a given proposal id */	
-		 
->>>>>>> branch 'master' of https://github.com/johnson-jose/supplychain.git
 		/*function to get status of accepted proposals*/
 		
 		$scope.myfuncstats = function () {
@@ -86,7 +74,6 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 
 	});
 	
-<<<<<<< HEAD
 	myApp.controller("proposalTableCtrl", function($scope,$rootScope, $http) {
 		
 		 /*function to get Features for a given proposal id 
@@ -95,18 +82,10 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 			var y = $scope.proposal_id;
 			
 			console.log("proposal id=" +y);		
-=======
-	myApp.controller("proposalTableCtrl", function($scope, $http) {
-		/* function to get Features for a given proposal id */
-			console.log("on click function 2");			
-			//var y = $scope.proposal_id;
-			//console.log("proposal id=" +y);		
->>>>>>> branch 'master' of https://github.com/johnson-jose/supplychain.git
 			console.log("seller id=" + $scope.seller_id);
-            $http.post('http://localhost:8181/contractmanagementseller/listfeatures/1')
+            $http.post('http://localhost:8181/contractmanagementseller/listfeatures/' + y)
             .success(function (data) {
                 $scope.features = data;
-<<<<<<< HEAD
                 console.log(data);
                // window.location = "#/proposals";
             });*/	
@@ -124,14 +103,6 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 	        });
             
 	});
-=======
-                console.log($scope.features);
-               //window.location = "#/features";
-            });
-	});	
-		
-		    		
->>>>>>> branch 'master' of https://github.com/johnson-jose/supplychain.git
 	
 	myApp.controller("sampleController", function ($scope, $window) {
 				console.log("sampleCtrl"); 
