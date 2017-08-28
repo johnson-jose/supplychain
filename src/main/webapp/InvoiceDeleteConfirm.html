@@ -42,7 +42,7 @@
    						<td>{{p.unitprice}}</td>
    						<td>{{p.tax}}</td>
    						<td>{{p.grossAmount}}</td>
-   						<td>{{p.tax * p.grossAmount}}</td>
+   						<td>{{p.tax +p.grossAmount}}</td>
    						<td>{{p.netAmount}}</td>
                     </tr>
                     <tr><td colspan="5" border="0"></td><td><b>Total</b></td><td>{{invoice.invoiceAmount}}</td></tr>

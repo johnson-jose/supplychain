@@ -32,7 +32,7 @@ var invoiceApp = angular.module('invoiceApp', ["ngRoute"]);
 
 			var invoiceNo = $scope.invoiceNo;
 			console.log(invoiceNo);
-			$http.post('http://localhost:8180/invoice/searchInvoice?invoiceID='+invoiceNo).success(function (data) {
+			$http.post('http://localhost:8181/invoice/searchInvoice?invoiceID='+invoiceNo).success(function (data) {
 				console.log( "in view http");
 				$scope.invoice = data;
                 console.log($scope.invoice);
@@ -43,12 +43,12 @@ var invoiceApp = angular.module('invoiceApp', ["ngRoute"]);
 				console.log("hai");
                 $scope.invoice = data;
                 console.log(data);
-                });
-            $http.post('http://localhost:8180/invoice/viewProduct/' + invoiceNo)
-			.success(function (data) {
-                $scope.productlist = data;
-                console.log(data);
                 });*/
+            $http.post('http://localhost:8181/invoice/viewProduct/?id=' + invoiceNo)
+			.success(function (data) {
+                $scope.productslist = data;
+                console.log($scope.productslist);
+                });
                 
 		}
     
@@ -60,7 +60,7 @@ var invoiceApp = angular.module('invoiceApp', ["ngRoute"]);
 	 
 		$scope.deleteresultfunc = function () {
 		console.log('go to delete result page');
-		 $http.post('http://localhost:8180/invoice/deleteInvoice?invoiceID=' + $scope.invoiceNo)
+		 $http.post('http://localhost:8181/invoice/deleteInvoice?invoiceID=' + $scope.invoiceNo)
 			.success(function (data) {
                 $scope.message = data;
                 console.log(data);
