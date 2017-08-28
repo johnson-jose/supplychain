@@ -8,8 +8,8 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		.when('/view_table', {
 		templateUrl : 'view_table.htm'
 		})
-		.when('/proposals', {
-		templateUrl : 'proposals.htm'
+		.when('/features', {
+		templateUrl : 'features.htm'
 		})
 		.when('/view_stats', {
 		templateUrl : 'view_stats.htm'
@@ -35,8 +35,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		$scope.getFeatures = function() { 
 			$rootScope.proposal_id = $scope.proposal_id;
 			console.log("Proposal Table Ctroller: on click function 2");	
-			var y = $rootScope.proposal_id;
-	            window.location = "#/proposals";
+	            window.location = "#/features";
 	       
 		}
 		/*function to get status of accepted proposals*/
@@ -99,7 +98,6 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 	        .success(function (data) {
 	            $scope.features = data;
 	            console.log(data);
-	            window.location = "#/proposals";
 	        });
             
 	});
