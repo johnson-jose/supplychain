@@ -109,7 +109,25 @@ public class ContractManagementSellerService {
 			
 		}
 
-	
+	//service 3
+	 
+	 public void updatesellerresponse(int productid, int proposalid, int featureid, int sellerid, String response) throws ClassNotFoundException, SQLException{
+		 con = dbobj.getConnection();
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("select * from \"Response\" where p_id="+productid+" AND f_id=" + featureid + " AND" + " seller_id="+sellerid+" AND proposal_id="+proposalid);
+		 if(!rs.next()){
+			 stmt = con.createStatement();
+			 stmt.executeUpdate("insert into \"Response\" VALUES("+response+","+sellerid+","+featureid+","+productid+","+proposalid+")");
+		 }
+		 else
+		 {
+			 
+		 }
+	 }
+	 
+	 
+	 
+	 
 	/*service to fetch the buyer's status for the proposals 
 	 * which the seller has already accepted
 	 * service 4
