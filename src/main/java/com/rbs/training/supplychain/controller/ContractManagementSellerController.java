@@ -19,6 +19,10 @@ import com.rbs.training.supplychain.model.Proposal_Sellers_Bid;
 import com.rbs.training.supplychain.model.Sfeatures;
 import com.rbs.training.supplychain.service.ContractManagementSellerService;
 
+/*service to fetch all the request for proposals(rfps)*/
+
+/*service 1*/
+
 @RestController
 @RequestMapping("/contractmanagementseller")
 public class ContractManagementSellerController {
@@ -47,6 +51,8 @@ public class ContractManagementSellerController {
 		}
     
 	 /*service 2*/
+	 /* function to list a particular proposal if the proposal id is passed from proposal table
+	  */
 	 
 	 @RequestMapping(value="/listfeatures/{proposal_id}",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<List<Sfeatures>> getFeatures(@PathVariable("proposal_id") String propid) {
@@ -64,7 +70,10 @@ public class ContractManagementSellerController {
 			return new ResponseEntity<List<Sfeatures>>(featureslist, HttpStatus.OK);
 	    }
 						
-				
+	 /*service 3
+	 FUNCTION TO UPDATE SELLER'S RESPONSE TO THE FEATURES 
+	 OF EVERY PRODUCT IN THE PRODUCT= WITH A/C/N RADIO BUTTONS
+				*/
 	
     @RequestMapping("/updatesellerresponse/{proposal_id}/{product_id}/{feature_id}/{seller_id}/{response}")
     public void updateresponse(@PathVariable("proposal_id") String propid,@PathVariable("product_id") String prodid, @PathVariable("feature_id") String fid,@PathVariable("seller_id") String sid, @PathVariable("response") String response) throws ClassNotFoundException, SQLException {
@@ -76,26 +85,6 @@ public class ContractManagementSellerController {
       
     }
     
-   
-  /*  service to fetch the buyer's status for the proposals 
-	 * which the seller has already accepted
-	 * service 4*/
-    @RequestMapping(value="/fetchbuyerStatus/{seller_id}",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Proposal_Sellers_Bid>> getBuyerStatus(@PathVariable("seller_id") String sid) {
-        int seller_id = Integer.parseInt(sid);
-		List<Proposal_Sellers_Bid> buyerstatuslist= new ArrayList<Proposal_Sellers_Bid>();
-		try {
-			buyerstatuslist = service.fetchBuyerStatus(seller_id);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
-		if(buyerstatuslist.isEmpty()){
-			//return new ResponseEntity(HttpStatus.NO_CONTENT);
-		}
-		
-		return new ResponseEntity<List<Proposal_Sellers_Bid>>(buyerstatuslist, HttpStatus.OK);
-    }
-     
     /* SERVICE 4 service to update the seller's status(accept/reject/later) in the proposal_sellers_bid table 
   	*/
     
@@ -115,7 +104,30 @@ public class ContractManagementSellerController {
 		}
     }
     
-    /*service to send additional response-service 5*/
+   /*service 5*/
+   /*VIEW STATUS OF SENT PROPOSALS
+  service to fetch the buyer's status for the proposals 
+	 which the seller has already accepted*/
+	 
+    @RequestMapping(value="/fetchbuyerStatus/{seller_id}",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Proposal_Sellers_Bid>> getBuyerStatus(@PathVariable("seller_id") String sid) {
+        int seller_id = Integer.parseInt(sid);
+		List<Proposal_Sellers_Bid> buyerstatuslist= new ArrayList<Proposal_Sellers_Bid>();
+		try {
+			buyerstatuslist = service.fetchBuyerStatus(seller_id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		if(buyerstatuslist.isEmpty()){
+			//return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		
+		return new ResponseEntity<List<Proposal_Sellers_Bid>>(buyerstatuslist, HttpStatus.OK);
+    }
+     
+    
+    /*service to send additional response-
+     * service 6*/
     @RequestMapping(value = "/addresponse/{seller_id}/{product_id}/{specification}",method = RequestMethod.POST)
     
     public void additionalResponse(@PathVariable("seller_id") String id,

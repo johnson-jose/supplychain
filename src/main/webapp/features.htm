@@ -46,20 +46,24 @@
 
 <div ng-controller="myController">
 	<form>
-		Enter the product id for which you want to send additional response:
-		<input type="text-area" ng-model="prod_id"/>
-		<!-- <div class="dropdown">
-		    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Product-ID
-		    <span class="caret"></span></button>
-		    <ul class="dropdown-menu">
-		      <li><a href="#">HTML</a></li>
-		      <li><a href="#">CSS</a></li>
-		      <li><a href="#">JavaScript</a></li>
-		    </ul>
-		  </div> -->
-		Enter the specification you want to send:
-		<input type="text-area" ng-model="specification"/>
-		<button type="submit" ng-click="myfunc4()">Submit</button>
+		<fieldset>
+   				 <legend> Additional Response for a product </legend>
+					Enter the product id for which you want to send additional response:
+					<input type="text-area" ng-model="prod_id"/>
+						<!-- <div class="dropdown">
+		    				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Product-ID
+		   						 <span class="caret"></span></button>
+		   						 <ul class="dropdown-menu">
+		     						<li><a href="#">HTML</a></li>
+		      						<li><a href="#">CSS</a></li>
+		      						<li><a href="#">JavaScript</a></li>
+		    					</ul>
+		  				</div> -->
+					Enter the response you want to send:
+					<input type="text-area" ng-model="specification"/>
+			<button type="submit" ng-click="addresponse()">Submit</button>
+		</fieldset>
 	</form>
+	
 </div>
 </div>

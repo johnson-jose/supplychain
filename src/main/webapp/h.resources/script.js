@@ -55,7 +55,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		
 		/*function to send additional response
 		*/
-		$scope.myfunc4 = function () {        	
+		$scope.addresponse = function () {        	
 			console.log("on click function 4");
 			var s = $scope.seller_id;
 			console.log(s);
@@ -64,7 +64,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 			var spec = $scope.specification;
 			console.log(spec);
 			//var spec= new String('i can provide higher');
-			$http.post('http://localhost:8181/contractmanagementseller/addresponse/' +s+ '/' + 3 + '/' +spec)
+			$http.post('http://localhost:8181/contractmanagementseller/addresponse/' +s+ '/' +p+ '/' +spec)
 			.success(function (data) {
                 $scope.stats = data;                    
                 console.log('hi');
