@@ -251,10 +251,14 @@ public class ContractManagementSellerService {
   	 dbobj = new DatabaseConnectionPostgreSQL();
   	 con = dbobj.getConnection();
   	Statement st = con.createStatement();
-  	con.commit();
+  	//con.commit();
+  	System.out.println("update \"Proposal_sellers_bid\" set "
+  			+ "\"Proposal_sellers_bid\".seller_status= " +seller_status+ "where \"Proposal_sellers_bid\".seller_id=" +seller_id+ 
+  				 "and \"Proposal_sellers_bid\".proposal_id="+proposal_id);
   	st.executeUpdate("update \"Proposal_sellers_bid\" set "
   			+ "\"Proposal_sellers_bid\".seller_status= " +seller_status+ "where \"Proposal_sellers_bid\".seller_id=" +seller_id+ 
   				 "and \"Proposal_sellers_bid\".proposal_id="+proposal_id);
+  	
   	}
   	catch(Exception e){
   		System.out.println(e.getMessage());

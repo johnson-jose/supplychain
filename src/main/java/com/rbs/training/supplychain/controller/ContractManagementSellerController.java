@@ -100,16 +100,14 @@ public class ContractManagementSellerController {
   	*/
     
     @RequestMapping(value = "/updatebidsellerstatus/{seller_id}/{proposal_id}/{seller_status}")
-    // public void updatebidsellerstats(@PathVariable("seller_id") String id,
-    	//	@PathVariable("proposal_id") String pid,@PathVariable("seller_status") String sts){
-    public static void main(String[] args){
+     public void updatebidsellerstats(@PathVariable("seller_id") String id,
+    	@PathVariable("proposal_id") String pid,@PathVariable("seller_status") String sts){
     	
-    	int seller_id =1;// Integer.parseInt(id);
-    	int proposal_id= 1;//Integer.parseInt(pid);
-    	String sts = "a";
+    	int seller_id = Integer.parseInt(id);
+    	int proposal_id=Integer.parseInt(pid);
     	try {
-    		ContractManagementSellerService cs = new ContractManagementSellerService();
-			 cs.updateBidSellerStatus(seller_id, proposal_id, sts);
+    		//ContractManagementSellerService cs = new ContractManagementSellerService();
+			 service.updateBidSellerStatus(seller_id, proposal_id, sts);
 			 System.out.println("i came out");
 		} catch (Exception e) {
 			
