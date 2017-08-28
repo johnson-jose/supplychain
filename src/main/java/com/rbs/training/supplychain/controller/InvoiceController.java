@@ -48,7 +48,7 @@ public class InvoiceController {
 			return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
 		}
 	
-	@RequestMapping(value = "/approvedInvocies", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/approvedInvoices", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<List<Invoice>> listAllUsers1(@PathParam("approvalStatus") int approvalStatus) {
 		System.out.println("id is"+approvalStatus);
 			List<Invoice> invoices = invoiceServiceObj.approvedInvocies(approvalStatus);
@@ -57,6 +57,29 @@ public class InvoiceController {
 			}
 			return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
 		}
+	
+	@RequestMapping(value = "/sendInvoice", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+	public CustomMessage listAllUsers12(@PathParam("invoiceID") int invoiceID) {
+	
+		CustomMessage s=invoiceServiceObj.sendInvoice(invoiceID);
+	return s;
+	
+	}
+	
+	@RequestMapping(value = "/approveInvoice", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+	public CustomMessage listAllUsers123(@PathParam("invoiceID") int invoiceID) {
+	
+	CustomMessage s=invoiceServiceObj.approveInvoice(invoiceID);
+	return s;
+	
+	}
+	@RequestMapping(value = "/rejectInvoice", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+	public CustomMessage listAllUsers1234(@PathParam("invoiceID") int invoiceID) {
+	
+	CustomMessage s=invoiceServiceObj.rejectInvoice(invoiceID);
+	return s;
+	
+	}
 	
 	@RequestMapping(value = "/searchInvoice/{InvoiceID}",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Invoice> searchInvoice(@PathVariable("invoiceID") double invoiceID) throws ClassNotFoundException, SQLException {

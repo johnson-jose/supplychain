@@ -16,11 +16,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.poi.hssf.usermodel.HSSFDateUtil;
-import org.apache.poi.ss.format.CellDateFormatter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -73,6 +70,7 @@ public class InvoiceService {
 			}
 		return invobj;			
 	}
+	
 	public List<Invoice> listAllInvocies(double sellerID){
 		DataBaseConnection dbobj = new DataBaseConnection();
 		List<Invoice> lst = new ArrayList<Invoice>();
@@ -170,7 +168,7 @@ public class InvoiceService {
 					
 					/*stmt.executeQuery("insert into invoice values("+invoiceNo+","+contractNo+","+buyerId+","+sellerId+","
 					+productId+","+unitPrice+","+quantity+","+grossAmount+","+tax+","+netAmount+","+"0,1,0");*/
-					String updateTableSQL1 ="insert into invoice"+ " values("+invoiceID+","+contractID+","+sellerID+","+buyerID+","+billbookNo+","+senderID+","+receiverID+","+"NULL,NULL,NULL,NULL,NULL"+","+invoiceAmount+","+"NULL,NULL,0,NULL"+")";
+					String updateTableSQL1 ="insert into invoice values(" +invoiceID +","+contractID+","+sellerID+","+buyerID+","+billbookNo+","+senderID+","+receiverID+","+"0,0,1,NULL,NULL"+","+invoiceAmount+","+ "NULL,1,0,NULL )";
 					
 					System.out.println(updateTableSQL1);
 					PreparedStatement preparedStatement  = con.prepareStatement(updateTableSQL1);
@@ -390,11 +388,7 @@ public class InvoiceService {
 		return msg;
 	}
 	
-	public CustomMessage approveInvoice(double invoiceID) {
-		//insert your logic Here can change input and return parameters to your requirements
-		
-		return null;
-	}
+	
 	private static String UPLOADED_FOLDER = "C://temp//";
     public String uploadInvoice(MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
@@ -588,5 +582,93 @@ public class InvoiceService {
         
         return s;
     }
+	public CustomMessage sendInvoice(int invoiceID) {
+		// TODO Auto-generated method stub
+		DataBaseConnection dbobj = new DataBaseConnection();
+		CustomMessage msg=null;
+		
+		try{
+			Connection con = dbobj.getConnection();
+			msg = new CustomMessage();
+			PreparedStatement stmt=con.prepareStatement("update invoice set draftStatus=0,approvalstatus=0 where invoice_id=? and deletestatus=0");
+			stmt.setDouble(1,invoiceID);
+			stmt.executeUpdate();
+
+			System.out.println("Record is updated to DBUSER table!");
+			String updateTableSQL2 = "COMMIT";
+			stmt = con.prepareStatement(updateTableSQL2);
+			stmt.executeUpdate();
+			msg.setMessage("Invoice no"+invoiceID+ "Sent for approval");
+			//ResultSet re=stmt.executeQuery();
+			//while(re.next()){
+				//System.out.println("invoice number"+re.getInt(1)+"ContractNo"+re.getInt(2)+"BuyerId"+re.getInt(3)+"SellerId"+re.getInt(4)+"ProductId"+re.getInt(5)+"UnitPrice"+re.getInt(6)+"Quantity number"+re.getInt(7)+"GrossAmount"+re.getInt(8)+"tax"+re.getInt(9)+"NetAmount "+re.getInt(10)+"ApprovalStatus "+re.getInt(11)+"Draft number"+re.getInt(12)+"FinancialStatus "+re.getInt(13));
+			//}
+		}
+		catch(Exception e){
+			msg.setMessage(e.getMessage());
+			System.out.println(e.getMessage());
+			}
+		return msg;
+	}
+	
+		
+	public CustomMessage approveInvoice(int invoiceID) {
+		// TODO Auto-generated method stub
+		DataBaseConnection dbobj = new DataBaseConnection();
+		CustomMessage msg=null;
+		String s="";
+		try{
+			Connection con = dbobj.getConnection();
+			msg = new CustomMessage();
+			PreparedStatement stmt=con.prepareStatement("update invoice set draftStatus=0,approvalstatus=1 where invoice_id=? and deletestatus=0");
+			stmt.setDouble(1,invoiceID);
+			stmt.executeUpdate();
+
+			System.out.println("Record is updated to DBUSER table!");
+			String updateTableSQL2 = "COMMIT";
+			stmt = con.prepareStatement(updateTableSQL2);
+			stmt.executeUpdate();
+
+			msg.setMessage("Invoice no"+invoiceID+ "approved");
+			//ResultSet re=stmt.executeQuery();
+			//while(re.next()){
+				//System.out.println("invoice number"+re.getInt(1)+"ContractNo"+re.getInt(2)+"BuyerId"+re.getInt(3)+"SellerId"+re.getInt(4)+"ProductId"+re.getInt(5)+"UnitPrice"+re.getInt(6)+"Quantity number"+re.getInt(7)+"GrossAmount"+re.getInt(8)+"tax"+re.getInt(9)+"NetAmount "+re.getInt(10)+"ApprovalStatus "+re.getInt(11)+"Draft number"+re.getInt(12)+"FinancialStatus "+re.getInt(13));
+			//}
+		}
+		catch(Exception e){
+			msg.setMessage(e.getMessage());
+			System.out.println(e.getMessage());
+			}
+		return msg;
+	}
+	public CustomMessage rejectInvoice(int invoiceID) {
+		// TODO Auto-generated method stub
+		DataBaseConnection dbobj = new DataBaseConnection();
+		CustomMessage msg=null;
+		String s="";
+		try{
+			Connection con = dbobj.getConnection();
+			msg = new CustomMessage();
+			PreparedStatement stmt=con.prepareStatement("update invoice set draftStatus=0,approvalstatus=2 where invoice_id=? and deletestatus=0");
+			stmt.setDouble(1,invoiceID);
+			stmt.executeUpdate();
+
+			System.out.println("Record is updated to DBUSER table!");
+			String updateTableSQL2 = "COMMIT";
+			stmt = con.prepareStatement(updateTableSQL2);
+			stmt.executeUpdate();
+
+			msg.setMessage("Invoice no"+invoiceID+ "rejected");
+			//ResultSet re=stmt.executeQuery();
+			//while(re.next()){
+				//System.out.println("invoice number"+re.getInt(1)+"ContractNo"+re.getInt(2)+"BuyerId"+re.getInt(3)+"SellerId"+re.getInt(4)+"ProductId"+re.getInt(5)+"UnitPrice"+re.getInt(6)+"Quantity number"+re.getInt(7)+"GrossAmount"+re.getInt(8)+"tax"+re.getInt(9)+"NetAmount "+re.getInt(10)+"ApprovalStatus "+re.getInt(11)+"Draft number"+re.getInt(12)+"FinancialStatus "+re.getInt(13));
+			//}
+		}
+		catch(Exception e){
+			msg.setMessage(e.getMessage());
+			System.out.println(e.getMessage());
+			}
+		return msg;
+	}
 
 }
