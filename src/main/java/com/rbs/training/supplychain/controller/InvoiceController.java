@@ -39,7 +39,7 @@ public class InvoiceController {
 // List all the invoices by id
 		
 	@RequestMapping(value = "/viewInvoices", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-		public ResponseEntity<List<Invoice>> listAllUsers(@PathParam("sellerID") double sellerID) {
+		public ResponseEntity<List<Invoice>> listAllInvocies(@PathParam("sellerID") double sellerID) {
 		System.out.println("id is"+sellerID);
 			List<Invoice> invoices = invoiceServiceObj.listAllInvocies(sellerID);
 			if (invoices.isEmpty()) {
@@ -48,8 +48,26 @@ public class InvoiceController {
 			return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
 		}
 	
+	@RequestMapping(value = "/SentInvoices", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Invoice>> listSentInvoices(@PathParam("sellerID") double sellerID) {
+	System.out.println("id is"+sellerID);
+		List<Invoice> invoices = invoiceServiceObj.listSentInvoices(sellerID);
+		if (invoices.isEmpty()) {
+			return new ResponseEntity<List<Invoice>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
+	}
+	@RequestMapping(value = "/ReceivedInvoices", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Invoice>> listReceivedInvoices(@PathParam("sellerID") double sellerID) {
+	System.out.println("id is"+sellerID);
+		List<Invoice> invoices = invoiceServiceObj.listReceivedInvoices(sellerID);
+		if (invoices.isEmpty()) {
+			return new ResponseEntity<List<Invoice>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
+	}
 	@RequestMapping(value = "/approvedInvoices", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-		public ResponseEntity<List<Invoice>> listAllUsers1(@PathParam("approvalStatus") int approvalStatus) {
+		public ResponseEntity<List<Invoice>> listApprovedInvoices(@PathParam("approvalStatus") int approvalStatus) {
 		System.out.println("id is"+approvalStatus);
 			List<Invoice> invoices = invoiceServiceObj.approvedInvocies(approvalStatus);
 			if (invoices.isEmpty()) {
@@ -57,7 +75,15 @@ public class InvoiceController {
 			}
 			return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
 		}
-	
+	@RequestMapping(value = "/draftInvoices", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Invoice>> listDraftInvoices(@PathParam("sellerID") double sellerID) {
+	System.out.println("id is"+sellerID);
+		List<Invoice> invoices = invoiceServiceObj.listDraftInvoices(sellerID);
+		if (invoices.isEmpty()) {
+			return new ResponseEntity<List<Invoice>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
+	}
 	@RequestMapping(value = "/sendInvoice", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
 	public CustomMessage listAllUsers12(@PathParam("invoiceID") int invoiceID) {
 	
@@ -81,8 +107,8 @@ public class InvoiceController {
 	
 	}
 	
-	@RequestMapping(value = "/searchInvoice/{InvoiceID}",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Invoice> searchInvoice(@PathVariable("invoiceID") double invoiceID) throws ClassNotFoundException, SQLException {
+	@RequestMapping(value = "/searchInvoice",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Invoice> searchInvoice(@PathParam("invoiceID") double invoiceID) throws ClassNotFoundException, SQLException {
 		System.out.println("Getting Invoice with Invoice no"+ invoiceID);
 		//Invoice invoiceObj = invoiceServiceObj.search(invoiceNo);
 		

@@ -11,8 +11,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
 	<title>Supply Chain Finance - Contract Management</title>
  
-	<script type="text/javascript" src="h.resources/script.js">      
-    </script>
+	
      <link href="h.resources/bootstrap.min.css" rel="stylesheet">
     <!-- MetisMenu CSS -->
     <link href="h.resources/metisMenu.min.css" rel="stylesheet">
@@ -24,6 +23,8 @@
     <link href="h.resources/font-awesome.min.css" rel="stylesheet" type="text/css">
     
     <script src="https://use.fontawesome.com/caba7b4681.js"></script>
+    
+    <script type="text/javascript" src="h.resources/script.js"></script>
     
     <style type="text/css">
         a.UserName
@@ -230,14 +231,20 @@
 											<tr ng-repeat="i in proposals">
 												<td>{{i.seller_id}}</td>
 												<td>{{i.proposal_id}}</td>
-												<td>{{i.cost_avail}}</td>
-												
+												<td>{{i.cost_avail}}</td>												
 											</tr>				
 									</table>
+<<<<<<< HEAD
 									Enter the proposal ID you wish to view: <input type="text" ng-model="proposal_id" />
 									<!--	<div ng-controller="proposalTableCtrl">-->
 									<a href ng-click="getFeatures()">Go</a>
 								<!--	</div>-->
+=======
+										<div>
+										Enter the proposal ID you wish to view: <input type="text" ng-model="proposal_id" id="proposal_id" name="proposal_id"/>
+										<a href="#/features">click to view features</a>
+										</div>
+>>>>>>> branch 'master' of https://github.com/johnson-jose/supplychain.git
 								</div>
 							</div>
 						</div>
