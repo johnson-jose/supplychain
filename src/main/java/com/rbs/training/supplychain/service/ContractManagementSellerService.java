@@ -111,18 +111,30 @@ public class ContractManagementSellerService {
 
 	//service 3
 	 
-	 public void updatesellerresponse(int productid, int proposalid, int featureid, int sellerid, String response) throws ClassNotFoundException, SQLException{
+	 public void updatesellerresponse(int productid, int proposalid, int featureid, int sellerid, String response) throws ClassNotFoundException, SQLException {
+//	public static void main(String [] args){
+	//	int productid=1;
+	//	int proposalid=1;
+	//	int featureid=1;
+	//	int sellerid=1;
+	//	String response ="A";
+	 
+		
+		 dbobj = new DatabaseConnectionPostgreSQL();
 		 con = dbobj.getConnection();
+		 
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from \"Response\" where p_id="+productid+" AND f_id=" + featureid + " AND" + " seller_id="+sellerid+" AND proposal_id="+proposalid);
 		 if(!rs.next()){
-			 stmt = con.createStatement();
-			 stmt.executeUpdate("insert into \"Response\" VALUES("+response+","+sellerid+","+featureid+","+productid+","+proposalid+")");
+			 stmt.executeUpdate("insert into \"Response\" (response_status,seller_id,f_id,p_id,proposal_id) VALUES('"+response+"',"+sellerid+","+featureid+","+productid+","+proposalid+");");
 		 }
 		 else
 		 {
-			 
+			 stmt.execute("delete from \"Response\" where p_id="+productid+" AND f_id=" + featureid + " AND" + " seller_id="+sellerid+" AND proposal_id="+proposalid);
+			 stmt.executeUpdate("insert into \"Response\" VALUES('"+response+"',"+sellerid+","+featureid+","+productid+","+proposalid+")");
+
 		 }
+		
 	 }
 	 
 	 
