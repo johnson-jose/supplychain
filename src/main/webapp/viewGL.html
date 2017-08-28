@@ -173,7 +173,8 @@
         		<td>{{glEntry.paymentDate}}</td>
 				<td>{{glEntry.transactionNo}}</td>
 				<td>{{glEntry.customerAccountNo}}</td>
-				<td><a href="http://localhost:8181/ACMindex.html">{{glEntry.swiftID}}</a></td>
+				<td><a href=""  ng-click="callCoa(glEntry.swiftID)">{{glEntry.swiftID}}</a></td>
+				<!-- <td><a href="http://localhost:8181/ACMindex.html">{{glEntry.swiftID}}</a></td> -->
 				<td>{{glEntry.invoiceNo}}</td>
 				<td>{{glEntry.drOrCr}}</td>
 				<td>{{glEntry.amount}}</td>
