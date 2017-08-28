@@ -224,9 +224,16 @@ public class ContractManagementSellerService {
 	  	try{
 	  	 dbobj = new DatabaseConnectionPostgreSQL();
 	  	 con = dbobj.getConnection();
+	  	 System.out.println("came here");
+	  	 System.out.println(seller_id);
+	  	 System.out.println(product_id);
+	  	 System.out.println(specification);
+	  	 
+	  	 
 	  	Statement st = con.createStatement();
-	  	st.executeUpdate("insert into \"Response\" values(specification,'',p_id,'')");
-	  	con.commit();
+	  	System.out.println("insert into \"Addn_response\"(seller_id,specification,product_id,id) values("+seller_id+",'"+specification+"',"+product_id+",2)");
+	  	st.executeUpdate("insert into \"Addn_response\"(seller_id,specification,product_id,id) values("+seller_id+",'"+specification+"',"+product_id+",2)");
+	  	//con.commit();
 	  	
 	  	}
 	  	catch(Exception e){
@@ -234,6 +241,8 @@ public class ContractManagementSellerService {
 	  	}
 	  	}
 	  }
+
+
  /*service to update the seller's status(accept/reject/later) in the proposal_sellers_bid table 
   */	
  	/* SERVICE 4

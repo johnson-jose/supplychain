@@ -55,19 +55,19 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		
 		/*function to send additional response
 		*/
-		$scope.myfunc4 = function () {
-        	
+		$scope.myfunc4 = function () {        	
 			console.log("on click function 4");
 			var s = $scope.seller_id;
-			//var p=$scope.product_id;
-			//var spec=$scope.specification;
-			var p=3;
-			//var spec= new String('i can provide higher');
+			console.log(s);
+			var p=$scope.product_id;
 			console.log(p);
-			$http.post('http://localhost:8181/contractmanagementseller/addresponse/'+s+'/'+p+'/a')
+			var spec=this.specification;
+			console.log(spec);
+			//var spec= new String('i can provide higher');
+			$http.post('http://localhost:8181/contractmanagementseller/addresponse/'+s+'/3/'+spec)
 			.success(function (data) {
                 $scope.stats = data;                    
-                console.log(data);
+                console.log('hi');
 			});
 		}   
 

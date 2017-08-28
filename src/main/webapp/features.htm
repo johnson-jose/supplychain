@@ -26,9 +26,9 @@
 												<td>{{i.f_id}}</td>
 												<td>{{i.feature_name}}</td>
 												<td>{{i.priority_order}}</td>
-												<td><input type="radio" name="rad" checked/></td>
-												<td><input type="radio" name="rad" /></td>
-												<td><input type="radio" name="rad" /></td>
+												<td><input type="radio" value="A{{$index + 1 }}" name="{{ $index + 1 }}" onclick="updateAvailable()"/></td>
+												<td><input type="radio" value="C{{$index + 1 }}" name="{{ $index + 1 }}" onclick="updateAvailable()"/></td>
+												<td><input type="radio" value="N{{$index + 1 }}" name="{{ $index + 1 }}"/></td>
 											</tr>				
 									</table>
 								</div>
@@ -41,9 +41,15 @@
 
 <input type="button" value="Reject" ng-click="showconfirmbox1()" />
 
-<input type="button" value="See later" ng-click="showconfirmbox2()" />
+<input type="button" value="See later" ng-click="showconfirmbox2()" /><br> <br>
 
-Enter the product id for which you want to send additional response<input type="text" nd-modal="product_id"/><br>
-Enter the specification you want to send:<input type="text-area" ng-modal="specification"/><br>
-<button type="submit" ng-click=myfunc4()>Submit Response</button>
+<div ng-controller="myController">
+	<form ng-submit="myfunc4()">
+		Enter the product id for which you want to send additional response:
+		<input type="text" nd-model="product_id"/><br>
+		Enter the specification you want to send:
+		<input type="text-area" ng-model="specification"/>
+		<input type="submit"/>
+	</form>
+</div>
 </div>

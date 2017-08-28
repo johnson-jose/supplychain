@@ -97,11 +97,10 @@ public class ContractManagementSellerController {
     }
     
     /*service to send additional response-service 5*/
-    
-    
     @RequestMapping(value = "/addresponse/{seller_id}/{product_id}/{specification}",method = RequestMethod.POST)
     
-    public void updatebidSellerStatus(@PathVariable("seller_id") String id,@PathVariable("product_id") String pid,@PathVariable("specification") String sps) {
+    public void additionalResponse(@PathVariable("seller_id") String id,
+    		@PathVariable("product_id") String pid,@PathVariable("specification") String sps){
     	
     	int seller_id = Integer.parseInt(id);
     	int product_id=Integer.parseInt(pid);
@@ -113,12 +112,9 @@ public class ContractManagementSellerController {
 			
 			System.out.println(e.getMessage());
 		}
-    	
-      
     }
-    
+}
    /* @RequestMapping("/updatesellerresponse")
     public String service3() {
         return "Hello, World!" ;
     }*/
-}
