@@ -10,26 +10,28 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.ss.format.CellDateFormatter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import com.rbs.training.supplychain.model.*;
+
 import com.rbs.training.supplychain.DAO.DataBaseConnection;
 import com.rbs.training.supplychain.model.Invoice;
+import com.rbs.training.supplychain.model.InvoiceItems;
 import com.rbs.training.supplychain.util.CustomMessage;
 
 @Service("invoiceServiceObj")
@@ -161,13 +163,18 @@ public class InvoiceService {
 					//double =invobj.invoiceNo++;
 					//String p="insert into invoice(invoice_id) value(22)";
 					
-					String updateTableSQL1 ="insert into invoice(invoice_id,contractID,sellerID,buyerID, billbookNo,senderID,receiverID,Payment_Date,invoice_amount,invoice_due_date)"+ "values("+invoiceID+","+contractID+","+sellerID+","+buyerID+","
-							+billbookNo+","+senderID+","+receiverID+","+paymentDate+","+invoiceAmount+","+invoiceDueDate+");";
+					//String updateTableSQL1 ="insert into invoice(invoice_id,contractID,sellerID,buyerID, billbookNo,senderID,receiverID,Payment_Date,invoice_amount,invoice_due_date) values(?,?,?,?,?,?,?,NULL,?,NULL)";
+					
+					
+					
+					
 					/*stmt.executeQuery("insert into invoice values("+invoiceNo+","+contractNo+","+buyerId+","+sellerId+","
 					+productId+","+unitPrice+","+quantity+","+grossAmount+","+tax+","+netAmount+","+"0,1,0");*/
+					String updateTableSQL1 ="insert into invoice"+ " values("+invoiceID+","+contractID+","+sellerID+","+buyerID+","+billbookNo+","+senderID+","+receiverID+","+"NULL,NULL,NULL,NULL,NULL"+","+invoiceAmount+","+"NULL,NULL,0,NULL"+")";
+					
 					System.out.println(updateTableSQL1);
 					PreparedStatement preparedStatement  = con.prepareStatement(updateTableSQL1);
-					
+					//preparedStatement.setDouble(1, invoiceID);preparedStatement.setDouble(2,contractID);preparedStatement.setDouble(3,sellerID);preparedStatement.setDouble(4,buyerID);preparedStatement.setDouble(5,billbookNo);preparedStatement.setDouble(6,senderID);preparedStatement.setDouble(7,receiverID);preparedStatement.setDouble(9,invoiceAmount);
 					preparedStatement.executeUpdate();
 					
 					System.out.println("Record is inserted to DBUSER table!");
@@ -504,15 +511,19 @@ public class InvoiceService {
                         s+="<td>";
                     	s+=currentCell.getStringCellValue();
                     	//System.out.println("string value detected");
+                    	
                     	switch(count)
                     	{
                     	case 10:
                     		String c=currentCell.getStringCellValue();
-                    		//invDate=Date;
-                    		System.out.println("date="+invDate);
+                    		//invDate=c.;
+                    		System.out.println("date="+c);
                     		break;
                     	case 12:
-                    		dueDate=currentCell.getDateCellValue();
+                    		String q=currentCell.getStringCellValue();
+                    		System.out.println("date="+q);
+                    		
+                    		//dueDate=
                     		break;
                     	}
                     } else {
