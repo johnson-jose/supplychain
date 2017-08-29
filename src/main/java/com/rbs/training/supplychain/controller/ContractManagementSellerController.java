@@ -19,6 +19,10 @@ import com.rbs.training.supplychain.model.Proposal_Sellers_Bid;
 import com.rbs.training.supplychain.model.Sfeatures;
 import com.rbs.training.supplychain.service.ContractManagementSellerService;
 
+/*service to fetch all the request for proposals(rfps)*/
+
+/*service 1*/
+
 @RestController
 @RequestMapping("/contractmanagementseller")
 public class ContractManagementSellerController {
@@ -47,6 +51,8 @@ public class ContractManagementSellerController {
 		}
     
 	 /*service 2*/
+	 /* function to list a particular proposal if the proposal id is passed from proposal table
+	  */
 	 
 	 @RequestMapping(value="/listfeatures/{proposal_id}",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<List<Sfeatures>> getFeatures(@PathVariable("proposal_id") String propid) {
@@ -64,10 +70,13 @@ public class ContractManagementSellerController {
 			return new ResponseEntity<List<Sfeatures>>(featureslist, HttpStatus.OK);
 	    }
 						
-				
+	 /*service 3
+	 FUNCTION TO UPDATE SELLER'S RESPONSE TO THE FEATURES 
+	 OF EVERY PRODUCT IN THE PRODUCT= WITH A/C/N RADIO BUTTONS
+				*/
 	
     @RequestMapping("/updatesellerresponse/{proposal_id}/{product_id}/{feature_id}/{seller_id}/{response}")
-    public void updateresponse(@PathVariable("proposal_id") String propid,@PathVariable("product_id") String prodid, @PathVariable("feature_id") String fid,@PathVariable("sellerid") String sid, @PathVariable("response") String response) throws ClassNotFoundException, SQLException {
+    public void updateresponse(@PathVariable("proposal_id") String propid,@PathVariable("product_id") String prodid, @PathVariable("feature_id") String fid,@PathVariable("seller_id") String sid, @PathVariable("response") String response) throws ClassNotFoundException, SQLException {
         int proposalid = Integer.parseInt(propid);
         int productid = Integer.parseInt(prodid);
         int featureid = Integer.parseInt(fid);
@@ -76,10 +85,30 @@ public class ContractManagementSellerController {
       
     }
     
-   
-  /*  service to fetch the buyer's status for the proposals 
-	 * which the seller has already accepted
-	 * service 4*/
+    /* SERVICE 4 service to update the seller's status(accept/reject/later) in the proposal_sellers_bid table 
+  	*/
+    
+    @RequestMapping(value = "/updatebidsellerstatus/{seller_id}/{proposal_id}/{seller_status}")
+     public void updatebidsellerstats(@PathVariable("seller_id") String id,
+    	@PathVariable("proposal_id") String pid,@PathVariable("seller_status") String sts){
+    	
+    	int seller_id = Integer.parseInt(id);
+    	int proposal_id=Integer.parseInt(pid);
+    	try {
+    		//ContractManagementSellerService cs = new ContractManagementSellerService();
+			 service.updateBidSellerStatus(seller_id, proposal_id, sts);
+			 System.out.println("i came out");
+		} catch (Exception e) {
+			
+			System.out.println(e.getMessage());
+		}
+    }
+    
+   /*service 5*/
+   /*VIEW STATUS OF SENT PROPOSALS
+  service to fetch the buyer's status for the proposals 
+	 which the seller has already accepted*/
+	 
     @RequestMapping(value="/fetchbuyerStatus/{seller_id}",method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Proposal_Sellers_Bid>> getBuyerStatus(@PathVariable("seller_id") String sid) {
         int seller_id = Integer.parseInt(sid);
@@ -95,13 +124,14 @@ public class ContractManagementSellerController {
 		
 		return new ResponseEntity<List<Proposal_Sellers_Bid>>(buyerstatuslist, HttpStatus.OK);
     }
+     
     
-    /*service to send additional response-service 5*/
-    
-    
+    /*service to send additional response-
+     * service 6*/
     @RequestMapping(value = "/addresponse/{seller_id}/{product_id}/{specification}",method = RequestMethod.POST)
     
-    public void updatebidSellerStatus(@PathVariable("seller_id") String id,@PathVariable("product_id") String pid,@PathVariable("specification") String sps) {
+    public void additionalResponse(@PathVariable("seller_id") String id,
+    		@PathVariable("product_id") String pid,@PathVariable("specification") String sps){
     	
     	int seller_id = Integer.parseInt(id);
     	int product_id=Integer.parseInt(pid);
@@ -113,12 +143,9 @@ public class ContractManagementSellerController {
 			
 			System.out.println(e.getMessage());
 		}
-    	
-      
     }
-    
+}
    /* @RequestMapping("/updatesellerresponse")
     public String service3() {
         return "Hello, World!" ;
     }*/
-}

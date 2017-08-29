@@ -109,28 +109,55 @@ public class ContractManagementSellerService {
 			
 		}
 
-	//service 3
+	//service 3 FUNCTION TO UPDATE SELLER'S RESPONSE TO THE FEATURES OF EVERY PRODUCT IN THE PRODUCT= WITH A/C/N RADIO BUTTONS
 	 
-	 public void updatesellerresponse(int productid, int proposalid, int featureid, int sellerid, String response) throws ClassNotFoundException, SQLException{
+	 public void updatesellerresponse(int productid, int proposalid, int featureid, int sellerid, String response) throws ClassNotFoundException, SQLException {
+
+			
+		 dbobj = new DatabaseConnectionPostgreSQL();
 		 con = dbobj.getConnection();
+		 
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from \"Response\" where p_id="+productid+" AND f_id=" + featureid + " AND" + " seller_id="+sellerid+" AND proposal_id="+proposalid);
 		 if(!rs.next()){
-			 stmt = con.createStatement();
-			 stmt.executeUpdate("insert into \"Response\" VALUES("+response+","+sellerid+","+featureid+","+productid+","+proposalid+")");
+			 stmt.executeUpdate("insert into \"Response\" (response_status,seller_id,f_id,p_id,proposal_id) VALUES('"+response+"',"+sellerid+","+featureid+","+productid+","+proposalid+");");
 		 }
 		 else
 		 {
-			 
+			 stmt.execute("delete from \"Response\" where p_id="+productid+" AND f_id=" + featureid + " AND" + " seller_id="+sellerid+" AND proposal_id="+proposalid);
+			 stmt.executeUpdate("insert into \"Response\" VALUES('"+response+"',"+sellerid+","+featureid+","+productid+","+proposalid+")");
+
 		 }
+		
 	 }
 	 
 	 
+	 /* SERVICE 4 service to update the seller's status(accept/reject/later) in the proposal_sellers_bid table 
+	  	*/
+	  	public void updateBidSellerStatus(int seller_id,int proposal_id,String seller_status){
+	  	try{
+	  	 dbobj = new DatabaseConnectionPostgreSQL();
+	  	 con = dbobj.getConnection();
+	  	Statement st = con.createStatement();
+	  	//con.commit();
+	  	System.out.println("update \"Proposal_sellers_bid\" set "
+	  			+ "seller_status= '" +seller_status+ "' where seller_id=" +seller_id+ 
+	  				 "and proposal_id="+proposal_id);
+	  	st.executeUpdate("update \"Proposal_sellers_bid\" set seller_status='"+seller_status+"' where seller_id=" +seller_id+ "AND proposal_id="+proposal_id);
+	  	
+	  	}
+	  	catch(Exception e){
+	  		System.out.println(e.getMessage());
+	  	}
+	  	}
+
 	 
 	 
+	  /*	 service 5*/
+	 /*VIEW STATUS OF SENT PROPOSALS*/
 	/*service to fetch the buyer's status for the proposals 
 	 * which the seller has already accepted
-	 * service 4
+	 
 */
 	public List<Proposal_Sellers_Bid> fetchBuyerStatus(int seller_id) throws SQLException{
  		 //lst = null;
@@ -209,40 +236,44 @@ public class ContractManagementSellerService {
  	
  	}
 	
- 
-	/*service to send additional response-service 5*/
+ 	
+/*service to send additional response-
+ * service 6*/
 	
 	
 	public void addnresp(int seller_id,int product_id,String specification){
 	  	try{
 	  	 dbobj = new DatabaseConnectionPostgreSQL();
 	  	 con = dbobj.getConnection();
+	  	 System.out.println("came here");
+	  	 System.out.println(seller_id);
+	  	 System.out.println(product_id);
+	  	 System.out.println(specification);
 	  	Statement st = con.createStatement();
-	  	st.executeUpdate("insert into \"Response\" values(specification,'',p_id,'')");
-	  	con.commit();
+	  	int max=0;
+	  	int max1;
+	  	ResultSet rs=st.executeQuery("select * from \"Addn_response\"");
+	  	while(rs.next()){
+	  		max1=rs.getInt("id");
+	  		if(max1>max){
+	  			max=max1;
+	  		}
+	  	}
+	  	 
+	  	Statement st1 = con.createStatement();
+	  	System.out.println("insert into \"Addn_response\"(seller_id,specification,product_id,id) values("+seller_id+",'"+specification+"',"+product_id+","+(max+1)+")");
+	  	st1.executeUpdate("insert into \"Addn_response\"(seller_id,specification,product_id,id) values("+seller_id+",'"+specification+"',"+product_id+","+(max+1)+")");
+	  	//st1.executeUpdate("update \"Addn_response\" set seller_id=" +seller_id+ ",specification='" +specification+ "',product_id=" +product_id+ "where id=3");
+	  	
+	  	//con.commit();
 	  	
 	  	}
 	  	catch(Exception e){
 	  		System.out.println(e.getMessage());
 	  	}
 	  	}
-	  }
- /*service to update the seller's status(accept/reject/later) in the proposal_sellers_bid table 
-  */	
- 	/* SERVICE 4
-  	
-  	public void updateBidSellerStatus(int seller_id,int proposal_id,String seller_status){
-  	try{
-  	 dbobj = new DatabaseConnectionPostgreSQL();
-  	 con = dbobj.getConnection();
-  	Statement st = con.createStatement();
-  	con.commit();
-  	st.executeUpdate("update proposal_sellers_bid set seller_status= " +seller_status+ " where seller_id=" +seller_id+ " and proposal_id="+proposal_id);
+
   	}
-  	catch(Exception e){
-  		System.out.println(e.getMessage());
-  	}
-  	}*/
  
  
  

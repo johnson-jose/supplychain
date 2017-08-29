@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
-	<title>Supply Chain Finance - Contract Management</title>
+	<title>Supply Chain  Management</title>
  
-	<script type="text/javascript" src="h.resources/script.js">      
-    </script>
+	<!--  <script type="text/javascript" src="h.resources/script.js">      
+    </script>-->
      <link href="h.resources/bootstrap.min.css" rel="stylesheet">
     <!-- MetisMenu CSS -->
     <link href="h.resources/metisMenu.min.css" rel="stylesheet">
@@ -60,7 +60,7 @@
     </style>
 </head>
 
-<body ng-app="myApp" ng-controller="myController">   
+<body ng-app="invoiceApp" ng-controller="mainController">   
 	<div id="wrapper">
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -180,10 +180,19 @@
                                 <!-- /.nav-second-level -->
                             </li>
                             <li>
-                                <a href="#"> Invoice Management <i class="fa fa-list-alt"></i>   <span class="fa arrow"></span></a>
+                                <!--  <a href="#"> Invoice Management <i class="fa fa-list-alt"></i>   <span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li><a href="#">Create Invoice</a></li>
                                     <li><a href="#">View Invoice</a></li>
+                                </ul>-->
+                                 <a href="index2.html"> Invoice Management <i class="fa fa-list-alt"></i>   <span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                	<li><a href="#/InvoiceLanding" >Invoice Profile</a></li>
+                                    <li><a href="#/InvoiceCreate"  >Create Invoice</a></li>
+                                    <li><a href="#/InvoiceView" >View Invoice</a></li>
+                                    <li><a href="#/InvoiceUpdate"  >Update Invoice</a></li>
+                                    <li><a href="#/InvoiceSearch" >Search Invoice</a></li>
+                                    <li><a href="#/InvoiceDelete" >Delete Invoice</a></li>
                                 </ul>
                                 <!-- /.nav-second-level -->
                             </li>
@@ -203,19 +212,19 @@
            <div class="jumbotron" style=" height:800px; border-radius: 10px; text-align: left;">
               <div class="panel panel-default">
                         <div class="panel-heading" id="module_section_div1" style="margin-top: 0px; text-align: center; font-size: 24px;">
-                            View Contract
+                            Supply Chain Management
                         </div>
                     </div>
      	<div>    	
 		<div ng-view></div>
-			<script type="text/ng-template" id="view_table.htm" >
+			<!--  <script type="text/ng-template" id="view_table.htm" >
 				<div class="row" style="margin: 0 auto; width: 100%">
 					<div class="col-lg-6">
 						<div class="panel panel-default">
 							<div class="panel-heading" style="font-size: 20px; font-weight: bold">
 									PROPOSALS RECEIVED
 							</div>
-								<!-- /.panel-heading -->
+								
 							<div class="panel-body" ng-controller="myController">
 								<div class="table-responsive">
 									<table class="table table-striped table-bordered table-hover">
@@ -235,15 +244,15 @@
 											</tr>				
 									</table>
 									Enter the proposal ID you wish to view: <input type="text" ng-model="proposal_id" />
-									<!--	<div ng-controller="proposalTableCtrl">-->
-									<a href ng-click="getFeatures()">Go</a>
-									<!--</div>-->
+									<div ng-controller="proposalTableCtrl">
+									<a href="#/proposals">Go</a>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</script> 
+			</script> -->
     </div>
     </div>
     </div> 
@@ -257,6 +266,34 @@
         <script src="h.resources/morris-data.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="h.resources/sb-admin-2.js"></script>
+    
+    <script>
+    var invoiceApp = angular.module('invoiceApp', ["ngRoute"]);
+	invoiceApp.config(function ($routeProvider){
+	
+	$routeProvider
+	
+	.when('/InvoiceLanding', {
+		templateUrl : 'InvoiceLanding.html'
+		})
+		.when('/InvoiceCreate', {
+		templateUrl : 'InvoiceCreate.html'
+		})
+		.when('/InvoiceView', {
+		templateUrl : 'InvoiceView.html'
+		})
+		.when('/InvoiceUpdate', {
+		templateUrl : 'InvoiceUpdate.html'
+		})
+		.when('/InvoiceDelete', {
+		templateUrl : 'InvoiceDelete.html'
+		})
+		.when('/InvoiceSearch', {
+		templateUrl : 'InvoiceSearch.html',
+	
+		})
+});
+    </script>
 </div>
 </div>
 </body>

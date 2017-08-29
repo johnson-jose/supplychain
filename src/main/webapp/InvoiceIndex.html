@@ -8,14 +8,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Supply Chain Finance - Contract Management</title>
+    <title>Supply Chain Management</title>
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
 	<title>Supply Chain Finance - Contract Management</title>
  
-	<script type="text/javascript" src="h.resources/script.js">      
-    </script>
+	<script type="text/javascript" src="f.resources/invoicescript.js"></script>  
+  
      <link href="h.resources/bootstrap.min.css" rel="stylesheet">
     <!-- MetisMenu CSS -->
     <link href="h.resources/metisMenu.min.css" rel="stylesheet">
@@ -61,7 +61,7 @@
         }
     </style>
     </head>
-<body>
+<body ng-app="invoiceApp" ng-controller="mainController">
 
     <div id="wrapper">
         <!-- Navigation -->
@@ -192,54 +192,13 @@
             </div>
         </nav>
         <script>
-		var invoiceApp = angular.module('invoiceApp', ["ngRoute"]);
-	invoiceApp.config(function ($routeProvider){
-		$routeProvider
-		.when('/InvoiceLanding', {
-		templateUrl : 'InvoiceLanding.html'
-		})
-		.when('/InvoiceCreate', {
-		templateUrl : 'InvoiceCreate.html'
-		})
-		.when('/InvoiceView', {
-		templateUrl : 'InvoiceView.html'
-		})
-		.when('/InvoiceUpdate', {
-		templateUrl : 'InvoiceUpdate.html'
-		})
-		.when('/InvoiceDelete', {
-		templateUrl : 'InvoiceDelete.html'
-		})
-		.when('/InvoiceSearch', {
-		templateUrl : 'InvoiceSearch.html',
-	
-		})
 		
-	});
-	invoiceApp.controller('mainController', function($scope){	
-		
-		/*function to fetch request for proposals*/
-		
-		$scope.landingfunc = function () {
-		console.log('2');
-		window.location = "#/InvoiceLanding";
-		
-		
-	}
-	 
-	/*function to get status of accepted proposals*/
-	
-	$scope.createfunc = function () {
-		console.log('3');
-		window.location = "#/InvoiceCreate";
-	}
-	});
 	</script>
             </div>
              <div style="margin-top: 10px">
             <div style="margin-left: 10px; margin-right: 260px;">
                 <div class="jumbotron" style=" height:800px; border-radius: 10px; text-align: left;">
-                   	<div id="main" ng-app="invoiceApp" ng-controller="mainController">
+                   	<div id="main" >
                    		<div class="panel panel-default">
        
                         <div class="panel-heading" id="module_section_div1" style="margin-top: 0px; text-align: center; font-size: 30px;height:50px">
@@ -252,7 +211,6 @@
                    		
                    		 </div>
                    		 </div>
-       				</div> 
-
+       				</div>
 </body>
 </html>
