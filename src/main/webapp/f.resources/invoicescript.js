@@ -1,3 +1,19 @@
+function myFunction() {
+	    var x = document.getElementById('demo');
+	    if (x.style.display === 'none') {
+	        x.style.display = 'block';
+	    } else {
+	        x.style.display = 'none';
+	    }
+	
+}
+function myFunction1() {
+    var x = document.getElementById('demo1');
+    if (x.style.display === 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+ }
 var invoiceApp = angular.module('invoiceApp', ["ngRoute"]);
 	invoiceApp.config(function ($routeProvider){
 		$routeProvider
@@ -152,5 +168,38 @@ var invoiceApp = angular.module('invoiceApp', ["ngRoute"]);
                 });
 		window.location = "#/InvoiceDeleteResult";
         }
+		
+		$scope.receivedInvoicefunc = function () {
+			console.log('in received invoice function');
+			 $http.post('http://localhost:8181/invoice/ReceivedInvoices?sellerID=' + $scope.sellerID)
+				.success(function (data) {
+	                $scope.invoicelist = data;
+	                console.log($scope.invoicelist);
+	                });
+			$scope.message="Click to view received invoices";
+			window.location = "#/InvoiceLanding";
+	     }
+		 $scope.viewfunc = function () {
+	            
+	        	console.log("in view Invoice function ");
+	    			var invoiceNo = $scope.invoiceNo;
+	    			console.log(invoiceNo);
+	    			/*  view Invoice  */
+	    			$http.post('http://localhost:8181/invoice/searchInvoice?invoiceID='+invoiceNo).success(function (data) {
+	    				console.log( "in view page after service");
+	    				$scope.invoice = data;
+	                    console.log($scope.invoice);
+	                   
+	                });
+	    			/*  view product  */
+	                $http.post('http://localhost:8181/invoice/viewProduct/?id=' + invoiceNo)
+	    			.success(function (data) {
+	                    $scope.productslist = data;
+	                    console.log($scope.productslist);
+	                });
+	                window.location = "#/InvoiceLanding";
+	    	}
+	      
+	
 	});
 	
