@@ -32,18 +32,14 @@ var invoiceApp = angular.module('invoiceApp', ["ngRoute"]);
 
 			var invoiceNo = $scope.invoiceNo;
 			console.log(invoiceNo);
+			/*  view Invoice  */
 			$http.post('http://localhost:8181/invoice/searchInvoice?invoiceID='+invoiceNo).success(function (data) {
 				console.log( "in view http");
 				$scope.invoice = data;
                 console.log($scope.invoice);
                 window.location = "#/InvoiceDeleteConfirm";
             });
-			/*$http.post('http://localhost:8180/invoice/viewInvoices/' + invoiceNo)
-			.success(function (data) {
-				console.log("hai");
-                $scope.invoice = data;
-                console.log(data);
-                });*/
+			/*  view product  */
             $http.post('http://localhost:8181/invoice/viewProduct/?id=' + invoiceNo)
 			.success(function (data) {
                 $scope.productslist = data;
@@ -51,7 +47,64 @@ var invoiceApp = angular.module('invoiceApp', ["ngRoute"]);
                 });
                 
 		}
-    
+        $scope.searchfunc = function () {
+            
+        	console.log("in search function ");
+    			var invoiceNo = $scope.invoiceNo;
+    			console.log(invoiceNo);
+    			/*  view Invoice  */
+    			$http.post('http://localhost:8181/invoice/searchInvoice?invoiceID='+invoiceNo).success(function (data) {
+    				console.log( "in search page after service");
+    				$scope.invoice = data;
+                    console.log($scope.invoice);
+                    window.location = "#/InvoiceSearch";
+                });
+    			/*  view product  */
+                $http.post('http://localhost:8181/invoice/viewProduct/?id=' + invoiceNo)
+    			.success(function (data) {
+                    $scope.productslist = data;
+                    console.log($scope.productslist);
+                });
+    	}
+      
+        $scope.updateSearchfunc = function () {
+            
+        	console.log("in search function ");
+    			var invoiceNo = $scope.invoiceNo;
+    			console.log(invoiceNo);
+    			/*  view Invoice  */
+    			$http.post('http://localhost:8181/invoice/searchInvoice?invoiceID='+invoiceNo).success(function (data) {
+    				console.log( "in updat after Search http");
+    				$scope.invoice = data;
+                    console.log($scope.invoice);
+                    window.location = "#/InvoiceUpdate";
+                });
+    			/*  view product  */
+                $http.post('http://localhost:8181/invoice/viewProduct/?id=' + invoiceNo)
+    			.success(function (data) {
+                    $scope.productslist = data;
+                    console.log($scope.productslist);
+                });
+    	}
+        $scope.updatefunc = function () {
+            
+        	console.log("in update function ");
+    			var invoiceNo = $scope.invoiceNo;
+    			console.log(invoiceNo);
+    			/*  view Invoice  */
+    			$http.post('http://localhost:8181/invoice/searchInvoice?invoiceID='+invoiceNo).success(function (data) {
+    				console.log( "in updat after Search http");
+    				$scope.invoice = data;
+                    console.log($scope.invoice);
+                    window.location = "#/InvoiceUpdate";
+                });
+    			/*  view product  */
+                $http.post('http://localhost:8181/invoice/viewProduct/?id=' + invoiceNo)
+    			.success(function (data) {
+                    $scope.productslist = data;
+                    console.log($scope.productslist);
+                });
+    	}
 		$scope.landingfunc = function () {
 		console.log('go to landing page');
 		window.location = "#/InvoiceLanding";
