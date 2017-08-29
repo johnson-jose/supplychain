@@ -129,15 +129,15 @@ public class InvoiceController {
     }
 	@RequestMapping(value = "/addInvoice",method = RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
 	
-	 public ResponseEntity<Invoice> addInvoice(@PathParam("invoiceID") double invoiceID,@PathParam("productID")double productID,@PathParam("quantity") double quantity,@PathParam("contractID") double contractID,@PathParam("sellerID") double sellerID,@PathParam("buyerID") double buyerID,@PathParam("senderID") double senderID,@PathParam("receiverID") double receiverID,@PathParam("billbookNo") double billbookNo,@PathParam("invoiceCreatedDate") Date invoiceCreatedDate,@PathParam("paymentDate") Date paymentDate,@PathParam("invoiceAmount") float  invoiceAmount,@PathParam("invoiceDueDate") Date invoiceDueDate) throws ClassNotFoundException, SQLException {
+	 public ResponseEntity<CustomMessage> addInvoice(@PathParam("invoiceID") double invoiceID,@PathParam("productID")double productID,@PathParam("quantity") double quantity,@PathParam("contractID") double contractID,@PathParam("sellerID") double sellerID,@PathParam("buyerID") double buyerID,@PathParam("senderID") double senderID,@PathParam("receiverID") double receiverID,@PathParam("billbookNo") double billbookNo,@PathParam("invoiceCreatedDate") Date invoiceCreatedDate,@PathParam("paymentDate") Date paymentDate,@PathParam("invoiceAmount") float  invoiceAmount,@PathParam("invoiceDueDate") Date invoiceDueDate) throws ClassNotFoundException, SQLException {
 		System.out.println("Adding Invoice with Invoice no"+ invoiceID);
 		
-		Invoice invoiceObj= invoiceServiceObj.addInvoice(invoiceID,contractID,productID,quantity,sellerID,buyerID,billbookNo,senderID,receiverID,paymentDate,invoiceAmount,invoiceDueDate); 
-			if(invoiceObj == null){
-			System.out.println("Invoice with Invoice No"+invoiceID+"is not found");
-			return new ResponseEntity<Invoice>(invoiceObj,HttpStatus.NOT_FOUND);
+		CustomMessage msg = invoiceServiceObj.addInvoice(invoiceID,contractID,productID,quantity,sellerID,buyerID,billbookNo,senderID,receiverID,paymentDate,invoiceAmount,invoiceDueDate); 
+			if(msg == null){
+			System.out.println("Invoice with Invoice No"+invoiceID+"cannot be added");
+			return new ResponseEntity<CustomMessage>(msg,HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<Invoice>(invoiceObj,HttpStatus.OK);
+		return new ResponseEntity<CustomMessage>(msg,HttpStatus.OK);
    }
 	
 	@RequestMapping(value = "/viewProduct", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)

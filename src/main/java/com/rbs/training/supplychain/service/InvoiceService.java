@@ -277,7 +277,7 @@ public class InvoiceService {
 		return lst;	
 	}
 	
-	public Invoice addInvoice(double invoiceID,double contractID,double productID,double quantity, double sellerID, double buyerID, double billbookNo,double senderID,double receiverID, Date paymentDate, float invoiceAmount,Date invoiceDueDate) {
+	public CustomMessage addInvoice(double invoiceID,double contractID,double productID,double quantity, double sellerID, double buyerID, double billbookNo,double senderID,double receiverID, Date paymentDate, float invoiceAmount,Date invoiceDueDate) {
 		DataBaseConnection dbobj = new DataBaseConnection();
 		Invoice invobj = null;
 		CustomMessage msg = null; 
@@ -285,18 +285,14 @@ public class InvoiceService {
 			Connection con = dbobj.getConnection();
 			msg = new CustomMessage();
 				invobj = new Invoice();
+				
 				//double =invobj.invoiceNo++;
 				//String p="insert into invoice(invoice_id) value(22)";
-				
 				//String updateTableSQL1 ="insert into invoice(invoice_id,contractID,sellerID,buyerID, billbookNo,senderID,receiverID,Payment_Date,invoice_amount,invoice_due_date) values(?,?,?,?,?,?,?,NULL,?,NULL)";
-				
-				
-				
-				
 				/*stmt.executeQuery("insert into invoice values("+invoiceNo+","+contractNo+","+buyerId+","+sellerId+","
 				+productId+","+unitPrice+","+quantity+","+grossAmount+","+tax+","+netAmount+","+"0,1,0");*/
+			    
 				String updateTableSQL1 ="insert into invoice values(" +invoiceID +","+contractID+","+sellerID+","+buyerID+","+billbookNo+","+senderID+","+receiverID+","+"0,0,1,NULL,NULL"+","+invoiceAmount+","+ "NULL,1,0,NULL )";
-				
 				System.out.println(updateTableSQL1);
 				PreparedStatement preparedStatement  = con.prepareStatement(updateTableSQL1);
 				//preparedStatement.setDouble(1, invoiceID);preparedStatement.setDouble(2,contractID);preparedStatement.setDouble(3,sellerID);preparedStatement.setDouble(4,buyerID);preparedStatement.setDouble(5,billbookNo);preparedStatement.setDouble(6,senderID);preparedStatement.setDouble(7,receiverID);preparedStatement.setDouble(9,invoiceAmount);
@@ -315,31 +311,15 @@ public class InvoiceService {
 				 addItems((int)invoiceID,(int)productID,(int)quantity,i.getGrossAmount(),i.getTax(),i.getNetAmount());
 						
 				con.close();
-					invobj.setInvoiceID(invoiceID); 
-					invobj.setContractID(contractID);
-					invobj.setSellerID(sellerID);
-					invobj.setBuyerID(buyerID);
-					invobj.setBillbookNo(billbookNo);
-					//invobj.setSenderID(SenderID);
-					//invobj.setReceiverID(ReceiverID);
-					invobj.setFundingRequestStatus(0);
-					invobj.setApprovalStatus(0);
-					invobj.setDraftStatus(1);
-					invobj.setPaymentDate(paymentDate);
-					invobj.setInvoiceAmount(invoiceAmount);
-					invobj.setInvoiceDueDate(invoiceDueDate);
-					
-					
-					
-					
-					System.out.println(invobj.toString());
+				
 					System.out.println(msg.getMessage());
 			}
 			catch(Exception e)
 			{							
 				System.out.println(e.getMessage());
+				msg.setMessage("Adding Invocie Failed due to:"+e.getMessage());
 			}
-		return invobj;			
+		return msg;			
 }
 	
 		public List<InvoiceItems> viewProduct(int id){
