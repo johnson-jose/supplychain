@@ -328,8 +328,9 @@ public class InvoiceService {
 			InvoiceItems itemobj = null;
 			try{
 				Connection con = dbobj.getConnection();
-					PreparedStatement stmt = con.prepareStatement("select * from invoiceitems where invoice_id=?");
+					PreparedStatement stmt = con.prepareStatement("select * from invoiceitems where invoice_id=? and (select deletestatus from invoice where invoice_id=?)=0");
 					stmt.setInt(1,id);
+					stmt.setInt(2,id);
 					ResultSet rs = stmt.executeQuery();				
 					
 					while(rs.next()){
