@@ -611,6 +611,7 @@ public class InvoiceService {
             Workbook workbook = new XSSFWorkbook(excelFile);
             Sheet datatypeSheet = workbook.getSheetAt(0);
             Iterator<Row> iterator = datatypeSheet.iterator();
+            int rowcount=0;
             while (iterator.hasNext()) {
             	s+="<tr>";
                 Row currentRow = iterator.next();
@@ -633,6 +634,7 @@ public class InvoiceService {
                     }
                     s+="</td>";
                 }
+                rowcount++;
                 s+="</tr>";
                 System.out.println("count="+count);
                 if(count!=12)
@@ -642,6 +644,11 @@ public class InvoiceService {
                 }
                 
                 //excelFile.close();
+            }
+            if(rowcount>14)
+            {
+            	s="<html><body>exceeds maximum allowed rows(max-rows per file=14)...<br> <input type=\"button\" onClick=\"parent.location='http://localhost:8181/uploadInvoice.html'\" value=\"Go back and upload\"></body></html>" ;
+            	return s;
             }
             
         } catch (FileNotFoundException e) {
