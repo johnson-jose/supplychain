@@ -1,4 +1,62 @@
-var invoiceApp = angular.module('invoiceApp', ["ngRoute"]);
+function myFunction() {
+   			    var x = document.getElementById('demo');
+   			    if (x.style.display === 'none') {
+   			        x.style.display = 'block';
+   			    } else {
+   			        x.style.display = 'none';
+   			    }
+  }
+   function myFunction1() {
+   			    var x = document.getElementById('demo1');
+   			    if (x.style.display === 'none') {
+   			        x.style.display = 'block';
+   			    } else {
+   			        x.style.display = 'none';
+   			    }
+  	}
+  function toggleview(){
+	  var x = document.getElementById('invoicelist');
+	  var y = document.getElementById('view');
+	  var z = document.getElementById('view1');
+		    if (y.style.display === 'none') {
+		        x.style.display = 'none';
+		        z.style.display = 'none';
+		        y.style.display = 'block';
+		    } else {
+		    	x.style.display = 'block';
+		        y.style.display = 'none';
+		        z.style.display = 'none';
+		    }
+}
+  function toggleview1(){
+	  var x = document.getElementById('invoicelist');
+	  var y = document.getElementById('view');
+	  var z = document.getElementById('view1');
+		    if (z.style.display === 'none') {
+		        x.style.display = 'none';
+		        y.style.display = 'none';
+		        z.style.display = 'block';
+		    } else {
+		    	x.style.display = 'block';
+		        y.style.display = 'none';
+		        z.style.display = 'none';
+		    }
+}
+  function getStatus(x){
+	  if(x==0)
+		  {
+		  	document.getElementById("status").innerHTML="Draft";
+		  }
+	  else if(x==1)
+	  {
+	  	document.getElementById("status").innerHTML="Approved";
+	  }
+	  else
+	  {
+	  	document.getElementById("status").innerHTML="Rejected";
+	  }
+  }
+  var invoiceApp = angular.module('invoiceApp', ["ngRoute"]);
 	invoiceApp.config(function ($routeProvider){
 		$routeProvider
 		.when('/InvoiceLanding', {
@@ -152,4 +210,94 @@ var invoiceApp = angular.module('invoiceApp', ["ngRoute"]);
                 });
 		window.location = "#/InvoiceDeleteResult";
         }
+		
+
+		$scope.receivedInvoicefunc = function () {
+			console.log('inside received invoice');
+      		$http.post('http://localhost:8181/invoice/ReceivedInvoices?sellerID=' + $scope.sellerID)
+			.success(function (data) {
+				console.log("inside http");
+                $scope.invoicelist = data;
+                console.log(data);
+                });
+      		$scope.message="Click to view received invoices";
+      		window.location = "#/InvoiceLanding";
+        }
+		
+		$scope.sentInvoicefunc = function () {
+			console.log('inside sent invoice');
+      		$http.post('http://localhost:8181/invoice/SentInvoices?sellerID=' + $scope.sellerID)
+			.success(function (data) {
+				console.log("inside http");
+                $scope.invoicelist = data;
+                console.log(data);
+                });
+      		$scope.message1="Click to view sent invoices";
+      		window.location = "#/InvoiceLanding";
+        }
+		$scope.viewfunc = function (invoiceNo) {
+			console.log('inside view invoice');
+			$http.post('http://localhost:8181/invoice/searchInvoice?invoiceID='+invoiceNo).success(function (data) {
+				console.log( "in search page after service");
+				$scope.invoice = data;
+                console.log($scope.invoice);
+                
+            });
+			/*  view product  */
+            $http.post('http://localhost:8181/invoice/viewProduct/?id=' + invoiceNo)
+			.success(function (data) {
+                $scope.productslist = data;
+                console.log($scope.productslist);
+            });
+            window.location = "#/InvoiceLanding";
+	}
+		$scope.approvefunc = function (invoiceNo) {
+			console.log('inside approve invoice');
+			$http.post('http://localhost:8181/invoice/approveInvoice?invoiceID='+invoiceNo).success(function (data) {
+				console.log( "in approve page after service");
+				$scope.status = "You have approved invoice no:"+invoiceNo;
+                console.log($scope.status);  
+                
+            });
+			
+            window.location = "#/InvoiceLanding";
+	}
+		$scope.rejectfunc = function (invoiceNo) {
+			console.log('inside approve invoice');
+			$http.post('http://localhost:8181/invoice/rejectInvoice?invoiceID='+invoiceNo).success(function (data) {
+				console.log( "in reject page after service");
+				$scope.status = "You have rejected invoice no:"+invoiceNo;
+                console.log($scope.status);  
+                
+            });
+			
+            window.location = "#/InvoiceLanding";
+	}
+		$scope.savedraftfunc = function () {
+			console.log('inside save as draft invoice');
+			
+			/*$http.post('http://localhost:8181/invoice/rejectInvoice?invoiceID='+invoiceNo).success(function (data) {
+				console.log( "in reject page after service");
+				$scope.status = "You have rejected invoice no:"+invoiceNo;
+                console.log($scope.status);  
+                
+            });
+			*/
+			$scope.draftstatus = "You have saved the invoice as draft";
+			//windows.alert("You have saved the invoice as draft");
+            window.location = "#/InvoiceLanding";
+	}
+		$scope.sendtoapproval = function () {
+			console.log('inside send to approval invoice');
+			
+			/*$http.post('http://localhost:8181/invoice/rejectInvoice?invoiceID='+invoiceNo).success(function (data) {
+				console.log( "in reject page after service");
+				$scope.status = "You have rejected invoice no:"+invoiceNo;
+                console.log($scope.status);  
+                
+            });
+			*/$scope.draftstatus = "You have sent the invoice for approval";
+			//windows.alert("You have saved the invoice as draft");
+            window.location = "#/InvoiceLanding";
+	}
 	});
