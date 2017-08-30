@@ -82,6 +82,10 @@ function myFunction() {
 		templateUrl : 'InvoiceDeleteConfirm.html',
 	
 		})
+		.when('/UploadInvoice', {
+		templateUrl : 'uploadInvoice.html',
+	
+		})
 	});
 
 	invoiceApp.controller('mainController', function($scope, $http){
@@ -256,7 +260,7 @@ function myFunction() {
       		$http.post('http://localhost:8181/invoice/SentInvoices?sellerID=' + $scope.sellerID)
 			.success(function (data) {
 				console.log("inside http");
-                $scope.invoicelist = data;
+                $scope.invoicelist1 = data;
                 console.log(data);
                 });
       		$scope.message1="Click to view sent invoices";

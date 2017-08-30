@@ -163,7 +163,7 @@ public class InvoiceService {
 		Invoice invobj = null;
 		try{
 			Connection con = dbobj.getConnection();
-				PreparedStatement stmt = con.prepareStatement("select * from invoice where approvalStatus=0 and deletestatus=0 and sellerid=? and draftStatus=0");
+				PreparedStatement stmt = con.prepareStatement("select * from invoice where approvalStatus=0 and deletestatus=0 and senderid=? and draftStatus=0");
 				stmt.setDouble(1,sellerID);
 				ResultSet rs = stmt.executeQuery();				
 				invobj = new Invoice();
