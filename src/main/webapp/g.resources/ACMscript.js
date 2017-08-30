@@ -6,6 +6,7 @@ acmApp.config(function ($routeProvider){
 	.when('/coaList', {templateUrl : 'coaList.html'})
 	.when('/viewGL', {templateUrl : 'viewGL.html'})
 	.when('/addCOA', {templateUrl : 'addCOA.html'})
+	.when('/addCoaResult', {templateUrl : 'addCoaResult.html'})
 	.when('/coaSingle', {templateUrl : 'viewCOA.html'})
 	.when('/checkCompliance',{templateUrl:'complianceCheck.html'})
 });
@@ -112,31 +113,31 @@ $scope.checkCompliance1=function(){
 	}
 	
 	$scope.addCoa = function () {
-		var head=this.head;
-		var legalEntity=this.legalEntity;
-		var country=this.country;
-		var branch=this.branch;
-		var product=this.product;
-		var currency=this.currency;
-		var book=this.book;
-		var productSwiftID=this.productSwiftID;
-		if(head==undefined||head=='null')
-			head='';
-		if(legalEntity==undefined||legalEntity=='null')
-			legalEntity='';
-		if(country==undefined||country=='null')
-			country='';
-		if(branch==undefined||branch=='null')
-			branch='';
-		if(product==undefined||product=='null')
-			product='';
-		if(currency==undefined||currency=='null')
-			currency='';
-		if(book==undefined||book=='null')
-			book='';
-		if(productSwiftID==undefined||productSwiftID=='null')
-			productSwiftID='';
-		if(head==''||legalEntity==''||country==''||branch==''||product==''||currency==''||book==''||productSwiftID=='')
+		$scope.head=this.head;
+		$scope.legalEntity=this.legalEntity;
+		$scope.country=this.country;
+		$scope.branch=this.branch;
+		$scope.product=this.product;
+		$scope.currency=this.currency;
+		$scope.book=this.book;
+		$scope.productSwiftID=this.productSwiftID;
+		if($scope.head==undefined||$scope.head=='null')
+			$scope.head='';
+		if($scope.legalEntity==undefined||$scope.legalEntity=='null')
+			$scope.legalEntity='';
+		if($scope.country==undefined||$scope.country=='null')
+			$scope.country='';
+		if($scope.branch==undefined||$scope.branch=='null')
+			$scope.branch='';
+		if($scope.product==undefined||$scope.product=='null')
+			$scope.product='';
+		if($scope.currency==undefined||$scope.currency=='null')
+			$scope.currency='';
+		if($scope.book==undefined||$scope.book=='null')
+			$scope.book='';
+		if($scope.productSwiftID==undefined||$scope.productSwiftID=='null')
+			$scope.productSwiftID='';
+		if($scope.head==''||$scope.legalEntity==''||$scope.country==''||$scope.branch==''||$scope.product==''||$scope.currency==''||$scope.book==''||$scope.productSwiftID=='')
 		{	
 			alert("Enter all the fields");
 			//$scope.callGl();
@@ -144,11 +145,11 @@ $scope.checkCompliance1=function(){
 		else
 		{
 			var url='http://localhost:8181/ACM/addCOAContoller';
-			$http({url:url,method:"POST",params:{'head':head,'legalEntity':legalEntity,'country':country,'branch':branch,'product':product,'currency':currency,'book':book,'productSwiftID':productSwiftID}}).success(function (data) {
-	            $scope.glList = data;
+			$http({url:url,method:"POST",params:{'head':$scope.head,'legalEntity':$scope.legalEntity,'country':$scope.country,'branch':$scope.branch,'product':$scope.product,'currency':$scope.currency,'book':$scope.book,'productSwiftID':$scope.productSwiftID}}).success(function (data) {
+	           // $scope.glList = data;
 	            console.log(data);  
 	            alert("Chart Of Accounts Added");
-	            window.location = "#/";					
+	            window.location = "#/addCoaResult";					
 			});
 			//$scope.callCoaList();
 		}
