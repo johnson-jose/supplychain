@@ -165,6 +165,18 @@ function myFunction() {
                         $scope.productslist = data;
                         console.log($scope.productslist);
                     });
+    				$http.post('http://localhost:8181/invoice/searchInvoice?invoiceID='+invoiceNo).success(function (data) {
+        				console.log( "in updat after Search http");
+        				$scope.invoice = data;
+                        console.log($scope.invoice);
+                        window.location = "#/InvoiceUpdate";
+                    });
+        			/*  view product  */
+                    $http.post('http://localhost:8181/invoice/viewProduct/?id=' + $scope.invoiceNo)
+        			.success(function (data) {
+                        $scope.productslist = data;
+                        console.log($scope.productslist);
+                    });
                     $scope.productID="";
                     $scope.quantity="";
                     $scope.grossAmount="";
@@ -190,9 +202,24 @@ function myFunction() {
     			/*  delete product  */
               $http.post('http://localhost:8181/invoice/deleteItem?invoiceID='+$scope.invoiceNo +'&productID=' + $scope.delProductId)
     			.success(function (data) {
-                    $scope.productslist = data;
-                    console.log($scope.productslist);
-                });
+    				alert(" deleted item with product id= "+$scope.delProductId+ "Item");
+    				$http.post('http://localhost:8181/invoice/viewProduct/?id=' + invoiceNo)
+        			.success(function (data) {
+                        $scope.productslist = data;
+                        console.log($scope.productslist);
+                    });
+    				$http.post('http://localhost:8181/invoice/searchInvoice?invoiceID='+invoiceNo).success(function (data) {
+        				console.log( "in updat after Search http");
+        				$scope.invoice = data;
+                        console.log($scope.invoice);
+                        window.location = "#/InvoiceUpdate";
+                    });
+        			/*  view product  */
+                    $http.post('http://localhost:8181/invoice/viewProduct/?id=' + $scope.invoiceNo)
+        			.success(function (data) {
+                        $scope.productslist = data;
+                        console.log($scope.productslist);
+                    });});
     	}
         
 		$scope.landingfunc = function () {

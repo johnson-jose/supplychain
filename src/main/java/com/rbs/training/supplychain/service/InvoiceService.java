@@ -410,8 +410,10 @@ public class InvoiceService {
 				msg = new CustomMessage();
 					itemobj = new InvoiceItems();
 					
-					PreparedStatement preparedStatement  = con.prepareStatement("select sum(net_amount) from invoiceitems where invoice_id=? and deletestatus=0");
+					PreparedStatement preparedStatement  = con.prepareStatement("select sum(net_amount) from invoiceitems where invoice_id=? and(select deletestatus from invoice where invoice_id=?)=0");
 					preparedStatement.setInt(1,invoiceID);
+					preparedStatement.setInt(2,invoiceID);
+					
 					ResultSet rs=preparedStatement.executeQuery();
 					double sum=0;
 					while(rs.next())
@@ -423,10 +425,14 @@ public class InvoiceService {
 					preparedStatement1.setDouble(1, sum);
 					preparedStatement1.setInt(2,invoiceID);
 					preparedStatement1.executeUpdate();
+					
+					PreparedStatement preparedStatement2  = con.prepareStatement("commit");
+					
+					preparedStatement2.executeUpdate();
 					}
 			catch(Exception e)
 			{
-				
+				System.out.println(e.getMessage());
 			}
 		}
 		public InvoiceItems addItems( int invoiceID,int productId,double quantity, double grossAmount, float tax,double netAmount) {
@@ -491,8 +497,10 @@ public class InvoiceService {
 				stmt.setInt(1,invoiceNo);
 				stmt.setInt(2,productID);
 				stmt.executeUpdate();
-
-				
+				String updateTableSQL3 = "COMMIT";
+				stmt = con.prepareStatement(updateTableSQL3);
+				stmt.executeUpdate();
+				updateInvoiceAmount(invoiceNo);
 				String updateTableSQL2 = "COMMIT";
 				stmt = con.prepareStatement(updateTableSQL2);
 				stmt.executeUpdate();
