@@ -647,7 +647,7 @@ public class InvoiceService {
             }
             if(rowcount>14)
             {
-            	s="<html><body>exceeds maximum allowed rows(max-rows per file=14)...<br> <input type=\"button\" onClick=\"parent.location='http://localhost:8181/uploadInvoice.html'\" value=\"Go back and upload\"></body></html>" ;
+            	s="<html><body>exceeds maximum allowed rows(max-rows per file=14)..<br> <input type=\"button\" onClick=\"parent.location='http://localhost:8181/uploadInvoice.html'\" value=\"Go back and upload\"></body></html>" ;
             	return s;
             }
             
