@@ -50,21 +50,14 @@ public class AccountingManagementController {
 			List<GeneralLedger> generalledgerlists=accountingManagementServiceObj.getEachGLEntryBySearch(request.getParameter("acEntryNo"),request.getParameter("transNo"),request.getParameter("custAcNo"),request.getParameter("swiftID"),request.getParameter("invoiceNo"),request.getParameter("drCr"),request.getParameter("paymentDate"),request.getParameter("dueDate"));
 			return new ResponseEntity<List<GeneralLedger>>(generalledgerlists, HttpStatus.OK);
 		}
-	 /*@RequestMapping(value = "/viewCOA/{productSwiftID}",method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
-	 public ChartOfAccount getCOAinJSON(@PathParam("productSwiftID") String ProductSwiftID){
-			
-			AccountingManagementService acmDAO=new AccountingManagementService();
-			ChartOfAccount coa=acmDAO.getChartOfAccountValues(ProductSwiftID);
-			
-			return coa;
-		}*/
-	
+	 
 	@RequestMapping(value = "/viewCOAlist",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
 	 public ResponseEntity<List<ChartOfAccount>> dispCOAlist()
 	 {
 		 	List<ChartOfAccount> coaList=accountingManagementServiceObj.getCOAList();
 		 	return new ResponseEntity<List<ChartOfAccount>>(coaList, HttpStatus.OK);
 	 }
+	
 	 @RequestMapping(value = "/viewCOASINGLE",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
 	 @ResponseBody
 	 public ResponseEntity<ChartOfAccount> dispCOA(HttpServletRequest request)
@@ -81,10 +74,24 @@ public class AccountingManagementController {
 	 public void delCOA(HttpServletRequest request,HttpServletResponse response)
 	 {
 		 System.out.println("Inside delCOA");
+		 if(request.getParameterValues("chartGroup")==null)
+		 {
+			 try{
+			    	response.sendRedirect("http://localhost:8181/ACMindex.html");
+			    	}catch(Exception e)
+				    {
+				    	System.out.println("Exception " + e.getMessage());
+				    }
+		 }
+		 else
+		 {
 		 String[] chartNamesToDelete=request.getParameterValues("chartGroup");
+		 
 		 List<String> res=new LinkedList<String>();
-		 for(String chName:chartNamesToDelete)
+		 for(String chName:chartNamesToDelete){
+			 System.out.println("For loop chartGroup: "+chName);
 			 res.add(chName);
+		 }
 		 try
 		    {
 			 	accountingManagementServiceObj.deleteCOA(res);
@@ -103,7 +110,9 @@ public class AccountingManagementController {
 			    	System.out.println("Exception " + e.getMessage());
 			    }
 		    }
+		 }
 	 }
+	 
 	 @RequestMapping(value = "/addCOAContoller",method = RequestMethod.POST)
 	 @ResponseBody
 	 public void addCOAController(HttpServletRequest request,HttpServletResponse response)

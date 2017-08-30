@@ -1,26 +1,3 @@
-<!-- <h1>Chart of Accounts</h1><br>
-<title>Chart of Accounts List</title>
-<div id='chartList' ng-app="acmApp" ng-controller="coaListCtrl">
-	<form id="coaListForm" action="http://localhost:8181/ACM/delCOA" method="post">
-		<table>
-			<tr ng-if="coaList.length != 0"><th></th><th>Head</th><th>Legal Entity</th><th>Country</th><th>Branch</th><th>Product</th><th>Currency</th><th>Book</th><th>SWIFT ID</th></tr>
-			<tr ng-repeat="coa in coaList">                   
-				<td><input class="myCheckBox" type="checkbox" name="chartGroup" value="{{coa.productSwiftID}}"/></td>
-				<td>{{coa.head}}</td>
-				<td>{{coa.legalEntity}}</td>
-				<td>{{coa.country}}</td>
-				<td>{{coa.branch}}</td>
-				<td>{{coa.product}}</td>
-				<td>{{coa.currency}}</td>
-				<td>{{coa.book}}</td>
-				<td>{{coa.productSwiftID}}</td>
-			</tr>
-		</table>
-		<h2 ng-hide="coaList.length">No Chart of Accounts found</h2>
-		<input type="submit" id="deleteButton" value="Delete Charts">
-	</form>
-	<a href='#addCOA'><input type="button" value="Add Chart of Accounts" /></a><br>
-</div> -->
 <html lang="en">
 <head>
   <title>COA List</title>

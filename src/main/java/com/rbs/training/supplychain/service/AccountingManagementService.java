@@ -36,6 +36,7 @@ public class AccountingManagementService {
 		}
 		return swiftList;
 	}
+	
 	public List<ChartOfAccount> getCOAList()
 	{
 		DataBaseConnection dbobj = new DataBaseConnection();
@@ -65,6 +66,7 @@ public class AccountingManagementService {
 		}
 		return coaList;
 	}
+	
 	public ChartOfAccount getCOA(String swiftID)
 	{
 		DataBaseConnection dbobj = new DataBaseConnection();
@@ -252,19 +254,7 @@ public class AccountingManagementService {
 		try
 	    {
 			Connection con = dbobj.getConnection();
-			System.out.println("IN addCOAService - after getConnection");
         	Statement stmt=con.createStatement(); 
-        	System.out.println("IN addCOAService - after createStatement");
-        	/*rs=stmt.executeQuery("select Name from ChartOfAccounts");  
-         	
-       		while(rs.next())  
-       		{
-       			//out.print("alert("+rs.getString("Name")+"\t"+request.getParameter("newTextEntry")+");");
-       			if(rs.getString("Name").equals(request.getParameter("newTextEntry")))
-       			{
-       				response.sendRedirect("redirectPage.jsp");
-       			}
-       		}*/
         	stmt.executeUpdate("insert into ChartOfAccounts values('"+coa.getHead()+"','"+coa.getLegalEntity()+"','"+coa.getCountry()+"','"+coa.getBranch()+"','"+coa.getProduct()+"','"+coa.getCurrency()+"',"+coa.getBook()+",'"+coa.getProductSwiftID()+"')");
       		con.commit();
       		con.close();
