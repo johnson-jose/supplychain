@@ -145,42 +145,65 @@ public class AccountingManagementService {
 				Connection con = dbobj.getConnection();
 				Statement statement = 	con.createStatement();
 				ResultSet resultSet=null;
-				if(paymentDate.equals("")&&dueDate.equals(""))
-					resultSet = statement.executeQuery("SELECT * FROM General_Ledger where (Account_Entry_no like'%"+acEntryNo+"%' or Account_Entry_no is null) and "
+				if(paymentDate.equals("")&&transNo.equals("")&&dueDate.equals(""))
+					resultSet = statement.executeQuery("SELECT * FROM General_Ledger where (Account_Entry_no like'%"+acEntryNo+"%') and "
 						+"(transaction_no like '%"+transNo+"%' or transaction_no is null) and "
-						+"(customer_account_no like '%"+custAcNo+"%' or customer_account_no is null) and "
-						+"(swiftID like '%"+swiftID+"%' or swiftID is null) and "
-						+"(invoice_no like '%"+invoiceNo+"%' or invoice_no is null) and "
-						+"(dr_cr like '%"+drCr+"%' or dr_cr is null) and "
+						+"(customer_account_no like '%"+custAcNo+"%') and "
+						+"(swiftID like '%"+swiftID+"%') and "
+						+"(invoice_no like '%"+invoiceNo+"%') and "
+						+"(dr_cr like '%"+drCr+"%') and "
 						+"(payment_date like '%"+paymentDate +"%' or payment_date is null) and "
 						+"(due_date like '%"+dueDate+"%' or due_date is null)");
-				else if(paymentDate.equals(""))
-					resultSet = statement.executeQuery("SELECT * FROM General_Ledger where (Account_Entry_no like'%"+acEntryNo+"%' or Account_Entry_no is null) and "
-							+"(transaction_no like '%"+transNo+"%' or transaction_no is null) and "
-							+"(customer_account_no like '%"+custAcNo+"%' or customer_account_no is null) and "
-							+"(swiftID like '%"+swiftID+"%' or swiftID is null) and "
-							+"(invoice_no like '%"+invoiceNo+"%' or invoice_no is null) and "
-							+"(dr_cr like '%"+drCr+"%' or dr_cr is null) and "
-							+"(payment_date like '%"+paymentDate +"%' or payment_date is null) and "
+				//******************************************
+				else if(paymentDate.equals("")&&transNo.equals(""))
+					resultSet = statement.executeQuery("SELECT * FROM General_Ledger where (Account_Entry_no like'%"+acEntryNo+"%') and "
+						//	+"(transaction_no like '%"+transNo+"%' or transaction_no is null) and "
+							+"(customer_account_no like '%"+custAcNo+"%') and "
+							+"(swiftID like '%"+swiftID+"%') and "
+							+"(invoice_no like '%"+invoiceNo+"%') and "
+							+"(dr_cr like '%"+drCr+"%') and "
+						//	+"(payment_date like '%"+paymentDate +"%' or payment_date is null) and "
 							+"(due_date = '"+dueDate+"')");
-				else if(dueDate.equals(""))
-					resultSet = statement.executeQuery("SELECT * FROM General_Ledger where (Account_Entry_no like'%"+acEntryNo+"%' or Account_Entry_no is null) and "
-						+"(transaction_no like '%"+transNo+"%' or transaction_no is null) and "
-						+"(customer_account_no like '%"+custAcNo+"%' or customer_account_no is null) and "
-						+"(swiftID like '%"+swiftID+"%' or swiftID is null) and "
-						+"(invoice_no like '%"+invoiceNo+"%' or invoice_no is null) and "
-						+"(dr_cr like '%"+drCr+"%' or dr_cr is null) and "
-						+"(payment_date = '"+paymentDate +"') and "
-						+"(due_date like '%"+dueDate+"%' or due_date is null)");
+				else if(/*(paymentDate.equals("")&&dueDate.equals(""))||*/(transNo.equals("")&&dueDate.equals(""))||(!paymentDate.equals("")&&!transNo.equals("")&&dueDate.equals("")))
+					resultSet = statement.executeQuery("SELECT * FROM General_Ledger where (Account_Entry_no like'%"+acEntryNo+"%') and "
+					//		+"(transaction_no like '%"+transNo+"%') and "
+							+"(customer_account_no like '%"+custAcNo+"%') and "
+							+"(swiftID like '%"+swiftID+"%') and "
+							+"(invoice_no like '%"+invoiceNo+"%') and "
+							+"(dr_cr like '%"+drCr+"%') and "
+							+"(payment_date = '"+paymentDate +"')");
+					//		+"(payment_date = '"+paymentDate +"') and "
+					//		+"(due_date like '%"+dueDate+"%' or due_date is null)");
+				else if(paymentDate.equals("")&&dueDate.equals(""))
+					resultSet = statement.executeQuery("SELECT * FROM General_Ledger where (Account_Entry_no like'%"+acEntryNo+"%') and "
+							+"(transaction_no like '%"+transNo+"%') and "
+							+"(customer_account_no like '%"+custAcNo+"%') and "
+							+"(swiftID like '%"+swiftID+"%') and "
+							+"(invoice_no like '%"+invoiceNo+"%') and "
+							+"(dr_cr like '%"+drCr+"%')");
+						//	+"(dr_cr like '%"+drCr+"%') and "
+						//	+"(payment_date = '"+paymentDate +"') and "
+						//	+"(due_date like '%"+dueDate+"%' or due_date is null)");
+				else if(!transNo.equals("")&&!dueDate.equals(""))
+					resultSet = statement.executeQuery("SELECT * FROM General_Ledger where (Account_Entry_no like'%"+acEntryNo+"%') and "
+						+"(transaction_no like '%"+transNo+"%') and "
+						+"(customer_account_no like '%"+custAcNo+"%') and "
+						+"(swiftID like '%"+swiftID+"%') and "
+						+"(invoice_no like '%"+invoiceNo+"%') and "
+						+"(dr_cr like '%"+drCr+"%') and "
+					//	+"(payment_date = '"+paymentDate +"') and "
+						+"(due_date = '"+dueDate+"')");
+				//else if(paymentDate.equals("")&&dueDate.equals(""))
 				else
-					resultSet = statement.executeQuery("SELECT * FROM General_Ledger where (Account_Entry_no like'%"+acEntryNo+"%' or Account_Entry_no is null) and "
-						+"(transaction_no like '%"+transNo+"%' or transaction_no is null) and "
-						+"(customer_account_no like '%"+custAcNo+"%' or customer_account_no is null) and "
-						+"(swiftID like '%"+swiftID+"%' or swiftID is null) and "
-						+"(invoice_no like '%"+invoiceNo+"%' or invoice_no is null) and "
-						+"(dr_cr like '%"+drCr+"%' or dr_cr is null) and "
+					resultSet = statement.executeQuery("SELECT * FROM General_Ledger where (Account_Entry_no like'%"+acEntryNo+"%') and "
+					//	+"(transaction_no like '%"+transNo+"%') and "
+						+"(customer_account_no like '%"+custAcNo+"%') and "
+						+"(swiftID like '%"+swiftID+"%') and "
+						+"(invoice_no like '%"+invoiceNo+"%') and "
+						+"(dr_cr like '%"+drCr+"%') and "
 						+"(payment_date = '"+paymentDate +"') and "
 						+"(due_date = '"+dueDate+"')");
+			
 			entries=new ArrayList<GeneralLedger>();
 			while (resultSet.next()) {
 				GeneralLedger gl=new GeneralLedger();
