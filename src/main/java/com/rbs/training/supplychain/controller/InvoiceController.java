@@ -1,5 +1,6 @@
 package com.rbs.training.supplychain.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,14 +8,16 @@ import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+
 import javax.websocket.server.PathParam;
 
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,9 +25,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import com.rbs.training.supplychain.model.*;
 
 import com.rbs.training.supplychain.model.Invoice;
+import com.rbs.training.supplychain.model.InvoiceItems;
+import com.rbs.training.supplychain.model.ProductInvoice;
 import com.rbs.training.supplychain.service.InvoiceService;
 import com.rbs.training.supplychain.util.CustomMessage;
 
@@ -207,12 +211,13 @@ public class InvoiceController {
 	@PostMapping("/upload")
 	public String uploadInvoice(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
-		String fileExtention = ".xlsx";
+		String fileExtention1 = ".xlsx";
+		String fileExtention2=".xls";
 		String fileName = file.getOriginalFilename();
 		int lastIndex = fileName.lastIndexOf('.');
 		String substring = fileName.substring(lastIndex, fileName.length());
 		System.out.println("extension ="+substring);
-		if(fileExtention.equals(substring))
+		if(fileExtention1.equals(substring) ||fileExtention2.equals(substring))
 		{s=invoiceServiceObj.uploadInvoice(file, redirectAttributes);
 		String res=invoiceServiceObj.processInvoice(s);
 		return res;
@@ -226,6 +231,24 @@ public class InvoiceController {
 		String t=invoiceServiceObj.insertAll(s);
 		return t;
 	
+	}
+	
+	@RequestMapping(path = "/download", method = RequestMethod.GET)
+	public ResponseEntity<Resource> download(String param) throws IOException {
+
+		File file = new File("C:\\temp\\test.xlsx");
+		 HttpHeaders headers = new HttpHeaders();
+	        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+	        headers.add("Pragma", "no-cache");
+	        headers.add("Expires", "0");
+	    Path path = Paths.get(file.getAbsolutePath());
+	    ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
+
+	    return ResponseEntity.ok()
+	            .headers(headers)
+	            .contentLength(file.length())
+	            .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
+	            .body(resource);
 	}
 	
 	

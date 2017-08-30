@@ -14,6 +14,7 @@ function myFunction() {
    			        x.style.display = 'none';
    			    }
   	}
+ 
   function toggleview(){
 	  var x = document.getElementById('invoicelist');
 	  var y = document.getElementById('view');
@@ -36,6 +37,31 @@ function myFunction() {
 		        x.style.display = 'none';
 		        y.style.display = 'none';
 		        z.style.display = 'block';
+		    } else {
+		    	x.style.display = 'block';
+		        y.style.display = 'none';
+		        z.style.display = 'none';
+		    }
+}
+  
+  function toggleview2(draft,approval,compliance,funding){
+	  var x = document.getElementById('invoice');
+	  var y = document.getElementById('view');
+	  var z = document.getElementById('buttongroup');
+	  var draftbutton = document.getElementById('draftbutton');
+	  var compliancebutton = document.getElementById('compliancebutton');
+	  var viewbutton = document.getElementById('viewbutton');
+	  //console.log(draft);
+	  if (draft==1)
+		  draftbutton.style.display='block';
+	  if (draft==0 && approval==1 && compliance==0)
+	  	  compliancebutton.style.display='block';
+	  if (draft==0 && approval==1 && compliance==1)
+	  		viewbutton.style.display='block';
+	  if (y.style.display === 'none') {
+		        x.style.display = 'none';
+		        y.style.display = 'block';
+		       z.style.display = 'block';
 		    } else {
 		    	x.style.display = 'block';
 		        y.style.display = 'none';
@@ -80,10 +106,6 @@ function myFunction() {
 		})
 		.when('/InvoiceDeleteConfirm', {
 		templateUrl : 'InvoiceDeleteConfirm.html',
-	
-		})
-		.when('/UploadInvoice', {
-		templateUrl : 'uploadInvoice.html',
 	
 		})
 	});
@@ -331,4 +353,41 @@ function myFunction() {
 			//windows.alert("You have saved the invoice as draft");
             window.location = "#/InvoiceLanding";
 	}
+		$scope.viewInvoicefunc = function () {
+            
+        	console.log("in view invoice function ");
+    			var invoiceID = $scope.invoiceID;
+    			console.log(invoiceID);
+    			/*  view Invoice  */
+    			$http.post('http://localhost:8181/invoice/searchInvoice?invoiceID='+invoiceID).success(function (data) {
+    				console.log( "in view page after service");
+    				$scope.invoice = data;
+                    console.log($scope.invoice);
+                    
+                });
+    			/*  view product  */
+                $http.post('http://localhost:8181/invoice/viewProduct/?id=' + invoiceID)
+    			.success(function (data) {
+                    $scope.productslist = data;
+                    console.log($scope.productslist);
+                });
+                $scope.message="Click to view invoice";
+                window.location = "#/InvoiceView";
+    	}
+		$scope.statusfunc = function (draft,approval,compliance,funding) {
+            
+        	console.log("in status function ");
+    		toggleview2(draft,approval,compliance,funding);
+    	}
+		$scope.compliancefunc=function(buyerID){
+			console.log("in complaince");
+			if (buyerID=123){
+				$scope.message="Your invoice from BUYER="+buyerID+"has passed the complaince Check!!!";
+			}
+			else {
+				$scope.message="Your invoice from BUYER="+buyerID+"has failed the complaince Check!!!";
+			}
+			alert($scope.message);
+		}
+      
 	});
