@@ -207,9 +207,18 @@ public class InvoiceController {
 	@PostMapping("/upload")
 	public String uploadInvoice(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
-		s=invoiceServiceObj.uploadInvoice(file, redirectAttributes);
+		String fileExtention = ".xlsx";
+		String fileName = file.getOriginalFilename();
+		int lastIndex = fileName.lastIndexOf('.');
+		String substring = fileName.substring(lastIndex, fileName.length());
+		System.out.println("extension ="+substring);
+		if(fileExtention.equals(substring))
+		{s=invoiceServiceObj.uploadInvoice(file, redirectAttributes);
 		String res=invoiceServiceObj.processInvoice(s);
 		return res;
+		}
+		else
+			return "not an excel file";
 	}
 	@RequestMapping(value="/insertAll",method = RequestMethod.GET,produces=MediaType.ALL_VALUE)
 	public String insertAll()

@@ -765,7 +765,7 @@ public class InvoiceService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        s+="</table>"+rowcount+"rows inserted"+"</body></html>";
+        s+="</table>"+(rowcount-1)+" rows inserted"+"</body></html>";
         s+="in right format...add to db<br> <input type=\"button\" onClick=\"parent.location='http://localhost:8181/invoice/insertAll'\" value=\"Enter data into db\"></body></html>";
         
         return s;
