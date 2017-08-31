@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.rbs.training.supplychain.DAO.DataBaseConnection;
 import com.rbs.training.supplychain.DAO.DatabaseConnectionPostgreSQL;
+import com.rbs.training.supplychain.model.Addn_response;
 import com.rbs.training.supplychain.model.Features;
 import com.rbs.training.supplychain.model.Proposal;
 import com.rbs.training.supplychain.model.Proposal_Sellers_Bid;
@@ -272,6 +273,40 @@ public class ContractManagementSellerService {
 	  		System.out.println(e.getMessage());
 	  	}
 	  	}
+	
+	/* view additional responses*/
+	 
+	 public List<Addn_response> listAllAddResponses(int seller_id) throws SQLException{
+		 	
+	 		//int seller_id=1;
+			dbobj = new DatabaseConnectionPostgreSQL();
+			List<Addn_response> lst = new ArrayList<Addn_response>();
+			Addn_response Addn_response_obj = null;
+			try{
+				con = dbobj.getConnection();
+				Statement stmt = con.createStatement();
+				ResultSet rs = stmt.executeQuery("select * from \"Addn_response\" where seller_id='"+seller_id+"'");
+				//ResultSet rs = stmt.executeQuery("select * from proposal_sellers_bid where seller_id='"+seller_id+"'");
+				/*Proposal_Sellers_Bid_obj = new Proposal_Sellers_Bid();*/
+			
+				while(rs.next()){
+					Addn_response_obj = new Addn_response();
+					Addn_response_obj.setProduct_id(rs.getInt("product_id"));
+					Addn_response_obj.setSpecification(rs.getString("specification"));
+	
+					lst.add(Addn_response_obj);
+					}
+			}catch(Exception e){							
+				System.out.println(e.getMessage());
+			}finally{
+					try {
+						dbobj.closeConnection();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+			}
+		return lst;			
+	}
 
   	}
  

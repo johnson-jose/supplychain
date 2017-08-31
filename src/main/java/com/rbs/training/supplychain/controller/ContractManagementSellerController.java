@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rbs.training.supplychain.model.Addn_response;
 import com.rbs.training.supplychain.model.Features;
 import com.rbs.training.supplychain.model.Invoice;
 import com.rbs.training.supplychain.model.Proposal;
@@ -144,8 +145,29 @@ public class ContractManagementSellerController {
 			System.out.println(e.getMessage());
 		}
     }
+    
+    
+    /*service 7 fetch add responses*/
+    
+    @RequestMapping(value = "/viewaddresp/{seller_id}",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Addn_response>> getAddResponses(@PathVariable("seller_id") String id) {
+		
+		int seller_id = Integer.parseInt(id);
+		
+			List<Addn_response> addresponses = new ArrayList<Addn_response>();
+			try {
+				addresponses = service.listAllAddResponses(seller_id);
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+			
+			if (addresponses.isEmpty()) {
+				return new ResponseEntity(HttpStatus.NO_CONTENT);
+			}
+			
+			return new ResponseEntity<List<Addn_response>>(addresponses, HttpStatus.OK);
+			
+		}
 }
-   /* @RequestMapping("/updatesellerresponse")
-    public String service3() {
-        return "Hello, World!" ;
-    }*/
+  
