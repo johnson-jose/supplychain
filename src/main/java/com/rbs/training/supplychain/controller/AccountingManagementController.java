@@ -77,7 +77,7 @@ public class AccountingManagementController {
 		 if(request.getParameterValues("chartGroup")==null)
 		 {
 			 try{
-			    	response.sendRedirect("http://localhost:8181/ACMindex.html");
+			    	response.sendRedirect("http://localhost:8181/ACMindex.html#/coaDelError");
 			    	}catch(Exception e)
 				    {
 				    	System.out.println("Exception " + e.getMessage());
@@ -104,7 +104,7 @@ public class AccountingManagementController {
 		    finally
 		    {
 		    	try{
-		    	response.sendRedirect("http://localhost:8181/ACMindex.html");
+		    	response.sendRedirect("http://localhost:8181/ACMindex.html#/coaDelMsg");
 		    	}catch(Exception e)
 			    {
 			    	System.out.println("Exception " + e.getMessage());

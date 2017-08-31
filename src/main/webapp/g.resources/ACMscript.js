@@ -8,6 +8,8 @@ acmApp.config(function ($routeProvider){
 	.when('/addCOA', {templateUrl : 'addCOA.html'})
 	.when('/addCoaResult', {templateUrl : 'addCoaResult.html'})
 	.when('/coaSingle', {templateUrl : 'viewCOA.html'})
+	.when('/coaDelError', {templateUrl : 'coaDeleteError.html'})
+	.when('/coaDelMsg', {templateUrl : 'coaDeletedMsg.html'})
 	.when('/checkCompliance',{templateUrl:'complianceCheck.html'})
 });
 	
