@@ -35,8 +35,17 @@ var myApp = angular.module('myApp', ["ngRoute"]);
                 $scope.proposals = data;
                 console.log(data);
                 $rootScope.proposals = data;
+                if(data==[]){
+                	window.alert('you do not have any new/pending proposals!!');
+                	/*var b='no new or pending proposals found';
+                	console.log(b);
+                	document.getElementById("proposals").innerHTML=b;*/
+                }
+                else
+                	{
                 console.log("RS: " + $rootScope.proposals);
                 window.location = "#/view_table";
+                	}
 			});			
 		}
 		
@@ -44,19 +53,11 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 			//console.log("get Feature of="  + this.proposal_id);
 			var a=document.getElementById("prop_id").innerHTML;
 			console.log("new: " + a);
-			
-			if(a==undefined || a=='')
-			{
-				console.log("inside if");
-				alert("Please Enter a Proposal ID!")
-			}
-			else{
 				console.log("inside else and printing");
 				$rootScope.proposal_id = a;
 				console.log("RS2 :" + $rootScope.proposal_id);
 				console.log("Proposal Table Ctroller: on click function 2");	
 		        window.location = "#/features";
-			}
 		}
 		/*function to get status of accepted proposals*/
 		
