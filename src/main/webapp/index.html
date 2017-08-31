@@ -229,14 +229,14 @@
 										</thead>
 											<tr ng-repeat="i in proposals">
 												<td>{{i.seller_id}}</td>
-												<td>{{i.proposal_id}}</td>
+												<td><button id="prop_id" ng-click="getFeatures()">{{i.proposal_id}}</button></td>
 												<td>{{i.cost_avail}}</td>
 												
 											</tr>				
 									</table>
-									Enter the proposal ID you wish to view: <input type="text" ng-model="proposal_id" />
-									<!--	<div ng-controller="proposalTableCtrl">-->
-									<button ng-click="getFeatures()">Go</button>
+									<!--Enter the proposal ID you wish to view: <input type="text" ng-model="proposal_id" />
+										<div ng-controller="proposalTableCtrl">-->
+									
 									<!--</div>-->
 								</div>
 							</div>

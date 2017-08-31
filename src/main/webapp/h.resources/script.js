@@ -30,7 +30,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 			console.log("on click function 1");
 			var x = $scope.seller_id;
 			console.log(x);
-			$http.post('http://localhost:8181/supplychain/contractmanagementseller/viewrfp/' + x)
+			$http.post('http://localhost:8181/contractmanagementseller/viewrfp/' + x)
 			.success(function (data) {
                 $scope.proposals = data;
                 console.log(data);
@@ -41,17 +41,19 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		}
 		
 		$scope.getFeatures = function() { 
-			console.log("get Feature of="  + this.proposal_id);
+			//console.log("get Feature of="  + this.proposal_id);
+			var a=document.getElementById("prop_id").innerHTML;
+			console.log("new: " + a);
 			
-			console.log("RS2 :" + $rootScope.proposals);
-			if(this.proposal_id==undefined || this.proposal_id=='')
+			if(a==undefined || a=='')
 			{
 				console.log("inside if");
 				alert("Please Enter a Proposal ID!")
 			}
 			else{
-				console.log("inside else");
-				$rootScope.proposal_id = $scope.proposal_id;
+				console.log("inside else and printing");
+				$rootScope.proposal_id = a;
+				console.log("RS2 :" + $rootScope.proposal_id);
 				console.log("Proposal Table Ctroller: on click function 2");	
 		        window.location = "#/features";
 			}
@@ -63,7 +65,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 			console.log("on click function 3");
 			var x2 = $scope.seller_id;
 			console.log(x2);
-			$http.post('http://localhost:8181/supplychain/contractmanagementseller/fetchbuyerStatus/' + x2)
+			$http.post('http://localhost:8181/contractmanagementseller/fetchbuyerStatus/' + x2)
 			.success(function (data) {
                 $scope.stats = data;                    
                 console.log(data);
@@ -82,7 +84,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 			var spec = $scope.specification;
 			console.log(spec);
 			//var spec= new String('i can provide higher');
-			$http.post('http://localhost:8181/supplychain/contractmanagementseller/addresponse/' +s+ '/' +p+ '/' +spec)
+			$http.post('http://localhost:8181/contractmanagementseller/addresponse/' +s+ '/' +p+ '/' +spec)
 			.success(function (data) {
                 $scope.stats = data;                    
                 console.log('hi');
@@ -101,7 +103,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 			
 			console.log("seller id=" +y);		
 			//console.log("seller id=" + $scope.seller_id);
-	        $http.post('http://localhost:8181/supplychain/contractmanagementseller/viewaddresp/' +y)
+	        $http.post('http://localhost:8181/contractmanagementseller/viewaddresp/' +y)
 	        .success(function (data) {
 	            $scope.addres = data;
 	            console.log(data);
@@ -120,7 +122,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 			
 			console.log("proposal id=" +y);		
 			console.log("seller id=" + $scope.seller_id);
-	        $http.post('http://localhost:8181/supplychain/contractmanagementseller/listfeatures/' +y)
+	        $http.post('http://localhost:8181/contractmanagementseller/listfeatures/' +y)
 	        .success(function (data) {
 	            $scope.features = data;
 	            console.log(data);
@@ -136,9 +138,9 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 				console.log("feature id:" + f);
 				var r = resp;
 				console.log("response:" + r);
-				console.log('http://localhost:8181/supplychain/contractmanagementseller/updatesellerresponse/'
+				console.log('http://localhost:8181/contractmanagementseller/updatesellerresponse/'
 						+ $rootScope.proposal_id +'/' + p + '/' +f + '/' + s + '/' +r);
-				$http.post('http://localhost:8181/supplychain/contractmanagementseller/updatesellerresponse/'
+				$http.post('http://localhost:8181/contractmanagementseller/updatesellerresponse/'
 						+ $rootScope.proposal_id +'/' + p + '/' +f + '/' + s + '/' +r)
 				.success(function (data) {                  
 	                console.log('updated Radio Button');
@@ -152,7 +154,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 						//$scope.result = "You accepted this proposal";
 						
 						console.log("seller id:" +s);
-						$http.post('http://localhost:8181/supplychain/contractmanagementseller/updatebidsellerstatus/' +s+ '/' +$rootScope.proposal_id + '/'+ status)
+						$http.post('http://localhost:8181/contractmanagementseller/updatebidsellerstatus/' +s+ '/' +$rootScope.proposal_id + '/'+ status)
 						.success(function (data) {                 
 			                console.log('updated Seller Status A');
 						});
@@ -161,7 +163,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 				if(status=='R'){
 					if ($window.confirm("Do you want to reject the proposal?")){
 						//$scope.result = "You accepted this proposal";
-						$http.post('http://localhost:8181/supplychain/contractmanagementseller/updatebidsellerstatus/' +s+ '/' +$rootScope.proposal_id + '/'+ status)
+						$http.post('http://localhost:8181/contractmanagementseller/updatebidsellerstatus/' +s+ '/' +$rootScope.proposal_id + '/'+ status)
 						.success(function (data) {                 
 			                console.log('updated Seller Status R');
 						});
@@ -169,7 +171,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 					}
 				if(status=='P'){
 					if ($window.confirm("Do you want to see the proposal later?")){
-						$http.post('http://localhost:8181/supplychain/contractmanagementseller/updatebidsellerstatus/' +s+ '/' +$rootScope.proposal_id + '/'+ status)
+						$http.post('http://localhost:8181/contractmanagementseller/updatebidsellerstatus/' +s+ '/' +$rootScope.proposal_id + '/'+ status)
 						.success(function (data) {                 
 			                console.log('updated Seller Status P');
 						});
