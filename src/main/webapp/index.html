@@ -229,7 +229,7 @@
 										</thead>
 											<tr ng-repeat="i in proposals">
 												<td>{{i.seller_id}}</td>
-												<td><button id="prop_id" ng-click="getFeatures()">{{i.proposal_id}}</button></td>
+												<td><a class="propos"  ng-click="getFeatures(i)">{{i.proposal_id}}</a></td>
 												<td>{{i.cost_avail}}</td>
 												
 											</tr>				

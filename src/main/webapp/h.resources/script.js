@@ -20,6 +20,9 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		.when('/viewaddresp', {
 		templateUrl : 'viewaddresp.htm'
 		})
+		.when('/nostatus', {
+		templateUrl : 'nostatus.htm'
+		})
 	});
 	
 	myApp.controller('myController', function($scope,$rootScope, $http){	
@@ -37,6 +40,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
                 $rootScope.proposals = data;
                 if(data==[]){
                 	window.alert('you do not have any new/pending proposals!!');
+                	window.location="#/nostatus"
                 	/*var b='no new or pending proposals found';
                 	console.log(b);
                 	document.getElementById("proposals").innerHTML=b;*/
@@ -49,14 +53,12 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 			});			
 		}
 		
-		$scope.getFeatures = function() { 
-			//console.log("get Feature of="  + this.proposal_id);
-			var a=document.getElementById("prop_id").innerHTML;
-			console.log("new: " + a);
-				console.log("inside else and printing");
-				$rootScope.proposal_id = a;
-				console.log("RS2 :" + $rootScope.proposal_id);
-				console.log("Proposal Table Ctroller: on click function 2");	
+		$scope.getFeatures = function(i) { 
+			
+			var prop_id=i.proposal_id;
+			console.log("get features of proposal_id clicked: " + prop_id);
+				$rootScope.proposal_id = prop_id;
+				console.log("prop_id made as root scope :" + $rootScope.proposal_id);	
 		        window.location = "#/features";
 		}
 		/*function to get status of accepted proposals*/
@@ -70,10 +72,16 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 			.success(function (data) {
                 $scope.stats = data;                    
                 console.log(data);
-				window.location = "#/view_stats";
+                if(data==[]){
+                	window.alert('you do not have any accepted proposals !!!!');
+                	window.location="#/nostatus"
+                }
+                else
+                {
+				    window.location = "#/view_stats";
+                }
 			});
 		}   
-		
 		/*function to send additional response
 		*/
 		$scope.addresponse = function () {        	
