@@ -19,6 +19,7 @@ import com.rbs.training.supplychain.model.Invoice;
 import com.rbs.training.supplychain.model.PaymentandDeliveryDetails;
 import com.rbs.training.supplychain.model.Proposal;
 import com.rbs.training.supplychain.model.Proposal_Sellers_Bid;
+import com.rbs.training.supplychain.model.Proposal_Sellers_Bid_Proposals;
 import com.rbs.training.supplychain.model.Sfeatures;
 import com.rbs.training.supplychain.service.ContractManagementSellerService;
 
@@ -33,11 +34,11 @@ public class ContractManagementSellerController {
     
 	/*service 1*/
 	 @RequestMapping(value = "/viewrfp/{seller_id}",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Proposal_Sellers_Bid>> getProposals(@PathVariable("seller_id") String id) {
+    public ResponseEntity<List<Proposal_Sellers_Bid_Proposals>> getProposals(@PathVariable("seller_id") String id) {
 		
 		int seller_id = Integer.parseInt(id);
 		
-			List<Proposal_Sellers_Bid> proposals = new ArrayList<Proposal_Sellers_Bid>();
+			List<Proposal_Sellers_Bid_Proposals> proposals = new ArrayList<Proposal_Sellers_Bid_Proposals>();
 			try {
 				proposals = service.listAllProposals(seller_id);
 			} catch (SQLException e) {
@@ -49,7 +50,7 @@ public class ContractManagementSellerController {
 				return new ResponseEntity(HttpStatus.NO_CONTENT);
 			}
 			
-			return new ResponseEntity<List<Proposal_Sellers_Bid>>(proposals, HttpStatus.OK);
+			return new ResponseEntity<List<Proposal_Sellers_Bid_Proposals>>(proposals, HttpStatus.OK);
 			
 		}
     
@@ -178,7 +179,7 @@ public class ContractManagementSellerController {
     public ResponseEntity<List<Buyer>> getBuyerdet(@PathVariable("proposal_id") String id) {
 		
 		int proposal_id = Integer.parseInt(id);
-		System.out.println("panni");
+		
 		
 			List<Buyer> budet = new ArrayList<Buyer>();
 			try {

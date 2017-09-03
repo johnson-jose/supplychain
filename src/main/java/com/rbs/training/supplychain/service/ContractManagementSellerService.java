@@ -20,6 +20,7 @@ import com.rbs.training.supplychain.model.Features;
 import com.rbs.training.supplychain.model.PaymentandDeliveryDetails;
 import com.rbs.training.supplychain.model.Proposal;
 import com.rbs.training.supplychain.model.Proposal_Sellers_Bid;
+import com.rbs.training.supplychain.model.Proposal_Sellers_Bid_Proposals;
 import com.rbs.training.supplychain.model.Sfeatures;
 
 
@@ -32,26 +33,34 @@ public class ContractManagementSellerService {
 	/*service to fetch all the request for proposals(rfps)*/
 	 
  /*service 1*/
-	 public List<Proposal_Sellers_Bid> listAllProposals(int seller_id) throws SQLException{
+	 public List<Proposal_Sellers_Bid_Proposals> listAllProposals(int seller_id) throws SQLException{
 	 	
 	 		//int seller_id=1;
 			dbobj = new DatabaseConnectionPostgreSQL();
-			List<Proposal_Sellers_Bid> lst = new ArrayList<Proposal_Sellers_Bid>();
-			Proposal_Sellers_Bid Proposal_Sellers_Bid_obj = null;
+			List<Proposal_Sellers_Bid_Proposals> lst = new ArrayList<Proposal_Sellers_Bid_Proposals>();
+			Proposal_Sellers_Bid_Proposals Proposal_Sellers_Bid_Proposals_obj = null;
 			try{
 				con = dbobj.getConnection();
 				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery("select * from \"Proposal_sellers_bid\" where seller_id='"+seller_id+"'");
+				System.out.println("select \"Proposal_sellers_bid\".proposal_id,\"Proposal_sellers_bid\".seller_id,"
+						+ "\"Proposals\".buyer_id,\"Proposals\".d_terms_id,\"Proposals\".p_terms_id from \"Proposal_sellers_bid\", \"Proposals\""
+						+ "where \"Proposal_sellers_bid\".seller_id='"+seller_id+"'"
+				+ "and \"Proposal_sellers_bid\".proposal_id=\"Proposals\".proposal_id");
+				ResultSet rs = stmt.executeQuery("select \"Proposal_sellers_bid\".proposal_id,\"Proposal_sellers_bid\".seller_id,"
+						+ "\"Proposals\".buyer_id,\"Proposals\".d_terms_id,\"Proposals\".p_terms_id from \"Proposal_sellers_bid\", \"Proposals\""
+						+ "where \"Proposal_sellers_bid\".seller_id='"+seller_id+"'"
+				+ "and \"Proposal_sellers_bid\".proposal_id=\"Proposals\".proposal_id");
 				//ResultSet rs = stmt.executeQuery("select * from proposal_sellers_bid where seller_id='"+seller_id+"'");
 				/*Proposal_Sellers_Bid_obj = new Proposal_Sellers_Bid();*/
 			
 				while(rs.next()){
-					Proposal_Sellers_Bid_obj = new Proposal_Sellers_Bid();
-					Proposal_Sellers_Bid_obj.setProposal_id(rs.getInt("proposal_id"));
-					Proposal_Sellers_Bid_obj.setSeller_id(rs.getInt("seller_id"));
-					Proposal_Sellers_Bid_obj.setCost_avail(rs.getInt("cost_avail"));
-					Proposal_Sellers_Bid_obj.setScore(rs.getInt("score"));
-					lst.add(Proposal_Sellers_Bid_obj);
+					Proposal_Sellers_Bid_Proposals_obj = new Proposal_Sellers_Bid_Proposals();
+					Proposal_Sellers_Bid_Proposals_obj.setProposal_id(rs.getInt(1));
+					Proposal_Sellers_Bid_Proposals_obj.setSeller_id(rs.getInt(2));
+					Proposal_Sellers_Bid_Proposals_obj.setBuyer_id(rs.getInt(3));
+					Proposal_Sellers_Bid_Proposals_obj.setD_terms_id(rs.getInt(4));
+					Proposal_Sellers_Bid_Proposals_obj.setP_terms_id(rs.getInt(5));
+					lst.add(Proposal_Sellers_Bid_Proposals_obj);
 					}
 			}catch(Exception e){							
 				System.out.println(e.getMessage());
