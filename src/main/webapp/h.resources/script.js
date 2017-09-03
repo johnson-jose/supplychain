@@ -23,6 +23,9 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		.when('/nostatus', {
 		templateUrl : 'nostatus.htm'
 		})
+		.when('/nostatus2', {
+		templateUrl : 'nostatus2.htm'
+		})
 		.when('/buyer', {
 		templateUrl : 'buyerdetails.htm'
 		})
@@ -94,7 +97,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
                 console.log(data);
                 if(data==[]){
                 	window.alert('you do not have any accepted proposals !!!!');
-                	window.location="#/nostatus"
+                	window.location="#/nostatus2"
                 }
                 else
                 {
