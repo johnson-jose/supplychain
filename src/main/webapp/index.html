@@ -223,14 +223,15 @@
 											<tr>    
 											<th>Seller ID</th>
 											<th>Proposal ID</th>
-											<th>Cost</th>
-											
+											<th>Buyer Details</th>
+											<th>Payment and Delivery Terms</th>				
 											</tr>
 										</thead>
 											<tr ng-repeat="i in proposals">
 												<td>{{i.seller_id}}</td>
 												<td><a class="propos"  ng-click="getFeatures(i)">{{i.proposal_id}}</a></td>
-												<td>{{i.cost_avail}}</td>
+												<td><a class="buyerdet" ng-click="getBuyerDetails(i)">Buyer Details</a></td>
+												<td><a class="paymentdet" ng-click="getPaymentDetails(i)">P & D terms</a></td>
 												
 											</tr>				
 									</table>

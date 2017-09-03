@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 import com.rbs.training.supplychain.DAO.DataBaseConnection;
 import com.rbs.training.supplychain.DAO.DatabaseConnectionPostgreSQL;
 import com.rbs.training.supplychain.model.Addn_response;
+import com.rbs.training.supplychain.model.Buyer;
 import com.rbs.training.supplychain.model.Features;
+import com.rbs.training.supplychain.model.PaymentandDeliveryDetails;
 import com.rbs.training.supplychain.model.Proposal;
 import com.rbs.training.supplychain.model.Proposal_Sellers_Bid;
 import com.rbs.training.supplychain.model.Sfeatures;
@@ -39,7 +41,7 @@ public class ContractManagementSellerService {
 			try{
 				con = dbobj.getConnection();
 				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery("select * from \"Proposal_sellers_bid\" where seller_id='"+seller_id+"'");
+				ResultSet rs = stmt.executeQuery("select * from \"Proposals\" where seller_id='"+seller_id+"'");
 				//ResultSet rs = stmt.executeQuery("select * from proposal_sellers_bid where seller_id='"+seller_id+"'");
 				/*Proposal_Sellers_Bid_obj = new Proposal_Sellers_Bid();*/
 			
@@ -274,7 +276,7 @@ public class ContractManagementSellerService {
 	  	}
 	  	}
 	
-	/* view additional responses*/
+	/* view additional responses sevice 7*/
 	 
 	 public List<Addn_response> listAllAddResponses(int seller_id) throws SQLException{
 		 	
@@ -307,6 +309,88 @@ public class ContractManagementSellerService {
 			}
 		return lst;			
 	}
+	   /* view buyer details service 8*/
+	 
+	 public List<Buyer> buyerDet(int proposal_id) throws SQLException{
+		 	
+	 		//int seller_id=1;
+			dbobj = new DatabaseConnectionPostgreSQL();
+			List<Buyer> lst = new ArrayList<Buyer>();
+			Buyer Buyer_obj = null;
+			try{
+				con = dbobj.getConnection();
+				Statement stmt = con.createStatement();
+				System.out.println("select * from \"Buyer\" where buyer_id=(select buyer_id from \"Proposals\" where proposal_id='"+proposal_id+"')");
+				ResultSet rs = stmt.executeQuery("select * from \"Buyer\" where buyer_id=(select buyer_id from \"Proposals\" where proposal_id='"+proposal_id+"')");
+				System.out.println("select * from \"Buyer\" where buyer_id=(select buyer_id in \"Proposals\" where proposal_id='"+proposal_id+")");
+				//ResultSet rs = stmt.executeQuery("select * from proposal_sellers_bid where seller_id='"+seller_id+"'");
+				/*Proposal_Sellers_Bid_obj = new Proposal_Sellers_Bid();*/
+			
+				while(rs.next()){
+					Buyer_obj = new Buyer();
+					Buyer_obj.setName(rs.getString("name"));
+					Buyer_obj.setEmail(rs.getString("email"));
+					Buyer_obj.setBuyer_id(rs.getInt("buyer_id"));
+					Buyer_obj.setCredit_rating(rs.getInt("credit_rating"));
+	
+					lst.add(Buyer_obj);
+					}
+			}catch(Exception e){							
+				System.out.println(e.getMessage());
+			}finally{
+					try {
+						dbobj.closeConnection();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+			}
+		return lst;			
+	}
+	
+	 /*payment and delivery details service 9*/
+	 
+	 public List<PaymentandDeliveryDetails> pAndDdetails(int proposal_id) throws SQLException{
+		 	
+	 		//int seller_id=1;
+			dbobj = new DatabaseConnectionPostgreSQL();
+			List<PaymentandDeliveryDetails> lst = new ArrayList<PaymentandDeliveryDetails>();
+			PaymentandDeliveryDetails PaymentandDeliveryDetails_obj = null;
+			System.out.println("hey i came to service");
+			try{
+				con = dbobj.getConnection();
+				Statement stmt = con.createStatement();
+				System.out.println("select * from \"Payment_terms\",\"Delivery_terms\" where \"Payment_terms\".id=(select p_terms_id from \"Proposals\" where proposal_id='"+proposal_id+"')"
+						+ " and \"Delivery_terms\".id=(select d_terms_id from \"Proposals\" where proposal_id='"+proposal_id+"')");
+				ResultSet rs = stmt.executeQuery("select * from \"Payment_terms\",\"Delivery_terms\" where \"Payment_terms\".id=(select p_terms_id from \"Proposals\" where proposal_id='"+proposal_id+"')"
+						+ " and \"Delivery_terms\".id=(select d_terms_id from \"Proposals\" where proposal_id='"+proposal_id+"')");
+				
+				//ResultSet rs = stmt.executeQuery("select * from proposal_sellers_bid where seller_id='"+seller_id+"'");
+				/*Proposal_Sellers_Bid_obj = new Proposal_Sellers_Bid();*/
+			
+				while(rs.next()){
+					PaymentandDeliveryDetails_obj = new PaymentandDeliveryDetails();
+					PaymentandDeliveryDetails_obj.setDename(rs.getString(5));
+					PaymentandDeliveryDetails_obj.setDedesc(rs.getString(6));
+					PaymentandDeliveryDetails_obj.setDeid(rs.getInt(4));
+					PaymentandDeliveryDetails_obj.setPaname(rs.getString(2));
+					PaymentandDeliveryDetails_obj.setPadesc(rs.getString(3));
+					PaymentandDeliveryDetails_obj.setPaid(rs.getInt(1));
+					
+	
+					lst.add(PaymentandDeliveryDetails_obj);
+					}
+			}catch(Exception e){							
+				System.out.println(e.getMessage());
+			}finally{
+					try {
+						dbobj.closeConnection();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+			}
+		return lst;			
+	}
+	
 
   	}
  

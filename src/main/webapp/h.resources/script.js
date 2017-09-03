@@ -23,6 +23,12 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		.when('/nostatus', {
 		templateUrl : 'nostatus.htm'
 		})
+		.when('/buyer', {
+		templateUrl : 'buyerdetails.htm'
+		})
+		.when('/payanddelivery', {
+		templateUrl : 'payanddelivery.htm'
+		})
 	});
 	
 	myApp.controller('myController', function($scope,$rootScope, $http){	
@@ -51,6 +57,20 @@ var myApp = angular.module('myApp', ["ngRoute"]);
                 window.location = "#/view_table";
                 	}
 			});			
+		}
+		$scope.getBuyerDetails = function(i){
+			
+			var p=i.proposal_id;
+			console.log("bd:pid" + p);
+			$rootScope.proposal_id_for_buyerdet = p;
+			console.log("bd:pid" + p + "l" +$rootScope.proposal_id_for_buyerdet);
+			window.location = "#/buyer"
+		}
+		$scope.getPaymentDetails = function(i){
+			var p=i.proposal_id;
+			$rootScope.proposal_id_for_pd = p;
+			console.log("bd:pid" + p + "l" +$rootScope.proposal_id_for_pd);
+			window.location = "#/payanddelivery"
 		}
 		
 		$scope.getFeatures = function(i) { 
@@ -102,6 +122,38 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		}   
 
 	});
+	
+	myApp.controller("BDCtrl", function($scope,$rootScope, $http, $window) {
+		
+		 /*function to get Features for a given proposal id */
+           
+           console.log("Proposal Table Ctroller: on click function 2");	
+			var y = $rootScope.proposal_id_for_buyerdet;
+			
+			console.log("proposal id=" +y);		
+			console.log("seller id=" + $scope.seller_id);
+	        $http.post('http://localhost:8181/contractmanagementseller/buyerdetails/' +y)
+	        .success(function (data) {
+	            $scope.buyerdetails = data;
+	            console.log(data);
+	        });
+	});
+	myApp.controller("PandDCtrl", function($scope,$rootScope, $http, $window) {
+	    		
+	   		 /*function to get Features for a given proposal id */
+	              
+	              console.log("Proposal Table Ctroller: on click function 2");	
+	   			var y = $rootScope.proposal_id_for_pd;
+	   			
+	   			console.log("proposal id=" +y);		
+	   			console.log("seller id=" + $scope.seller_id);
+	   	        $http.post('http://localhost:8181/contractmanagementseller/payanddeliverydetails/' +y)
+	   	        .success(function (data) {
+	   	            $scope.p_and_d = data;
+	   	            console.log(data);
+	   	        });
+	});
+	        
 	
 	myApp.controller("AddRespCtrl", function($scope,$rootScope, $http, $window) {
 		

@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rbs.training.supplychain.model.Addn_response;
+import com.rbs.training.supplychain.model.Buyer;
 import com.rbs.training.supplychain.model.Features;
 import com.rbs.training.supplychain.model.Invoice;
+import com.rbs.training.supplychain.model.PaymentandDeliveryDetails;
 import com.rbs.training.supplychain.model.Proposal;
 import com.rbs.training.supplychain.model.Proposal_Sellers_Bid;
 import com.rbs.training.supplychain.model.Sfeatures;
@@ -120,7 +122,7 @@ public class ContractManagementSellerController {
 			e.printStackTrace();
 		} 
 		if(buyerstatuslist.isEmpty()){
-			//return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
 		
 		return new ResponseEntity<List<Proposal_Sellers_Bid>>(buyerstatuslist, HttpStatus.OK);
@@ -167,6 +169,53 @@ public class ContractManagementSellerController {
 			}
 			
 			return new ResponseEntity<List<Addn_response>>(addresponses, HttpStatus.OK);
+			
+		}
+    
+   /* view buyer details service 8*/
+    
+    @RequestMapping(value = "/buyerdetails/{proposal_id}",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Buyer>> getBuyerdet(@PathVariable("proposal_id") String id) {
+		
+		int proposal_id = Integer.parseInt(id);
+		System.out.println("panni");
+		
+			List<Buyer> budet = new ArrayList<Buyer>();
+			try {
+				budet = service.buyerDet(proposal_id);
+				System.out.println("i came out");
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+			
+			if (budet.isEmpty()) {
+				return new ResponseEntity(HttpStatus.NO_CONTENT);
+			}
+			
+			return new ResponseEntity<List<Buyer>>(budet, HttpStatus.OK);
+			
+		}
+    /*payment and delivery details service 9*/
+    
+    @RequestMapping(value = "/payanddeliverydetails/{proposal_id}",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<PaymentandDeliveryDetails>> getPandDdet(@PathVariable("proposal_id") String id) {
+		
+		int proposal_id = Integer.parseInt(id);
+		System.out.println("panni");
+			List<PaymentandDeliveryDetails> pandd = new ArrayList<PaymentandDeliveryDetails>();
+			try {
+				pandd = service.pAndDdetails(proposal_id);
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+			
+			if (pandd.isEmpty()) {
+				return new ResponseEntity(HttpStatus.NO_CONTENT);
+			}
+			
+			return new ResponseEntity<List<PaymentandDeliveryDetails>>(pandd, HttpStatus.OK);
 			
 		}
 }
