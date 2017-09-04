@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.rbs.training.supplychain.model.Contract;
 import com.rbs.training.supplychain.model.Invoice;
 import com.rbs.training.supplychain.model.InvoiceItems;
 import com.rbs.training.supplychain.model.ProductInvoice;
@@ -250,7 +251,34 @@ public class InvoiceController {
 	            .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
 	            .body(resource);
 	}
+	@RequestMapping(value = "/getContractNos",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Contract>> getContractNos(@PathParam("sellerID") int sellerID)
+	{
+		List<Contract> invoicesItems = invoiceServiceObj.getContractNos(sellerID);
+		if (invoicesItems.isEmpty()) {
+			return new ResponseEntity<List<Contract>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Contract>>(invoicesItems, HttpStatus.OK);
 	
+	}
+	@RequestMapping(value = "/getContractNo",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Contract> getContractNo(@PathParam("sellerID") int sellerID)
+	{
+		Contract invoicesItems = invoiceServiceObj.getContractNo(sellerID);
+		if (invoicesItems==null) {
+			return new ResponseEntity<Contract>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Contract>(invoicesItems, HttpStatus.OK);
 	
-	 
+	}
+	
+	@RequestMapping(value = "/getInvoicesForUpdate", method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Invoice>> listAllInvocies1(@PathParam("sellerID") double sellerID) {
+	System.out.println("id is"+sellerID);
+		List<Invoice> invoices = invoiceServiceObj.listAllInvocies1(sellerID);
+		if (invoices.isEmpty()) {
+			return new ResponseEntity<List<Invoice>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
+	}
 }

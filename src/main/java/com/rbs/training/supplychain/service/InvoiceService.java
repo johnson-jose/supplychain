@@ -22,13 +22,16 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import com.rbs.training.supplychain.model.ProductInvoice;
+
 import com.rbs.training.supplychain.DAO.DataBaseConnection;
+import com.rbs.training.supplychain.model.Contract;
 import com.rbs.training.supplychain.model.Invoice;
 import com.rbs.training.supplychain.model.InvoiceItems;
+import com.rbs.training.supplychain.model.ProductInvoice;
 import com.rbs.training.supplychain.util.CustomMessage;
 
 @Service("invoiceServiceObj")
@@ -859,6 +862,100 @@ public class InvoiceService {
 		return msg;
 	}
 
-	
+
+	public List<Contract> getContractNos(int sellerID)
+	{
+		DataBaseConnection dbobj = new DataBaseConnection();
+		List<Contract> lst = new ArrayList<Contract>();
+		Contract itemobj = null;
+		try{
+			Connection con = dbobj.getConnection();
+				PreparedStatement stmt = con.prepareStatement("select * from contract1 where buyer_id=? OR seller_id=?");
+				stmt.setInt(1,sellerID);
+				stmt.setInt(2,sellerID);
+				ResultSet rs = stmt.executeQuery();				
+				
+				while(rs.next()){
+					itemobj = new Contract();
+					itemobj.setContract_number(rs.getInt(1));
+					itemobj.setBuyerID(rs.getInt(2));
+					itemobj.setSellerID(rs.getInt(3));
+					lst.add(itemobj);
+			}
+			}
+			catch(Exception e)
+			{							
+				System.out.println(e.getMessage());
+			}
+		return lst;	
+		
+		
+	}
+	public Contract getContractNo(int sellerID)
+	{
+		DataBaseConnection dbobj = new DataBaseConnection();
+		Contract itemobj = null;
+		try{
+			Connection con = dbobj.getConnection();
+				PreparedStatement stmt = con.prepareStatement("select * from contract1 where contract_number=?");
+				stmt.setInt(1,sellerID);
+				
+				ResultSet rs = stmt.executeQuery();				
+				
+				while(rs.next()){
+					itemobj = new Contract();
+					itemobj.setContract_number(rs.getInt(1));
+					itemobj.setBuyerID(rs.getInt(2));
+					itemobj.setSellerID(rs.getInt(3));
+					}
+			}
+			catch(Exception e)
+			{							
+				System.out.println(e.getMessage());
+			}
+		return itemobj;	
+		
+		
+	}
+	public List<Invoice> listAllInvocies1(double sellerID){
+		DataBaseConnection dbobj = new DataBaseConnection();
+		List<Invoice> lst = new ArrayList<Invoice>();
+		Invoice invobj = null;
+		try{
+			Connection con = dbobj.getConnection();
+				PreparedStatement stmt = con.prepareStatement("select * from invoice where sellerid=? or buyerid=? and deletestatus=0 and draftstatus=1");
+				stmt.setDouble(1,sellerID);
+				stmt.setDouble(2,sellerID);
+				ResultSet rs = stmt.executeQuery();				
+				
+				while(rs.next()){
+					invobj = new Invoice();
+					invobj.setInvoiceID(rs.getDouble(1)); 
+					invobj.setContractID(rs.getDouble(2));
+					invobj.setSellerID(rs.getDouble(3));
+					invobj.setBuyerID(rs.getDouble(4));
+					invobj.setBillbookNo(rs.getDouble(5));
+					invobj.setSenderID(rs.getDouble(6));
+					invobj.setReceiverID(rs.getDouble(7));
+					invobj.setFundingRequestStatus(rs.getInt(8));
+					invobj.setApprovalStatus(rs.getInt(9));
+					invobj.setDraftStatus(rs.getInt(10));
+					invobj.setInvoiceCreatedDate(rs.getDate(11));
+					invobj.setPaymentDate(rs.getDate(12));
+					invobj.setInvoiceAmount(rs.getFloat(13));
+					invobj.setInvoiceDueDate(rs.getDate(14));
+					invobj.setComplianceStatus(rs.getInt(15));
+					invobj.setDeleteStatus(rs.getInt(16));
+					invobj.setDeleteTimestamp(rs.getDate(17));
+					System.out.println(invobj.toString());
+					lst.add(invobj);
+			}
+			}
+			catch(Exception e)
+			{							
+				System.out.println(e.getMessage());
+			}
+		return lst;			
+	}
 
 }
