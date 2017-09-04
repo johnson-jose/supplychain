@@ -295,7 +295,8 @@ public class InvoiceService {
 				/*stmt.executeQuery("insert into invoice values("+invoiceNo+","+contractNo+","+buyerId+","+sellerId+","
 				+productId+","+unitPrice+","+quantity+","+grossAmount+","+tax+","+netAmount+","+"0,1,0");*/
 			    
-				String updateTableSQL1 ="insert into invoice values(" +invoiceID +","+contractID+","+sellerID+","+buyerID+","+billbookNo+","+senderID+","+receiverID+","+"0,0,1,NULL,NULL"+","+invoiceAmount+","+ "NULL,1,0,NULL )";
+				String updateTableSQL1 ="insert into invoice values(" +invoiceID +","+contractID+","+sellerID+","+buyerID+","+billbookNo+","+senderID+","+receiverID+","+"0,0,1,NULL,"+paymentDate+","+invoiceAmount+","+invoiceDueDate+ ",1,0,NULL )";
+				
 				System.out.println(updateTableSQL1);
 				PreparedStatement preparedStatement  = con.prepareStatement(updateTableSQL1);
 				//preparedStatement.setDouble(1, invoiceID);preparedStatement.setDouble(2,contractID);preparedStatement.setDouble(3,sellerID);preparedStatement.setDouble(4,buyerID);preparedStatement.setDouble(5,billbookNo);preparedStatement.setDouble(6,senderID);preparedStatement.setDouble(7,receiverID);preparedStatement.setDouble(9,invoiceAmount);

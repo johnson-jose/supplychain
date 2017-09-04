@@ -109,7 +109,14 @@ function myFunction() {
 	
 		})
 	});
-
+	function getFormattedDate(input) {
+	    var pattern = /(.*?)-(.*?)-(.*?)$/;
+	    var result = input.replace(pattern,function(match,p3,p1,p2){
+	        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+	        return p2 + "-" + months[(p1-1)] + "-" + p3%100;
+	    });
+	    return result;
+	}
 	invoiceApp.controller('mainController', function($scope, $http){
 		
         $scope.deletefunc = function () {
@@ -151,7 +158,61 @@ function myFunction() {
                     console.log($scope.productslist);
                 });
     	}
-      
+$scope.addInvoiceFunc = function () {
+            
+        	console.log("in Add Invoice function ");
+    			var invoiceID = $scope.invoiceID;
+    			console.log($scope.invoiceID);
+    			console.log($scope.billBookNo);
+    			console.log($scope.poNo);
+    			console.log($scope.invoiceAmt);
+    			console.log($scope.buyerId);
+    			console.log($scope.sellerId);
+    			console.log($scope.invoiceCreatedDate);
+    				createdDate=getFormattedDate($scope.invoiceCreatedDat);
+    			console.log("createdDate"+createdDate);
+    			console.log($scope.paymentDate);
+    				paymentDate=getFormattedDate($scope.paymentDate);
+    			console.log("paymentDate"+paymentDate);
+    			console.log($scope.invoiceDueDate);
+    				dueDate=getFormattedDate($scope.invoiceDueDate);
+    			console.log("dueDate"+dueDate);
+    			console.log($scope.productID);
+    			console.log($scope.quantity);
+    			console.log($scope.grossAmount);
+    			console.log($scope.tax);
+    			console.log($scope.netAmount);
+    			
+    			
+    			/*  view Invoice  */
+    			$http.post('http://localhost:8181/scm/invoice/addInvoice?invoiceID='+$scope.invoiceID
+    						+"&productID="+$scope.productID+"&quantity="+$scope.quantity+"&contractID="+$scope.poNo+"&sellerID="+$scope.sellerId
+    						+"&buyerID="+$scope.buyerId+"&senderID="+$scope.sellerId+"&receiverID="+$scope.buyerId
+    						+"&billbookNo="+$scope.billBookNo+"&invoiceCreatedDate="+$scope.invoiceCreatedDate
+    						+"&paymentDate="+$scope.paymentDate+"&invoiceAmount="+$scope.invoiceAmt
+    						+"&invoiceDueDate="+$scope.invoiceDueDate).success(function (data) {
+    				console.log( "in Add page After Add service");
+    				$scope.status = data;
+                    console.log($scope.message);
+                    /*  Add New product  
+                    $http.post('http://localhost:8181/scm/invoice/addItems?invoiceID='+$scope.invoiceID+'&productID='+$scope.productID+'&quantity='+ $scope.quantity+'&grossAmount='+$scope.grossAmount +'&tax='+$scope.tax +'&netAmount=' + $scope.netAmount)
+        			.success(function (data) {
+        				alert("Added new Item");
+        				$http.post('http://localhost:8181/scm/invoice/viewProduct/?id=' + invoiceNo)
+            			.success(function (data) {
+                            $scope.productslist = data;
+                            console.log($scope.productslist);
+                        });*/
+                    alert("Invoice Addition Status: "+$scope.status.message);
+                   // window.location = "#/InvoiceSearch";
+                });
+    			/*  view product  
+                $http.post('http://localhost:8181/scm/invoice/viewProduct/?id=' + invoiceNo)
+    			.success(function (data) {
+                    $scope.productslist = data;
+                    console.log($scope.productslist);
+                });*/
+    	}
         $scope.updateSearchfunc = function () {
             
         	console.log("in search function ");
