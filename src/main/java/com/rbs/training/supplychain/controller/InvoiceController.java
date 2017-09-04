@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.rbs.training.supplychain.model.Contract;
+import com.rbs.training.supplychain.model.ContractItems;
 import com.rbs.training.supplychain.model.Invoice;
 import com.rbs.training.supplychain.model.InvoiceItems;
 import com.rbs.training.supplychain.model.ProductInvoice;
@@ -281,4 +282,26 @@ public class InvoiceController {
 		}
 		return new ResponseEntity<List<Invoice>>(invoices, HttpStatus.OK);
 	}
+	@RequestMapping(value = "/getContractItems",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ContractItems>> getContractItems(@PathParam("sellerID") int sellerID)
+	{
+		List<ContractItems> invoicesItems = invoiceServiceObj.getContractItems(sellerID);
+		if (invoicesItems.isEmpty()) {
+			return new ResponseEntity<List<ContractItems>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<ContractItems>>(invoicesItems, HttpStatus.OK);
+	
+	}
+	@RequestMapping(value = "/getProductDetails",method = RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProductInvoice> getProductDetails(@PathParam("invoiceID") int invoiceID) throws ClassNotFoundException, SQLException {
+		System.out.println("Getting Invoice with Invoice no"+ invoiceID);
+		//Invoice invoiceObj = invoiceServiceObj.search(invoiceNo);
+		
+		ProductInvoice invoiceObj = invoiceServiceObj.getProductDetails(invoiceID);
+		if(invoiceObj == null){
+			System.out.println("Invoice with Invoice No"+invoiceID+"is not found");
+			return new ResponseEntity<ProductInvoice>(invoiceObj,HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<ProductInvoice>(invoiceObj,HttpStatus.OK);
+    }
 }
