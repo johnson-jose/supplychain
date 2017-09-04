@@ -22,13 +22,13 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.rbs.training.supplychain.DAO.DataBaseConnection;
 import com.rbs.training.supplychain.model.Contract;
+import com.rbs.training.supplychain.model.ContractItems;
 import com.rbs.training.supplychain.model.Invoice;
 import com.rbs.training.supplychain.model.InvoiceItems;
 import com.rbs.training.supplychain.model.ProductInvoice;
@@ -957,5 +957,58 @@ public class InvoiceService {
 			}
 		return lst;			
 	}
-
+	public List<ContractItems> getContractItems(int sellerID)
+	{
+		DataBaseConnection dbobj = new DataBaseConnection();
+		List<ContractItems> lst = new ArrayList<ContractItems>();
+		ContractItems itemobj = null;
+		try{
+			Connection con = dbobj.getConnection();
+				PreparedStatement stmt = con.prepareStatement("select * from contractitems1 where contract_number=?");
+				stmt.setInt(1,sellerID);
+				ResultSet rs = stmt.executeQuery();				
+				
+				while(rs.next()){
+					itemobj = new ContractItems();
+					itemobj.setContract_number(rs.getInt(1));
+					itemobj.setProduct_id(rs.getInt(2));
+					lst.add(itemobj);
+			}
+			}
+			catch(Exception e)
+			{							
+				System.out.println(e.getMessage());
+			}
+		return lst;	
+		
+		
+	}
+	public ProductInvoice getProductDetails(int sellerID)
+	{
+		DataBaseConnection dbobj = new DataBaseConnection();
+		ProductInvoice itemobj = null;
+		try{
+			Connection con = dbobj.getConnection();
+				PreparedStatement stmt = con.prepareStatement("select * from product where product_id=?");
+				stmt.setInt(1,sellerID);
+				
+				ResultSet rs = stmt.executeQuery();				
+				
+				while(rs.next()){
+					itemobj = new ProductInvoice();
+					itemobj.setProductID(rs.getInt(1));
+					itemobj.setProductName(rs.getString(2));
+					itemobj.setUnitPrice(rs.getInt(3));
+					itemobj.setTax(rs.getInt(4));
+					itemobj.setDescription(rs.getString(5));
+					}
+			}
+			catch(Exception e)
+			{							
+				System.out.println(e.getMessage());
+			}
+		return itemobj;	
+		
+		
+	}
 }
