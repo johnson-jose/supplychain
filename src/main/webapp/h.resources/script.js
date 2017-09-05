@@ -107,6 +107,12 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		}   
 		/*function to send additional response
 		*/
+		$scope.addNew = function(){
+			console.log("on click: Add another additional feature");
+			$scope.prod_id = '';
+			$scope.specification = '';
+			$scope.addresponse();
+		}
 		$scope.addresponse = function () {   
 			console.log("on click function 4");
 			var s = $scope.seller_id;
@@ -126,7 +132,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 			.success(function (data) {
                 $scope.stats = data;                    
                 console.log('hi');
-                window.location="#/addsubmission"
+                alert("Product ID:" + p + "and Specification:" + spec + "has been added");
 			});
 		}   
 
