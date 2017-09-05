@@ -16,6 +16,15 @@ function myFunction1() {
     }
 }
 
+function myFunction2() {
+    var x = document.getElementById('demo1');
+    if (x.style.display === 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}
+
 function toggleview() {
     var x = document.getElementById('invoicelist');
     var y = document.getElementById('view');
@@ -369,7 +378,7 @@ invoiceApp.controller('mainController', function($scope, $http) {
 
     $scope.receivedInvoicefunc = function() {
         console.log('inside received invoice');
-        $http.post('http://localhost:8181/invoice/ReceivedInvoices?sellerID=' + $scope.sellerID)
+        $http.post('http://localhost:8181/invoice/ReceivedInvoices?sellerID=' + $scope.sessionid)
             .success(function(data) {
                 console.log("inside http");
                 $scope.invoicelist = data;
@@ -381,13 +390,24 @@ invoiceApp.controller('mainController', function($scope, $http) {
 
     $scope.sentInvoicefunc = function() {
         console.log('inside sent invoice');
-        $http.post('http://localhost:8181/invoice/SentInvoices?sellerID=' + $scope.sellerID)
+        $http.post('http://localhost:8181/invoice/SentInvoices?sellerID=' + $scope.sessionid)
             .success(function(data) {
                 console.log("inside http");
                 $scope.invoicelist1 = data;
                 console.log(data);
             });
         $scope.message1 = "Click to view sent invoices";
+        window.location = "#/InvoiceLanding";
+    }
+    $scope.draftInvoicefunc = function() {
+        console.log('inside draft invoice');
+        $http.post('http://localhost:8181/invoice/draftInvoices?sellerID=' + $scope.sessionid)
+            .success(function(data) {
+                console.log("inside http");
+                $scope.invoicelist1 = data;
+                console.log(data);
+            });
+        $scope.message2 = "Click to view draft invoices";
         window.location = "#/InvoiceLanding";
     }
     $scope.viewfunc = function(invoiceNo) {

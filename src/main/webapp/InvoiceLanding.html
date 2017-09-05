@@ -1,20 +1,16 @@
 <div ng-app="invoiceApp" ng-controller="mainController">
  	<div id="invoicelist" style="display:block">
  	<div>
- 		&emsp;Seller ID: &emsp;<input type="text"  ng-model="sellerID" id="sellerID" name="sellerID" placeholder="Enter your ID"/>
    		<fieldset>
    			<legend><b>Invoices Received</b></legend>
-   				<br>
    				<br>
    				<button ng-click="receivedInvoicefunc()">Click to get received invoices</button>
    				<a href="" onclick="myFunction()">{{message}}</a>
    				<br>
-   				<br>
-   			
-				<div id="demo" style="display:none">
+   				<div id="demo" style="display:none">
    					<table border=1 class="table table-striped table-bordered table-hover">
    						<tr>
-   							<th>Invoice ID</th>
+   							<th>Invoice No.</th>
    							<th>Bill Book No.</th>
    							<th>Contract/PO No.</th>
    							<th>Buyer ID</th>
@@ -45,13 +41,49 @@
    		<fieldset>
    			<legend><b>Invoices Sent</b></legend>
    				<br>
-   				<br>
    				<button ng-click="sentInvoicefunc()">Click to get your invoices</button>
    				<a href="" onclick="myFunction1()">{{message1}}</a>
    				<br>
+   				<div id="demo1" style="display:none">
+   					<table border=1 class="table table-striped table-bordered table-hover">
+   						<tr>
+   							<th>Invoice ID</th>
+   							<th>Bill Book No.</th>
+   							<th>Contract/PO No.</th>
+   							<th>Buyer ID</th>
+   							<th>Seller ID </th>
+   							<th>Invoice Amount</th>
+   							<th>Status</th>
+   							<th>Click to view Invoices</th>
+   						</tr>
+   						<tr ng-repeat="i in invoicelist1">
+   							<td>{{i.invoiceID}}</td>
+   							<td>{{i.billbookNo}}</td>
+   							<td>{{i.contractID}}</td>
+   							<td>{{i.buyerID}}</td>
+   							<td>{{i.sellerID}}</td>
+   							<td>{{i.invoiceAmount}}</td>
+   							<td>{{i.approvalStatus}}</td>
+   							<td><input type="checkbox" ng-click="viewfunc(i.invoiceID)"/></td>
+   					</tr>
+   					<tr>
+   							<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+   							<td><button onclick="toggleview1()">View</button></td>
+   					</table>
+   					
+   				</div>
    				<br>
-   			
-				<div id="demo1" style="display:none">
+   			</fieldset>
+   				
+   		</div>
+   		<div>	
+   		<fieldset>
+   			<legend><b>Draft Inovices</b></legend>
+   				<br>
+   				<button ng-click="draftInvoicefunc()">Click to get your invoices</button>
+   				<a href="" onclick="myFunction2()">{{message2}}</a>
+   				<br>
+   				<div id="demo1" style="display:none">
    					<table border=1 class="table table-striped table-bordered table-hover">
    						<tr>
    							<th>Invoice ID</th>
