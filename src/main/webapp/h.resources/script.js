@@ -107,14 +107,20 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 		}   
 		/*function to send additional response
 		*/
-		$scope.addresponse = function () {        	
+		$scope.addresponse = function () {   
 			console.log("on click function 4");
 			var s = $scope.seller_id;
-			console.log(s);
+			console.log("S:" +s);
 			var p= $scope.prod_id;
-			console.log(p);
+			console.log("P:" +p);
 			var spec = $scope.specification;
-			console.log(spec);
+			console.log("Spec:" + spec);
+			if(p==undefined || p=='null')
+				p='';
+			if(spec==undefined || spec=='null')
+				spec='';
+			if(p=='' || spec=='')
+				alert("Please enter valid Product ID and Specification");
 			//var spec= new String('i can provide higher');
 			$http.post('http://localhost:8181/contractmanagementseller/addresponse/' +s+ '/' +p+ '/' +spec)
 			.success(function (data) {
@@ -216,6 +222,21 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 				console.log("length:" + $rootScope.features.length);
 				var s = $scope.seller_id;
 				if(status=='A'){
+					var x=$rootScope.features.length;
+					var i;
+					for(i=1;i<=x;i++) {
+					var group = document.getElementsByName(i);
+					console.log("group:" +group);
+					console.log("GLen:" + group.length);
+					for (var j=0; j<group.length; j++) {
+					if (group[j].checked){
+						console.log(group[j].value);
+						break;
+					}
+					}
+					if (j==group.length)
+					return alert("No radio button is checked");
+					}
 					if($window.confirm("Do you want to accept the proposal?")){
 						//$scope.result = "You accepted this proposal";
 						var x = document.getElementById('myDIV');

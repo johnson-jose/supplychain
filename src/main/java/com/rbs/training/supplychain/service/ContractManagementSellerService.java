@@ -33,7 +33,8 @@ public class ContractManagementSellerService {
 	/*service to fetch all the request for proposals(rfps)*/
 	 
  /*service 1*/
-	 public List<Proposal_Sellers_Bid_Proposals> listAllProposals(int seller_id) throws SQLException{
+	// public List<Proposal_Sellers_Bid_Proposals> listAllProposals(int seller_id) throws SQLException{
+		 public List<Proposal_Sellers_Bid_Proposals> listAllProposals(String seller_id) throws SQLException{
 	 	
 	 		//int seller_id=1;
 			dbobj = new DatabaseConnectionPostgreSQL();

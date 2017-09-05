@@ -34,9 +34,9 @@ public class ContractManagementSellerController {
     
 	/*service 1*/
 	 @RequestMapping(value = "/viewrfp/{seller_id}",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Proposal_Sellers_Bid_Proposals>> getProposals(@PathVariable("seller_id") String id) {
+    public ResponseEntity<List<Proposal_Sellers_Bid_Proposals>> getProposals(@PathVariable("seller_id") String seller_id) {
 		
-		int seller_id = Integer.parseInt(id);
+		//int seller_id = Integer.parseInt(id);
 		
 			List<Proposal_Sellers_Bid_Proposals> proposals = new ArrayList<Proposal_Sellers_Bid_Proposals>();
 			try {

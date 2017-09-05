@@ -44,12 +44,13 @@
 <input type="button" value="See later" ng-click="showconfirmbox('P')" /><br> <br>
 </div>
 
-<div ng-controller="myController" id="myDIV" style="display:none">
+<div ng-controller="myController" id="myDIV" style="display:none" class="col-xs-6">
 	<form>
 		<fieldset>
    				 <legend> Additional Response for a product </legend>
 					Enter the product id for which you want to send additional response:
-					<input type="text-area" ng-model="prod_id"/>
+					<!-- <input type="text-area" ng-model="prod_id"/> -->
+					<input class="form-control" type="text" ng-model="prod_id" />
 						<!-- <div class="dropdown">
 		    				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Product-ID
 		   						 <span class="caret"></span></button>
@@ -60,7 +61,8 @@
 		    					</ul>
 		  				</div> -->
 					Enter the response you want to send:
-					<input type="text-area" ng-model="specification"/>
+					<input class="form-control" type="text" ng-model="specification" /> <br>
+					<!-- <input type="text-area" ng-model="specification"/> -->
 			<button type="submit" ng-click="addresponse()">Submit</button>
 		</fieldset>
 	</form>
