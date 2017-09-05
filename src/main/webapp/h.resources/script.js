@@ -190,6 +190,7 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 	        .success(function (data) {
 	            $scope.features = data;
 	            console.log(data);
+	            $rootScope.features = $scope.features;
 	        });
 	        
 	        $scope.update = function (prodid, fid, resp) {        	
@@ -211,12 +212,23 @@ var myApp = angular.module('myApp', ["ngRoute"]);
 				});
 			}   			
 				$scope.showconfirmbox = function (status) {
-				console.log("sampleCtrl"); 
+				console.log("sampleCtrl");
+				console.log("length:" + $rootScope.features.length);
 				var s = $scope.seller_id;
 				if(status=='A'){
 					if($window.confirm("Do you want to accept the proposal?")){
 						//$scope.result = "You accepted this proposal";
-						
+						var x = document.getElementById('myDIV');
+					    if (x.style.display === 'none') {
+					        x.style.display = 'block';
+					    }
+					  /*  else {
+					        x.style.display = 'none';
+					    }*/
+						var i=0;
+						for(i=0;i<$rootScope.features.length; i++){
+							console.log("rd val:" + [i].value);
+						}
 						console.log("seller id:" +s);
 						$http.post('http://localhost:8181/contractmanagementseller/updatebidsellerstatus/' +s+ '/' +$rootScope.proposal_id + '/'+ status)
 						.success(function (data) {                 
