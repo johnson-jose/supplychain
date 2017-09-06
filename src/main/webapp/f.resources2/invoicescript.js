@@ -17,7 +17,7 @@ function myFunction1() {
 }
 
 function myFunction2() {
-    var x = document.getElementById('demo1');
+    var x = document.getElementById('demo2');
     if (x.style.display === 'none') {
         x.style.display = 'block';
     } else {
@@ -29,14 +29,17 @@ function toggleview() {
     var x = document.getElementById('invoicelist');
     var y = document.getElementById('view');
     var z = document.getElementById('view1');
+    var w = document.getElementById('view2');
     if (y.style.display === 'none') {
         x.style.display = 'none';
         z.style.display = 'none';
+        w.style.display = 'none';
         y.style.display = 'block';
     } else {
         x.style.display = 'block';
         y.style.display = 'none';
         z.style.display = 'none';
+        w.style.display = 'none';
     }
 }
 
@@ -44,18 +47,49 @@ function toggleview1() {
     var x = document.getElementById('invoicelist');
     var y = document.getElementById('view');
     var z = document.getElementById('view1');
+    var w = document.getElementById('view2');
     if (z.style.display === 'none') {
         x.style.display = 'none';
         y.style.display = 'none';
         z.style.display = 'block';
+        w.style.display = 'none';
     } else {
         x.style.display = 'block';
         y.style.display = 'none';
         z.style.display = 'none';
+        w.style.display = 'none';
     }
 }
-
-function toggleview2(draft, approval, compliance, funding) {
+function toggleview2() {
+    var x = document.getElementById('invoicelist');
+    var y = document.getElementById('view');
+    var z = document.getElementById('view1');
+    var w = document.getElementById('view2');
+    if (w.style.display === 'none') {
+        x.style.display = 'none';
+        y.style.display = 'none';
+        z.style.display = 'none';
+        w.style.display = 'block';
+    } else {
+        x.style.display = 'block';
+        y.style.display = 'none';
+        z.style.display = 'none';
+        w.style.display = 'none';
+    }
+}
+function gotoprofile() {
+    var x = document.getElementById('invoicelist');
+    var y = document.getElementById('view');
+    var z = document.getElementById('view1');
+    var w = document.getElementById('view2');
+    if (x.style.display === 'none') {
+        x.style.display = 'block';
+        z.style.display = 'none';
+        y.style.display = 'none';
+        w.style.display = 'none';
+    } 
+}
+/*function toggleview2(draft, approval, compliance, funding) {
     var x = document.getElementById('invoice');
     var y = document.getElementById('view');
     var z = document.getElementById('buttongroup');
@@ -78,7 +112,7 @@ function toggleview2(draft, approval, compliance, funding) {
         y.style.display = 'none';
         z.style.display = 'none';
     }
-}
+}*/
 
 function getStatus(x) {
     if (x == 0) {
