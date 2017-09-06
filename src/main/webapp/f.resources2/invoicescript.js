@@ -6,7 +6,25 @@ function myFunction() {
         x.style.display = 'none';
     }
 }
-
+function approveFunction() {
+    var x = document.getElementById('demo');
+    if (x.style.display === 'none') {
+        x.style.display = 'block';
+    } else {
+        x.style.display = 'none';
+    }
+}
+function complianceFunction() {
+    var x = document.getElementById('view1');
+    var y = document.getElementById('view2');
+    if (y.style.display === 'none') {
+        y.style.display = 'block';
+        x.style.display = 'none';
+    } else {
+        x.style.display = 'block';
+        y.style.display = 'none';
+    }
+}
 function myFunction1() {
     var x = document.getElementById('demo1');
     if (x.style.display === 'none') {
@@ -149,6 +167,22 @@ invoiceApp.config(function($routeProvider) {
             templateUrl: 'InvoiceDeleteConfirm.html',
 
         })
+         .when('/InvoiceApprove', {
+            templateUrl: 'InvoiceApproval.html',
+
+        })
+         .when('/InvoiceReject', {
+            templateUrl: 'InvoiceRejectResult.html',
+
+        })
+         .when('/InvoicePayment', {
+            templateUrl: 'InvoicePayment.html',
+
+        })
+        .when('/InvoiceFinance', {
+            templateUrl: 'InvoiceFinance.html',
+
+        })
 });
 
 function getFormattedDate(input) {
@@ -159,7 +193,7 @@ function getFormattedDate(input) {
     });
     return result;
 }
-invoiceApp.controller('mainController', function($scope, $http) {
+invoiceApp.controller('mainController', function($scope,$rootScope, $http) {
 	
 	$scope.getInvoiceNofunc=function() {
 		
@@ -421,7 +455,40 @@ invoiceApp.controller('mainController', function($scope, $http) {
         $scope.message = "Click to view received invoices";
         window.location = "#/InvoiceLanding";
     }
+    $scope.getapprovedInvoicefunc = function(invoiceNo) {
+    	 console.log('inside get approved invoice');
+         $http.post('http://localhost:8181/invoice/searchInvoice?invoiceID=' + invoiceNo).success(function(data) {
+             console.log("in search page after service");
+             $scope.invoice = data;
+             console.log($scope.invoice);
 
+         });
+         /*  view product  */
+         $http.post('http://localhost:8181/invoice/viewProduct/?id=' + invoiceNo)
+             .success(function(data) {
+                 $scope.productslist = data;
+                 console.log($scope.productslist);
+             });
+         $scope.approvedmessage = "Click to view approved invoices";
+         window.location = "#/InvoiceApprove";
+    }
+    $scope.getrejectedInvoicefunc = function(invoiceNo) {
+   	 console.log('inside get rejected invoice');
+        $http.post('http://localhost:8181/invoice/searchInvoice?invoiceID=' + invoiceNo).success(function(data) {
+            console.log("in search page after service");
+            $scope.invoice = data;
+            console.log($scope.invoice);
+
+        });
+        /*  view product  */
+        $http.post('http://localhost:8181/invoice/viewProduct/?id=' + invoiceNo)
+            .success(function(data) {
+                $scope.productslist = data;
+                console.log($scope.productslist);
+            });
+        $scope.approvedmessage = "Click to view rejected invoices";
+        window.location = "#/InvoiceReject";
+   }
     $scope.sentInvoicefunc = function() {
         console.log('inside sent invoice');
         $http.post('http://localhost:8181/invoice/SentInvoices?sellerID=' + $scope.sessionid)
@@ -462,25 +529,36 @@ invoiceApp.controller('mainController', function($scope, $http) {
     }
     $scope.approvefunc = function(invoiceNo) {
         console.log('inside approve invoice');
-        $http.post('http://localhost:8181/invoice/approveInvoice?invoiceID=' + invoiceNo).success(function(data) {
-            console.log("in approve page after service");
-            $scope.status = "You have approved invoice no:" + invoiceNo;
-            console.log($scope.status);
-
-        });
-
-        window.location = "#/InvoiceLanding";
+        
+        	$http.post('http://localhost:8181/invoice/approveInvoice?invoiceID=' + invoiceNo).success(function(data) {
+                console.log("in approve page after service");
+            });
+        	$rootScope.approvedinvoice=invoiceNo;
+        	window.location = "#/InvoiceApprove";
     }
     $scope.rejectfunc = function(invoiceNo) {
-        console.log('inside approve invoice');
+        console.log('inside reject invoice');
         $http.post('http://localhost:8181/invoice/rejectInvoice?invoiceID=' + invoiceNo).success(function(data) {
             console.log("in reject page after service");
-            $scope.status = "You have rejected invoice no:" + invoiceNo;
-            console.log($scope.status);
-
         });
-
-        window.location = "#/InvoiceLanding";
+        $rootScope.rejectedinvoice=invoiceNo;
+        window.location = "#/InvoiceReject";
+    }
+    $scope.directpaymentfunc = function(invoiceNo) {
+        console.log('inside proceed to direct payment');
+        $rootScope.paymentmessage="You can proceed for a direct payment on invoice No:"+invoiceNo;
+        window.location = "#/InvoicePayment";
+    }
+    $scope.availfinancingfunc = function(invoiceNo) {
+        console.log('inside avail finance');
+        $rootScope.financemessage="You can proceed for a compliance check on invoice No:"+invoiceNo;
+        window.location = "#/InvoiceFinance";
+    }
+    $scope.compliancecheck = function() {
+        console.log('inside avail finance');
+        $rootScope.complaincemessage="Your invoice passed the complaince check";
+        complianceFunction();
+        window.location = "#/InvoiceFinance";
     }
     $scope.savedraftfunc = function() {
         console.log('inside save as draft invoice');
