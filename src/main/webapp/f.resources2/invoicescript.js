@@ -14,6 +14,14 @@ function approveFunction() {
         x.style.display = 'none';
     }
 }
+function rejectFunction() {
+	 var x = document.getElementById('demo');
+	    if (x.style.display === 'none') {
+	        x.style.display = 'block';
+	    } else {
+	        x.style.display = 'none';
+	    }
+}
 function complianceFunction() {
     var x = document.getElementById('view1');
     var y = document.getElementById('view2');

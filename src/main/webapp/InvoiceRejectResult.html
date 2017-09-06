@@ -1,11 +1,12 @@
 <div ng-app="invoiceApp" ng-controller="mainController">
 <div>
-	<fieldset>
+<div id="view1" style="display:block"><fieldset>
    			<legend><b>Rejected Invoice</b></legend>
    			You have rejected invoice No:  {{rejectedinvoice}}!!!
    			<br>
    			<button ng-click="getrejectedInvoicefunc(rejectedinvoice)">Click to get invoices details</button>
-   			<a href="" onclick="rejectFunction()">{{rejectedmessage}}</a>
+   			<a href="" onclick="rejectFunction()">{{rejectedmessage}}</a></div>
+	
    			<div id="demo" style="display:none"> 
    			<fieldset>
    			<legend><b>Invoices Details</b></legend>
